@@ -1956,11 +1956,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   methods: {
     removeVariant: function removeVariant(i) {
       this.variants.splice(i, 1);
-    },
-    send: function send() {
+    }
+  },
+  watch: {
+    variants: function variants(val) {
+      if (val.length === 0 || val[val.length - 1]) this.variants.push('');
       var vs = [];
 
-      var _iterator = _createForOfIteratorHelper(this.variants),
+      var _iterator = _createForOfIteratorHelper(val),
           _step;
 
       try {
@@ -1975,12 +1978,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
 
       this.processedVariants = vs;
-      this.$refs.sendform.submit();
-    }
-  },
-  watch: {
-    variants: function variants(val) {
-      if (val.length === 0 || val[val.length - 1]) this.variants.push('');
     }
   }
 });
@@ -37409,35 +37406,23 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c(
-      "form",
-      {
-        ref: "sendform",
-        staticClass: "d-none",
-        attrs: { action: _vm.$props.sendroute, method: "POST" }
-      },
-      [
-        _c("input", {
-          attrs: { type: "hidden", name: "_token" },
-          domProps: { value: _vm.csrf }
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.processedVariants, function(v, i) {
-          return _c("input", {
-            key: i,
-            attrs: { type: "hidden", name: "variants[]" },
-            domProps: { value: v }
-          })
-        })
-      ],
-      2
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      { staticClass: "btn btn-outline-primary", on: { click: _vm.send } },
-      [_vm._v("Сохранить варианты голосования")]
-    )
+    _c("form", { attrs: { action: _vm.$props.sendroute, method: "POST" } }, [
+      _c("input", {
+        attrs: { type: "hidden", name: "_token" },
+        domProps: { value: _vm.csrf }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        attrs: { type: "hidden", name: "variants" },
+        domProps: { value: JSON.stringify(_vm.processedVariants) }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-outline-primary", attrs: { type: "submit" } },
+        [_vm._v("Сохранить варианты голосования")]
+      )
+    ])
   ])
 }
 var staticRenderFns = [

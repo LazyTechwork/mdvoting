@@ -16,11 +16,11 @@
             </tr>
             </tbody>
         </table>
-        <form :action="$props.sendroute" method="POST" class="d-none" ref="sendform">
+        <form :action="$props.sendroute" method="POST">
             <input type="hidden" name="_token" :value="csrf">
-            <input type="hidden" name="variants[]" v-for="(v,i) in processedVariants" :value="v" :key="i">
+            <input type="hidden" name="variants" :value="JSON.stringify(processedVariants)">
+            <button class="btn btn-outline-primary" type="submit">Сохранить варианты голосования</button>
         </form>
-        <button class="btn btn-outline-primary" @click="send">Сохранить варианты голосования</button>
     </div>
 </template>
 
@@ -42,22 +42,20 @@
         methods: {
             removeVariant(i) {
                 this.variants.splice(i, 1);
-            },
-            send() {
-                let vs = [];
-                for (let v of this.variants) {
-                    if (v)
-                        vs.push(v);
-                }
-                this.processedVariants = vs;
-                this.$refs.sendform.submit();
             }
         },
         watch: {
             variants: function (val) {
                 if (val.length === 0 || val[val.length - 1])
                     this.variants.push('');
+                let vs = [];
+                for (let v of val) {
+                    if (v)
+                        vs.push(v);
+                }
+                this.processedVariants = vs;
             }
+
         }
     }
 </script>

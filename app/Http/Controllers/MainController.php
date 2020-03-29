@@ -87,6 +87,9 @@ class MainController extends Controller
         $voting = $this->votingCheck($id);
         if (!is_a($voting, Voting::class))
             return $voting;
+        $voting->update(['variants' => json_decode($request->get('variants'))]);
+
+        return redirect()->route('votings.show', ['id' => $id]);
     }
 
     public function editPage(Request $request, $id)
