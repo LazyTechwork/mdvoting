@@ -24,4 +24,11 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('logout', 'UserController@logout')->name('logout');
+
+    Route::prefix('votings')->name('votings.')->group(function () {
+        Route::get('new', 'MainController@newVotingPage')->name('new');
+        Route::post('new', 'MainController@newVoting')->name('new');
+
+        Route::get('/{id}', 'MainController@showVoting')->name('show');
+    });
 });

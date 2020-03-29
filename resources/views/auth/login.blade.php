@@ -8,14 +8,14 @@
             @csrf
             <div class="form-group">
                 <label for="username">Имя пользователя</label>
-                <input type="text" class="form-control @if($errors->has('username')) is-invalid @endif" name="username" id="username" autocomplete="username" value="{{ old('username') }}" autofocus>
+                <input type="text" class="form-control @if($errors->has('username')) is-invalid @endif" name="username" id="username" autocomplete="username" value="{{ old('username') }}" autofocus required>
                 @error('username')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
-                <input type="password" class="form-control @if($errors->has('password')) is-invalid @endif" name="password" id="password" autocomplete="password">
+                <input type="password" class="form-control @if($errors->has('password')) is-invalid @endif" name="password" id="password" autocomplete="password" required>
                 @error('password')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
