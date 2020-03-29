@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Illuminate\Support\Facades\Request;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\MessageBag;
 
 class UserController extends Controller
 {
@@ -19,14 +21,18 @@ class UserController extends Controller
             'password' => ['required', 'string']
         ], [
             'username.required' => 'Введите имя пользователя',
-            'username.exists' => 'Такой пользователь не найден в нашей базе данных',
+            'username.exists' => 'Логин или пароль введены неверно',
             'password.required' => 'Вы забыли ввести свой пароль'
         ]);
 
         if ($validator->fails())
             return redirect()->back()->withErrors($validator)->withInput($request->all());
 
-        $user = User::where('username', $request->get('username'))->first();
+        $credentials = $request->only('username', 'password');
+        if (Auth::attempt($credentials))
+            return redirect(RouteServiceProvider::HOME);
+        else
+            return redirect()->back()->withErrors(new MessageBag(['username' => 'Логин или пароль введены неверно']))->withInput($request->all());
     }
 
     public function registerPage()
