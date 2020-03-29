@@ -18,7 +18,7 @@
         </table>
         <form :action="$props.sendroute" method="POST" class="d-none" ref="sendform">
             <input type="hidden" name="_token" :value="csrf">
-            <input type="hidden" name="variants" :value="processedVariants">
+            <input type="hidden" name="variants[]" v-for="(v,i) in processedVariants" :value="v" :key="i">
         </form>
         <button class="btn btn-outline-primary" @click="send">Сохранить варианты голосования</button>
     </div>
@@ -50,6 +50,7 @@
                         vs.push(v);
                 }
                 this.processedVariants = vs;
+                this.$refs.sendform.submit();
             }
         },
         watch: {

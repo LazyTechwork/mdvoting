@@ -1975,6 +1975,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
 
       this.processedVariants = vs;
+      this.$refs.sendform.submit();
     }
   },
   watch: {
@@ -37421,11 +37422,15 @@ var render = function() {
           domProps: { value: _vm.csrf }
         }),
         _vm._v(" "),
-        _c("input", {
-          attrs: { type: "hidden", name: "variants" },
-          domProps: { value: _vm.processedVariants }
+        _vm._l(_vm.processedVariants, function(v, i) {
+          return _c("input", {
+            key: i,
+            attrs: { type: "hidden", name: "variants[]" },
+            domProps: { value: v }
+          })
         })
-      ]
+      ],
+      2
     ),
     _vm._v(" "),
     _c(
