@@ -30,5 +30,6 @@ Route::middleware('auth')->group(function () {
         Route::post('new', 'MainController@newVoting')->name('new');
 
         Route::get('/{id}', 'MainController@showVoting')->name('show');
+        Route::get('/{id}/reset', 'MainController@resetCode')->name('resetcode');
     });
 });

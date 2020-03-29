@@ -1,11 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2 class="mb-2">{{ $voting->name }}</h2>
-    <p>Количество участников: {{ $voting->participants->count() }} <a href="#" class="ml-2 btn btn-warning">Редактировать
-            участников</a><br>
-        Код для подключения к голосованию: <b>{{ $voting->code }}</b><br>
-        Максимальное количество голосов: <b>{{ $voting->maxVotes }}</b><br>
-        Количество вариантов для голосования: <b>{{ count($voting->variants) }}</b><br>
-    </p>
+    <table class="table table-responsive-md">
+        <thead class="thead-dark">
+        <tr>
+            <th>Свойство</th>
+            <th>Значение</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Название голосования</td>
+            <td><b>{{ $voting->name }}</b></td>
+            <td><a href="#" class="btn btn-outline-primary w-100">Изменить</a></td>
+        </tr>
+        <tr>
+            <td>Количество участников</td>
+            <td><b>{{ $voting->participants->count() }}</b></td>
+            <td><a href="#" class="btn btn-outline-primary w-100">Редактировать участников</a></td>
+        </tr>
+        <tr>
+            <td>Код для подключения к голосованию</td>
+            <td><b>{{ $voting->code }}</b></td>
+            <td><a href="{{ route('votings.resetcode', ['id'=>$voting->id]) }}" class="btn btn-outline-primary w-100">Сбросить
+                    код</a></td>
+        </tr>
+        <tr>
+            <td>Максимальное количество голосов</td>
+            <td><b>{{ $voting->maxVotes }}</b></td>
+            <td><a href="#" class="btn btn-outline-primary w-100">Изменить</a></td>
+        </tr>
+        <tr>
+            <td>Количество вариантов для голосования</td>
+            <td><b>{{ count($voting->variants) }}</b></td>
+            <td><a href="#" class="btn btn-outline-primary w-100">Редактировать варианты</a></td>
+        </tr>
+        </tbody>
+    </table>
 @stop

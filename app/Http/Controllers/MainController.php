@@ -53,4 +53,14 @@ class MainController extends Controller
             return redirect(RouteServiceProvider::HOME);
         return view('votings.show', compact('voting'));
     }
+
+    public function resetCode(Request $request, $id)
+    {
+        $voting = Voting::whereId($id)->first();
+        if (!$voting->exists())
+            return redirect(RouteServiceProvider::HOME);
+        $voting->code = strtoupper(Str::random(6));
+        $voting->save();
+        return redirect()->route('votings.show', ['id' => $voting->id]);
+    }
 }
