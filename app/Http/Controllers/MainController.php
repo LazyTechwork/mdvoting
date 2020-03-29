@@ -79,6 +79,7 @@ class MainController extends Controller
         if (!is_a($voting, Voting::class))
             return $voting;
 
+        return view('votings.variants', compact('voting'));
     }
 
     public function variants(Request $request, $id)
@@ -86,7 +87,6 @@ class MainController extends Controller
         $voting = $this->votingCheck($id);
         if (!is_a($voting, Voting::class))
             return $voting;
-
     }
 
     public function editPage(Request $request, $id)

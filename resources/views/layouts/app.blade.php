@@ -40,8 +40,10 @@
     </div>
 </nav>
 <main class="flex-grow-1">
-    <div class="container py-5">
-        @yield('content')
+    <div id="app">
+        <div class="container py-5">
+            @yield('content')
+        </div>
     </div>
 </main>
 </body>

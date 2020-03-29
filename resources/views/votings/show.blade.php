@@ -37,7 +37,8 @@
         <tr>
             <td>Количество вариантов для голосования</td>
             <td><b>{{ count($voting->variants) }}</b></td>
-            <td><a href="#" class="btn btn-outline-primary w-100">Редактировать варианты</a></td>
+            <td><a href="{{ route('votings.variants', ['id'=>$voting->id]) }}" class="btn btn-outline-primary w-100">Редактировать
+                    варианты</a></td>
         </tr>
         <tr>
             <td>Голоса</td>
