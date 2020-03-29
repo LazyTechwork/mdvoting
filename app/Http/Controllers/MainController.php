@@ -46,21 +46,62 @@ class MainController extends Controller
         return redirect()->route('votings.show', ['id' => $voting->id]);
     }
 
-    public function showVoting(Request $request, $id)
+    public function votingCheck($id)
     {
         $voting = Voting::whereId($id)->with('participants')->first();
-        if (!$voting->exists())
+        if (!$voting->exists() || Auth::id() !== $voting->admin)
             return redirect(RouteServiceProvider::HOME);
+        else
+            return $voting;
+    }
+
+    public function showVoting(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
         return view('votings.show', compact('voting'));
     }
 
     public function resetCode(Request $request, $id)
     {
-        $voting = Voting::whereId($id)->first();
-        if (!$voting->exists())
-            return redirect(RouteServiceProvider::HOME);
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
         $voting->code = strtoupper(Str::random(6));
         $voting->save();
         return redirect()->route('votings.show', ['id' => $voting->id]);
+    }
+
+    public function variantsPage(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+
+    }
+
+    public function variants(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+
+    }
+
+    public function editPage(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+
     }
 }
