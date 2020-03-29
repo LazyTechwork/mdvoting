@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Просмотр голосования: ' . $voting->name)
 
 @section('content')
     <table class="table table-responsive-md">
@@ -13,7 +14,8 @@
         <tr>
             <td>Название голосования</td>
             <td><b>{{ $voting->name }}</b></td>
-            <td><a href="#" class="btn btn-outline-primary w-100">Изменить</a></td>
+            <td><a href="{{ route('votings.edit', ['id' => $voting->id]) }}" class="btn btn-outline-primary w-100">Изменить</a>
+            </td>
         </tr>
         <tr>
             <td>Количество участников</td>
@@ -29,7 +31,8 @@
         <tr>
             <td>Максимальное количество голосов</td>
             <td><b>{{ $voting->maxVotes }}</b></td>
-            <td><a href="#" class="btn btn-outline-primary w-100">Изменить</a></td>
+            <td><a href="{{ route('votings.edit', ['id' => $voting->id]) }}" class="btn btn-outline-primary w-100">Изменить</a>
+            </td>
         </tr>
         <tr>
             <td>Количество вариантов для голосования</td>

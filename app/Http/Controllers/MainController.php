@@ -94,7 +94,7 @@ class MainController extends Controller
         $voting = $this->votingCheck($id);
         if (!is_a($voting, Voting::class))
             return $voting;
-
+        return view('votings.edit', compact('voting'));
     }
 
     public function edit(Request $request, $id)
@@ -103,5 +103,20 @@ class MainController extends Controller
         if (!is_a($voting, Voting::class))
             return $voting;
 
+        $validator = validator($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'maxVotes' => ['required', 'integer', 'gte:1']
+        ], [
+            'name.required' => 'Имя голосования обязательно указывать!',
+            'name.max' => 'Имя не может превышать 255 символов!',
+            'maxVotes.required' => 'Количество голосов обязательно указывать',
+            'maxVotes.gte' => 'Количество голосов должно быть больше 0',
+        ]);
+        if ($validator->fails())
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+
+        $voting->update($request->only('name', 'maxVotes'));
+
+        return redirect()->route('votings.show', ['id' => $voting->id]);
     }
 }
