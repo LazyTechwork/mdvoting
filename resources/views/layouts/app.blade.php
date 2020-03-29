@@ -12,24 +12,29 @@
 <body class="d-flex flex-column">
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="#">MDVoting</a>
+        <a class="navbar-brand" href="{{ url('/') }}">MDVoting</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Главная</a>
+                <li class="nav-item {{ Route::is('home') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/') }}">Главная</a>
                 </li>
                 @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Вход</a>
+                    <li class="nav-item {{ Route::is('login') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('login') }}">Вход</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Регистрация</a>
+                    <li class="nav-item {{ Route::is('register') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
                     </li>
                 @endguest
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}">Выход</a>
+                    </li>
+                @endauth
             </ul>
         </div>
     </div>

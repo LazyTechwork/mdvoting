@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/login', 'UserController@loginPage')->name('login');
 Route::post('/login', 'UserController@login')->name('login');
 Route::get('/register', 'UserController@registerPage')->name('register');
 Route::post('/register', 'UserController@register')->name('register');
+Route::get('/logout', 'UserController@logout')->name('logout');

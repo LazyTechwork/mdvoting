@@ -66,4 +66,12 @@ class UserController extends Controller
         else
             return redirect(RouteServiceProvider::HOME);
     }
+
+    public function logout()
+    {
+        if (Auth::check())
+            Auth::logout();
+
+        return redirect(RouteServiceProvider::HOME);
+    }
 }
