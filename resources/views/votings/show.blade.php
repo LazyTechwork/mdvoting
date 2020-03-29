@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    @auth
-        <p class="h4 mb-5">Добро пожаловать в систему голосований <b>&laquo;Multi-Device Voting&raquo;</b>. Вы авторизованы
-            как <b>{{ Auth::user()->username }}</b>.</p>
-
-        <h3 class=font-weight-bold>Ваши голосования: <a href="{{ route('votings.new') }}" class="btn btn-outline-primary">Новое голосование</a></h3>
-
-        @forelse($votings as $v)
-            <h4><a href="#"></a>{{$v->name}}</h4>
-        @empty
-            <h4 class="text-secondary">Голосований не найдено</h4>
-        @endforelse
-    @endauth
-    @guest
-        <p>Для создания и проведения голосований просьба авторизоваться</p>
-    @endguest
+    <h2 class="mb-2">{{ $voting->name }}</h2>
+    <p>Количество участников: {{ $voting->participants->count() }} <a href="#" class="ml-2 btn btn-warning">Редактировать
+            участников</a><br>
+        Код для подключения к голосованию: <b>{{ $voting->code }}</b><br>
+        Максимальное количество голосов: <b>{{ $voting->code }}</b></p>
 @stop

@@ -58,13 +58,10 @@ class UserController extends Controller
         if ($validator->fails())
             return redirect()->back()->withErrors($validator)->withInput($request->all());
 
-        $credentials = $request->only('username', 'password');
-        $credentials['password'] = Hash::make($credentials['password']);
-        User::create($credentials);
-        if (Auth::attempt($credentials))
-            return redirect(RouteServiceProvider::HOME);
-        else
-            return redirect(RouteServiceProvider::HOME);
+        $credentials = $request->merge(['password' => Hash::make($request->get('password'))])->only('username', 'password');
+        $user = User::create($credentials);
+        Auth::loginUsingId($user->id);
+        return redirect(RouteServiceProvider::HOME);
     }
 
     public function logout()

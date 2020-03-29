@@ -18,6 +18,8 @@ class CreateVotingsTable extends Migration
             $table->foreignId('admin');
             $table->string('name');
             $table->string('code')->unique();
+            $table->unsignedInteger('maxVotes');
+            $table->json('variants');
             $table->timestamps();
         });
     }

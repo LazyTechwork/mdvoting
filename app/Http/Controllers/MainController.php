@@ -38,7 +38,7 @@ class MainController extends Controller
 
     public function showVoting(Request $request, $id)
     {
-        $voting = Voting::whereId($id)->first();
+        $voting = Voting::whereId($id)->with('participants')->first();
         if (!$voting->exists())
             return redirect(RouteServiceProvider::HOME);
         return view('votings.show', compact('voting'));
