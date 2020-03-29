@@ -9,9 +9,11 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
-<body>
-    <main>
+<body class="d-flex flex-column">
+<main class="flex-grow-1">
+    <div class="container py-5">
         @yield('content')
-    </main>
+    </div>
+</main>
 </body>
 </html>
