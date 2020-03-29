@@ -17,5 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', 'UserController@loginPage');
+Route::get('/login', 'UserController@loginPage')->name('login');
 Route::post('/login', 'UserController@login')->name('login');
+Route::get('/register', 'UserController@registerPage')->name('register');
+Route::post('/register', 'UserController@register')->name('register');
