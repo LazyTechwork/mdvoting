@@ -36,6 +36,16 @@
             <td><b>{{ count($voting->variants) }}</b></td>
             <td><a href="#" class="btn btn-outline-primary w-100">Редактировать варианты</a></td>
         </tr>
+        <tr>
+            <td>Голоса</td>
+            <td><b>{{ $voting->participants->where('vote', '!=', null)->count() }}</b></td>
+            <td>
+                <div class="btn-group w-100">
+                    <a href="#" class="btn btn-outline-primary">Статистика голосов</a>
+                    <a href="#" class="btn btn-outline-primary">Сбросить голоса</a>
+                </div>
+            </td>
+        </tr>
         </tbody>
     </table>
 @stop
