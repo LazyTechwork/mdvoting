@@ -15,6 +15,14 @@
                 @enderror
             </div>
             <div class="form-group">
+                <label for="maxVotes">Голосов за раз</label>
+                <input type="number" min="1" class="form-control @if($errors->has('maxVotes')) is-invalid @endif" name="maxVotes"
+                       id="maxVotes" autocomplete="maxVotes" value="{{ old('maxVotes', 1) }}" autofocus required>
+                @error('maxVotes')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn btn-outline-primary w-100">Создать</button>
             </div>
         </form>

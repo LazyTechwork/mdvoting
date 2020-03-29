@@ -34,18 +34,12 @@ class Voting extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'variants' => 'array'
+    ];
+
     public function participants()
     {
         return $this->hasMany(Participant::class, 'voting_id');
-    }
-
-    public function setVariantsAttribute(array $value)
-    {
-        $this->attributes['variants'] = json_encode($value);
-    }
-
-    public function getVariantsAttribute()
-    {
-        return json_decode($this->variants);
     }
 }
