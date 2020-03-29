@@ -8,7 +8,7 @@
             @csrf
             <div class="form-group">
                 <label for="username">Имя пользователя</label>
-                <input type="text" class="form-control @if($errors->has('username')) is-invalid @endif" name="username" id="username" autocomplete="username" autofocus>
+                <input type="text" class="form-control @if($errors->has('username')) is-invalid @endif" name="username" id="username" autocomplete="username" value="{{ old('username') }}" autofocus>
                 @error('username')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
