@@ -195,9 +195,13 @@ class MainController extends Controller
         $file = $file->move('templists/', Str::random() . '.' . $file->getClientOriginalExtension());
         $needToMerge = !$request->boolean('rewrite'); // Checking is needed to merge or rewrite
 
-        if ($needToMerge)
+        if ($needToMerge) {
             $oldparticipants = Participant::whereVotingId($id)->get(['group', 'name', 'voting_id']); // Getting all participants from DB
-        else {
+            if ($oldparticipants->isEmpty()) {
+                $needToMerge = false;
+                $oldparticipants = collect();
+            }
+        } else {
             Participant::whereVotingId($id)->forceDelete();
             $oldparticipants = collect();
         }
