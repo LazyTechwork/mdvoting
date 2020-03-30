@@ -1,21 +1,31 @@
 {
-    "name": "laravel/laravel",
+    "name": "lazytechwork/mdvoting",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
+    "description": "Multi-Device Voting System",
+    "homepage": "https://github.com/LazyTechwork/mdvoting",
+    "authors": [
+        {
+            "name": "Ivan Petrov",
+            "email": "lazytechwork@gmail.com",
+            "homepage": "https://lazytechwork.github.io/",
+            "role": "Developer"
+        }
     ],
-    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/LazyTechwork/mdvoting/issues"
+    },
+    "version": "1.0.0-beta",
+    "license": "proprietary",
     "require": {
         "php": "^7.2.5",
+        "ext-json": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
-        "ext-json": "*"
+        "phpoffice/phpspreadsheet": "^1.11"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
