@@ -11,8 +11,7 @@
                 <label for="list">Excel файл с участниками голосования</label>
                 <input type="file" class="form-control-file @if($errors->has('list')) is-invalid @endif" name="list"
                        id="list"
-                       accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                       required>
+                       accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                 @error('list')
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -34,6 +33,7 @@
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-primary w-100 mb-2">Обновить список участников</button>
+                <button type="submit" name="clear" class="btn btn-outline-danger w-100 mb-2">Очистить список участников</button>
                 <a href="{{route('votings.show', ['id'=>$voting->id])}}" class="btn btn-outline-primary w-100">Вернуться к просмотру голосования</a>
             </div>
         </form>

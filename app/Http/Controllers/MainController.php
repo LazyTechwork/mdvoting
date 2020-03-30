@@ -172,6 +172,11 @@ class MainController extends Controller
         if (!is_a($voting, Voting::class))
             return $voting;
 
+        if ($request->has('clear')) {
+            Participant::whereVotingId($id)->forceDelete();
+            return redirect()->route('votings.participants', ['id' => $id]);
+        }
+
         $validator = validator($request->all(), [
             'list' => ['required', 'max:5000', 'mimes:xlsx,xls,csv'],
             'rewrite' => ['required', 'in:0,1']
