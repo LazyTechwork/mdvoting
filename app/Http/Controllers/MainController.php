@@ -7,7 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\Voting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -234,7 +234,7 @@ class MainController extends Controller
         }
 
         Participant::insert($participants); // Inserting participants
-        Storage::delete($file->getRealPath()); // Removing temp file
+        File::delete($file->getRealPath()); // Removing temp file
 
         return redirect()->route('votings.participants', ['id' => $voting->id]);
     }
