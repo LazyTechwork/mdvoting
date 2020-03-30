@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Participant;
 use App\Providers\RouteServiceProvider;
 use App\Voting;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -177,24 +176,55 @@ class MainController extends Controller
             'list' => ['required', 'max:5000', 'mimes:xlsx,xls,csv'],
             'rewrite' => ['required', 'in:0,1']
         ]);
+
         if ($validator->fails())
-            return redirect()->back()->withInput($request->all())->withErrors($validator);
-        $file = $request->file('list');
-        $file = $file->move('tempLists', Str::random() . '.' . $file->getClientOriginalExtension());
-        try {
-            $reader = IOFactory::createReaderForFile($file->getRealPath());
-            $reader->setReadDataOnly(true);
-            $spreadsheet = $reader->load($file->getRealPath());
-            $cells = $spreadsheet->getActiveSheet()->getCellCollection();
-            $participants = [];
-            for ($i = 1; $i <= $cells->getHighestRow(); $i++)
-                $participants[] = ['group' => $cells->get('B' . $i)->getValue(), 'name' => $cells->get('A' . $i)->getValue(), 'voting_id' => $id];
-            Participant::insert($participants);
-            dd($file);
-            Storage::delete($file->getRealPath());
-        } catch (Exception $e) {
-            return redirect()->back()->withInput($request->all())->withErrors(new MessageBag(['action_error' => 'Undefined error: ' . $e]));
+            return redirect()->back()->withInput($request->all())->withErrors($validator); // Validating
+
+        $file = $request->file('list'); // Getting file
+        $file = $file->move('templists/', Str::random() . '.' . $file->getClientOriginalExtension());
+        $needToMerge = !$request->boolean('rewrite'); // Checking is needed to merge or rewrite
+
+        if ($needToMerge)
+            $oldparticipants = Participant::whereVotingId($id)->get(['group', 'name', 'voting_id']); // Getting all participants from DB
+        else {
+            Participant::whereVotingId($id)->forceDelete();
+            $oldparticipants = collect();
         }
+
+//        Creating reader and read Excel file
+        $reader = IOFactory::createReaderForFile($file->getRealPath());
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load($file->getRealPath());
+        $cells = $spreadsheet->getActiveSheet()->getCellCollection();
+
+//        Array of inserted participants
+        $participants = [];
+
+//        Map all rows
+        for ($i = 1; $i <= $cells->getHighestRow(); $i++) {
+
+            $colA = $cells->get('A' . $i); // Columns
+            $colB = $cells->get('B' . $i); // Columns
+
+            if (!$colA || !$colB) // Checking colA and colB on null
+                continue;
+
+            $tempParticipant = ['group' => $colB->getValue(), 'name' => $colA->getValue(), 'voting_id' => $id]; // Making temporary participant
+
+            if ($needToMerge) { // If need to merge
+                if ($oldparticipants
+                    ->where('group', '=', $tempParticipant['group'])
+                    ->where('name', '=', $tempParticipant['name'])
+                    ->isEmpty()) // Checking is same row in DB
+                    $participants[] = $tempParticipant; // Adding to insert query if not in DB
+            } else
+                $participants[] = $tempParticipant; // If rewrite - writing all participants
+
+        }
+
+        Participant::insert($participants); // Inserting participants
+        Storage::delete($file->getRealPath()); // Removing temp file
+
         return redirect()->route('votings.participants', ['id' => $voting->id]);
     }
 }
