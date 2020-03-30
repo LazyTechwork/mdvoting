@@ -87,7 +87,13 @@ class MainController extends Controller
         $voting = $this->votingCheck($id);
         if (!is_a($voting, Voting::class))
             return $voting;
-        $voting->update(['variants' => json_decode($request->get('variants'))]);
+
+        $variants = json_decode($request->get('variants')); // Parsing variants from JSON
+
+        foreach ($variants as $key => $variant)
+            $variants[$key] = e($variant);        // Clearing from evil
+
+        $voting->update(['variants' => $variants]); // Updating variants
 
         return redirect()->route('votings.show', ['id' => $id]);
     }
