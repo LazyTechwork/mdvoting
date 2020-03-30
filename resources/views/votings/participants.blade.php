@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Редактирование голосования: ' . $voting->name)
+@section('title', 'Редактирование участников: ' . $voting->name)
 
 @section('content')
-    <h2 class="text-center mb-4">Редактирование голосования</h2>
+    <h2 class="text-center mb-4">Редактирование участников</h2>
     <div class="row justify-content-center">
         <form action="{{ route('votings.participants', ['id'=>$voting->id]) }}" method="post" class="col-md-6"
               enctype="multipart/form-data">
@@ -33,7 +33,8 @@
                 @enderror
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-outline-primary w-100">Обновить список участников</button>
+                <button type="submit" class="btn btn-outline-primary w-100 mb-2">Обновить список участников</button>
+                <a href="{{route('votings.show', ['id'=>$voting->id])}}" class="btn btn-outline-primary w-100">Вернуться к просмотру голосования</a>
             </div>
         </form>
         <table class="table table-responsive-md table-striped">
