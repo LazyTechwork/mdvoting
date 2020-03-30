@@ -6,6 +6,7 @@ use App\Providers\RouteServiceProvider;
 use App\Voting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 
 class MainController extends Controller
@@ -46,10 +47,10 @@ class MainController extends Controller
         return redirect()->route('votings.show', ['id' => $voting->id]);
     }
 
-    public function votingCheck($id)
+    public function votingCheck($id, $canBeUnlocked = true)
     {
         $voting = Voting::whereId($id)->with('participants')->first();
-        if (!$voting->exists() || Auth::id() !== $voting->admin)
+        if (!$voting->exists() || Auth::id() !== $voting->admin || !($canBeUnlocked || $voting->locked))
             return redirect(RouteServiceProvider::HOME);
         else
             return $voting;
@@ -75,7 +76,7 @@ class MainController extends Controller
 
     public function variantsPage(Request $request, $id)
     {
-        $voting = $this->votingCheck($id);
+        $voting = $this->votingCheck($id, false);
         if (!is_a($voting, Voting::class))
             return $voting;
 
@@ -84,7 +85,7 @@ class MainController extends Controller
 
     public function variants(Request $request, $id)
     {
-        $voting = $this->votingCheck($id);
+        $voting = $this->votingCheck($id, false);
         if (!is_a($voting, Voting::class))
             return $voting;
 
@@ -100,7 +101,7 @@ class MainController extends Controller
 
     public function editPage(Request $request, $id)
     {
-        $voting = $this->votingCheck($id);
+        $voting = $this->votingCheck($id, false);
         if (!is_a($voting, Voting::class))
             return $voting;
         return view('votings.edit', compact('voting'));
@@ -108,7 +109,7 @@ class MainController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $voting = $this->votingCheck($id);
+        $voting = $this->votingCheck($id, false);
         if (!is_a($voting, Voting::class))
             return $voting;
 
@@ -127,5 +128,23 @@ class MainController extends Controller
         $voting->update($request->only('name', 'maxVotes'));
 
         return redirect()->route('votings.show', ['id' => $voting->id]);
+    }
+
+    public function lock(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+
+        if ($voting->locked)
+            if (!$voting->participants->where('vote', '!=', null)->count())
+                $voting->update(['locked' => false]);
+            else
+                return redirect()->back()->withErrors(new MessageBag(
+                    ['action_error' => 'Разлокировка изменений невозможна, т.к. присутствуют проголосовавшие']));
+        else if ($voting->variants->count() <= $voting->maxVotes)
+            return redirect()->back()->withErrors(new MessageBag(
+                ['action_error' => 'Блокировка изменений невозможна, т.к. недостаточно вариантов']));
+
     }
 }

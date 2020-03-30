@@ -20,6 +20,7 @@ class CreateVotingsTable extends Migration
             $table->string('code')->unique();
             $table->unsignedInteger('maxVotes');
             $table->json('variants');
+            $table->boolean('locked')->default(false);
             $table->timestamps();
         });
     }

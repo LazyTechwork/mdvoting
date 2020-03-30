@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $maxVotes
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Voting whereMaxVotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Voting whereVariants($value)
+ * @property int $locked
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Voting whereLocked($value)
  */
 class Voting extends Model
 {

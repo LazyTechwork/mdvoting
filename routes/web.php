@@ -33,5 +33,8 @@ Route::middleware('auth')->group(function () {
 //        Edit pages
         Route::get('/{id}/edit', 'MainController@editPage')->name('edit');
         Route::post('/{id}/edit', 'MainController@edit')->name('edit');
+
+//        Locking changes
+        Route::post('/{id}/lock', 'MainController@lock')->name('lock');
     });
 });
