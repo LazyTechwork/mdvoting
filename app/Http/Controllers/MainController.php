@@ -180,6 +180,12 @@ class MainController extends Controller
         $validator = validator($request->all(), [
             'list' => ['required', 'max:5000', 'mimes:xlsx,xls,csv'],
             'rewrite' => ['required', 'in:0,1']
+        ], [
+            'list.required' => 'Файл с участниками обязателен к загрузке',
+            'list.max' => 'Файл не должен превышать размер в 5 000 кБ',
+            'list.mimes' => 'Файл должен иметь формат Excel (XLSX, XLS) или CSV',
+            'rewrite.required' => 'Выберите одно из действий с файлом',
+            'rewrite.in' => 'Замечено изменение шаблона HTML'
         ]);
 
         if ($validator->fails())
