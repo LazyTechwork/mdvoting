@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Participant;
 use App\Providers\RouteServiceProvider;
 use App\Voting;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class MainController extends Controller
 {
@@ -152,5 +156,45 @@ class MainController extends Controller
             else
                 $voting->update(['locked' => true]);
         return redirect()->route('votings.show', ['id' => $id]);
+    }
+
+    public function participantsPage(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+
+        return view('votings.participants', compact('voting'));
+    }
+
+    public function participants(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+
+        $validator = validator($request->all(), [
+            'list' => ['required', 'max:5000', 'mimes:xlsx,xls,csv'],
+            'rewrite' => ['required', 'in:0,1']
+        ]);
+        if ($validator->fails())
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        $file = $request->file('list');
+        $file = $file->move('tempLists', Str::random() . '.' . $file->getClientOriginalExtension());
+        try {
+            $reader = IOFactory::createReaderForFile($file->getRealPath());
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file->getRealPath());
+            $cells = $spreadsheet->getActiveSheet()->getCellCollection();
+            $participants = [];
+            for ($i = 1; $i <= $cells->getHighestRow(); $i++)
+                $participants[] = ['group' => $cells->get('B' . $i)->getValue(), 'name' => $cells->get('A' . $i)->getValue(), 'voting_id' => $id];
+            Participant::insert($participants);
+            dd($file);
+            Storage::delete($file->getRealPath());
+        } catch (Exception $e) {
+            return redirect()->back()->withInput($request->all())->withErrors(new MessageBag(['action_error' => 'Undefined error: ' . $e]));
+        }
+        return redirect()->route('votings.participants', ['id' => $voting->id]);
     }
 }

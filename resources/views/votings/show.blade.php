@@ -20,7 +20,8 @@
         <tr>
             <td>Количество участников</td>
             <td><b>{{ $voting->participants->count() }}</b></td>
-            <td><a href="#" class="btn btn-outline-primary w-100">Редактировать участников</a></td>
+            <td><a href="{{ route('votings.participants', ['id'=>$voting->id]) }}"
+                   class="btn btn-outline-primary w-100">Редактировать участников</a></td>
         </tr>
         <tr>
             <td>Код для подключения к голосованию</td>

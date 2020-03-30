@@ -36,5 +36,9 @@ Route::middleware('auth')->group(function () {
 
 //        Locking changes
         Route::get('/{id}/lock', 'MainController@lock')->name('lock');
+
+//        Participants
+        Route::get('/{id}/participants', 'MainController@participantsPage')->name('participants');
+        Route::post('/{id}/participants', 'MainController@participants')->name('participants');
     });
 });
