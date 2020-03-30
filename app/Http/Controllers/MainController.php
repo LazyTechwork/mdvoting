@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\Voting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
@@ -174,6 +175,9 @@ class MainController extends Controller
 
         if ($request->has('clear')) {
             Participant::whereVotingId($id)->forceDelete();
+            if (Participant::all()->count() == 0) {
+                DB::table(with(new Participant)->getTable())->truncate();
+            }
             return redirect()->route('votings.participants', ['id' => $id]);
         }
 
@@ -203,6 +207,9 @@ class MainController extends Controller
             }
         } else {
             Participant::whereVotingId($id)->forceDelete();
+            if (Participant::all()->count() == 0) {
+                DB::table(with(new Participant)->getTable())->truncate();
+            }
             $oldparticipants = collect();
         }
 
