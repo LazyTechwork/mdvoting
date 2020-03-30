@@ -42,6 +42,6 @@ class Voting extends Model
 
     public function participants()
     {
-        return $this->hasMany(Participant::class, 'voting_id');
+        return $this->hasMany(Participant::class, 'voting_id')->orderBy('group')->orderBy('name');
     }
 }

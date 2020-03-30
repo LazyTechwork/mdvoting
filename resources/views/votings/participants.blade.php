@@ -36,11 +36,12 @@
                 <button type="submit" class="btn btn-outline-primary w-100">Обновить список участников</button>
             </div>
         </form>
-        <table class="table table-responsive-md">
+        <table class="table table-responsive-md table-striped">
             <thead class="thead-dark">
             <tr>
                 <th>Группа</th>
                 <th>Участник</th>
+                <th>Статус</th>
                 <th>Действия</th>
             </tr>
             </thead>
@@ -49,6 +50,7 @@
                 <tr>
                     <td>{{ $p->group }}</td>
                     <td>{{ $p->name }}</td>
+                    <td class="{{ $p->vote ? 'text-success' : 'text-danger' }}">{{ $p->vote ? 'Голоса засчитаны' : 'Не голосовал' }}</td>
                     <td></td>
                 </tr>
             @endforeach
