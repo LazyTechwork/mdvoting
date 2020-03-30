@@ -50,6 +50,18 @@
                 </div>
             </td>
         </tr>
+        <tr>
+            <td>Изменения заблокированы</td>
+            <td>
+                <b class="{{ $voting->locked ? 'text-success' : 'text-danger' }}">{{ $voting->locked ? 'Да' : 'Нет' }}</b>
+            </td>
+            <td>
+                <div class="btn-group w-100">
+                    <a href="{{ route('votings.lock', ['id' => $voting->id]) }}" class="btn btn-outline-primary">Заблокировать
+                        изменения</a>
+                </div>
+            </td>
+        </tr>
         </tbody>
     </table>
 @stop

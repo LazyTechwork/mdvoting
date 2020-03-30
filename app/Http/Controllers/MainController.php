@@ -142,7 +142,7 @@ class MainController extends Controller
             else
                 return redirect()->back()->withErrors(new MessageBag(
                     ['action_error' => 'Разлокировка изменений невозможна, т.к. присутствуют проголосовавшие']));
-        else if ($voting->variants->count() <= $voting->maxVotes)
+        else if (count($voting->variants) <= $voting->maxVotes)
             return redirect()->back()->withErrors(new MessageBag(
                 ['action_error' => 'Блокировка изменений невозможна, т.к. недостаточно вариантов']));
 
