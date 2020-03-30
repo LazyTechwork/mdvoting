@@ -15,7 +15,7 @@
         "issues": "https://github.com/LazyTechwork/mdvoting/issues"
     },
     "version": "1.0.0-beta",
-    "license": "proprietary",
+    "license": "MIT",
     "require": {
         "php": "^7.2.5",
         "ext-json": "*",
