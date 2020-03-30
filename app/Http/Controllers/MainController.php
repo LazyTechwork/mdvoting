@@ -50,10 +50,13 @@ class MainController extends Controller
     public function votingCheck($id, $canBeUnlocked = true)
     {
         $voting = Voting::whereId($id)->with('participants')->first();
-        if (!$voting->exists() || Auth::id() !== $voting->admin || !($canBeUnlocked || $voting->locked))
+        if (!$voting->exists() || Auth::id() !== $voting->admin)
             return redirect(RouteServiceProvider::HOME);
         else
-            return $voting;
+            if ((!$canBeUnlocked && $voting->locked))
+                return redirect()->route('votings.show', ['id' => $id])->withErrors(new MessageBag(['action_error' => 'Доступ запрещён, т.к. любые изменения заблокированы']));
+            else
+                return $voting;
     }
 
     public function showVoting(Request $request, $id)
@@ -142,9 +145,12 @@ class MainController extends Controller
             else
                 return redirect()->back()->withErrors(new MessageBag(
                     ['action_error' => 'Разлокировка изменений невозможна, т.к. присутствуют проголосовавшие']));
-        else if (count($voting->variants) <= $voting->maxVotes)
-            return redirect()->back()->withErrors(new MessageBag(
-                ['action_error' => 'Блокировка изменений невозможна, т.к. недостаточно вариантов']));
-
+        else
+            if (count($voting->variants) <= $voting->maxVotes)
+                return redirect()->back()->withErrors(new MessageBag(
+                    ['action_error' => 'Блокировка изменений невозможна, т.к. недостаточно вариантов']));
+            else
+                $voting->update(['locked' => true]);
+        return redirect()->route('votings.show', ['id' => $id]);
     }
 }

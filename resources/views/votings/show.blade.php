@@ -57,7 +57,8 @@
             </td>
             <td>
                 <div class="btn-group w-100">
-                    <a href="{{ route('votings.lock', ['id' => $voting->id]) }}" class="btn btn-outline-primary">Заблокировать
+                    <a href="{{ route('votings.lock', ['id' => $voting->id]) }}"
+                       class="btn btn-outline-primary">{{ $voting->locked ? 'Раз' : 'За' }}блокировать
                         изменения</a>
                 </div>
             </td>
