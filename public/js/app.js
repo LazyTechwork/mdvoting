@@ -2045,20 +2045,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViComponent",
   data: function data() {
     return {
       code: null,
       screen: '',
-      devicename: ''
+      devicename: '',
+      loading: false
     };
   },
   mounted: function mounted() {
     if (localStorage.getItem('vi_code')) {
       this.code = localStorage.getItem('vi_code');
-      this.devicename = localStorage.getItem('vi_devicename') ? localStorage.getItem('vi_devicename') : '';
-      this.connect();
+
+      if (localStorage.getItem('vi_devicename')) {
+        this.devicename = localStorage.getItem('vi_devicename');
+        this.connect(true);
+      } else {
+        this.connect();
+      }
     } else {
       this.screen = 'intro';
     }
@@ -2075,13 +2088,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     connect: function connect() {
+      var _this = this;
+
+      var withoutSetup = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       localStorage.setItem('vi_code', this.code);
-      this.screen = 'setup';
+
+      if (withoutSetup) {
+        this.setup();
+        return;
+      }
+
+      this.loading = true;
+      setTimeout(function () {
+        _this.loading = false;
+        _this.screen = 'setup';
+      }, 1500);
     },
     setup: function setup() {
+      var _this2 = this;
+
       if (this.devicename.length === 0) return;
       localStorage.setItem('vi_devicename', this.devicename);
-      this.screen = 'wait';
+      this.loading = true;
+      setTimeout(function () {
+        _this2.loading = false;
+        _this2.screen = 'wait';
+      }, 1500);
     }
   }
 });
@@ -37572,14 +37604,14 @@ var render = function() {
         "transition",
         {
           attrs: {
-            name: "custom-classes-transition",
+            name: "animatecss",
             "enter-active-class": "animated fast bounceIn",
             "leave-active-class": "animated fast bounceOut",
             mode: "out-in"
           }
         },
         [
-          _vm.screen === "intro"
+          _vm.screen === "intro" && !_vm.loading
             ? _c(
                 "div",
                 {
@@ -37630,7 +37662,11 @@ var render = function() {
                         {
                           staticClass:
                             "btn btn-lg font-weight-bold btn-outline-primary text-uppercase",
-                          on: { click: _vm.connect }
+                          on: {
+                            click: function($event) {
+                              return _vm.connect()
+                            }
+                          }
                         },
                         [
                           _vm._v(
@@ -37644,7 +37680,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.screen === "setup"
+          _vm.screen === "setup" && !_vm.loading
             ? _c(
                 "div",
                 {
@@ -37696,7 +37732,11 @@ var render = function() {
                         {
                           staticClass:
                             "btn btn-lg font-weight-bold btn-outline-primary text-uppercase",
-                          on: { click: _vm.setup }
+                          on: {
+                            click: function($event) {
+                              return _vm.setup()
+                            }
+                          }
                         },
                         [
                           _vm._v(
@@ -37710,7 +37750,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.screen === "wait"
+          _vm.screen === "wait" && !_vm.loading
             ? _c(
                 "div",
                 {
@@ -37733,6 +37773,24 @@ var render = function() {
                   ])
                 ]
               )
+            : _vm._e()
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "transition",
+        {
+          attrs: {
+            name: "animatecss",
+            "enter-active-class": "animated faster fadeIn",
+            "leave-active-class": "animated faster fadeOut"
+          }
+        },
+        [
+          _vm.loading
+            ? _c("div", { staticClass: "loader" }, [
+                _c("h1", [_vm._v("Идёт загрузка")])
+              ])
             : _vm._e()
         ]
       )

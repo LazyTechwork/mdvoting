@@ -1,10 +1,10 @@
 <template>
     <div class="h-100">
-        <transition name="custom-classes-transition"
+        <transition name="animatecss"
                     enter-active-class="animated fast bounceIn"
                     leave-active-class="animated fast bounceOut"
                     mode="out-in">
-            <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'intro'"
+            <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'intro' && !loading"
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
                 <h4 class="mb-4">Подключите устройство к голосованию</h4>
@@ -15,14 +15,14 @@
                            aria-label="КОД ГОЛОСОВАНИЯ" placeholder="Код голосования" maxlength="6">
                     <div class="input-group-append">
                         <button class="btn btn-lg font-weight-bold btn-outline-primary text-uppercase"
-                                @click="connect">
+                                @click="connect()">
                             Подключиться
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'setup'"
+            <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'setup' && !loading"
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
                 <h4 class="mb-4">Устройство подключено к голосованию (<b>{{ this.code }}</b>)</h4>
@@ -33,18 +33,25 @@
                            aria-label="Название устройства" placeholder="Название устройства" maxlength="20">
                     <div class="input-group-append">
                         <button class="btn btn-lg font-weight-bold btn-outline-primary text-uppercase"
-                                @click="setup">
+                                @click="setup()">
                             Сохранить
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'wait'"
+            <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'wait' && !loading"
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
                 <h4 class="mb-4">Устройство подключено к голосованию (<b>{{ this.code }}</b>)</h4>
                 <h5 class="text-secondary">Подождите, когда оператор начнёт голосование</h5>
+            </div>
+        </transition>
+        <transition name="animatecss"
+                    enter-active-class="animated faster fadeIn"
+                    leave-active-class="animated faster fadeOut">
+            <div class="loader" v-if="loading">
+                <h1>Идёт загрузка</h1>
             </div>
         </transition>
     </div>
@@ -57,14 +64,19 @@
             return {
                 code: null,
                 screen: '',
-                devicename: ''
+                devicename: '',
+                loading: false
             };
         },
         mounted() {
             if (localStorage.getItem('vi_code')) {
                 this.code = localStorage.getItem('vi_code');
-                this.devicename = localStorage.getItem('vi_devicename') ? localStorage.getItem('vi_devicename') : '';
-                this.connect();
+                if (localStorage.getItem('vi_devicename')) {
+                    this.devicename = localStorage.getItem('vi_devicename');
+                    this.connect(true);
+                } else {
+                    this.connect();
+                }
             } else {
                 this.screen = 'intro';
             }
@@ -85,15 +97,28 @@
             }
         },
         methods: {
-            connect: function () {
+            connect: function (withoutSetup = false) {
                 localStorage.setItem('vi_code', this.code);
-                this.screen = 'setup';
+                if (withoutSetup) {
+                    this.setup();
+                    return;
+                }
+                this.loading = true;
+                setTimeout(() => {
+                    this.loading = false;
+                    this.screen = 'setup';
+                }, 1500);
+
             },
             setup: function () {
                 if (this.devicename.length === 0)
                     return;
                 localStorage.setItem('vi_devicename', this.devicename);
-                this.screen = 'wait';
+                this.loading = true;
+                setTimeout(() => {
+                    this.loading = false;
+                    this.screen = 'wait';
+                }, 1500);
             }
         }
     }
