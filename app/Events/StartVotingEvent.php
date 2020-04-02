@@ -2,9 +2,10 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Device;
+use App\Participant;
+use App\Voting;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -14,14 +15,18 @@ class StartVotingEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $device;
+    private $voting;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Voting $voting, Device $device, Participant $participant)
     {
-        //
+        $this->device = $device;
+        $this->voting = $voting;
     }
 
     /**
@@ -31,6 +36,11 @@ class StartVotingEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel($this->voting->code);
+    }
+
+    public function broadcastAs()
+    {
+        return 'startvoting';
     }
 }

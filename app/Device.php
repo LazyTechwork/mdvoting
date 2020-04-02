@@ -21,8 +21,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereVotingId($value)
  * @mixin \Eloquent
+ * @property-read \App\Voting $voting
  */
 class Device extends Model
 {
     protected $guarded = [];
+
+    public function voting()
+    {
+        return $this->belongsTo(Voting::class, 'voting_id', 'id');
+    }
 }

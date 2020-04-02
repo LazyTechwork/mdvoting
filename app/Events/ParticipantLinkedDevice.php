@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Device;
+use App\Participant;
 use App\Voting;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -17,16 +18,20 @@ class ParticipantLinkedDevice implements ShouldBroadcast
 
     private $device;
     public $voting;
+    public $participant;
 
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Voting $voting
+     * @param Device $device
+     * @param Participant $participant
      */
-    public function __construct(Voting $voting, Device $device)
+    public function __construct(Voting $voting, Device $device, Participant $participant)
     {
         $this->voting = $voting;
         $this->device = $device;
+        $this->participant = $participant;
     }
 
     /**
@@ -37,5 +42,10 @@ class ParticipantLinkedDevice implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel($this->voting->code);
+    }
+
+    public function broadcastAs()
+    {
+        return 'participantlinked';
     }
 }
