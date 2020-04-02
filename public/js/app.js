@@ -37584,7 +37584,7 @@ var render = function() {
                 "div",
                 {
                   key: _vm.screen,
-                  staticClass: "col-md-6 mx-auto text-center h-100"
+                  staticClass: "col-md-6 flex-center mx-auto text-center h-100"
                 },
                 [
                   _c("h2", { staticClass: "font-weight-bold" }, [
@@ -37715,7 +37715,7 @@ var render = function() {
                 "div",
                 {
                   key: _vm.screen,
-                  staticClass: "col-md-6 mx-auto text-center h-100"
+                  staticClass: "col-md-6 flex-center mx-auto text-center h-100"
                 },
                 [
                   _c("h2", { staticClass: "font-weight-bold" }, [

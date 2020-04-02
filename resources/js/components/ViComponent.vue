@@ -4,7 +4,7 @@
                     enter-active-class="animated fast bounceIn"
                     leave-active-class="animated fast bounceOut"
                     mode="out-in">
-            <div class="col-md-6 mx-auto text-center h-100" v-if="screen === 'intro'"
+            <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'intro'"
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
                 <h4 class="mb-4">Подключите устройство к голосованию</h4>
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 mx-auto text-center h-100" v-if="screen === 'wait'"
+            <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'wait'"
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
                 <h4 class="mb-4">Устройство подключено к голосованию (<b>{{ this.code }}</b>)</h4>
