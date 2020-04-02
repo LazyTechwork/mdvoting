@@ -23,7 +23,7 @@ class StartVotingEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Voting $voting, Device $device, Participant $participant)
+    public function __construct(Voting $voting, Device $device)
     {
         $this->device = $device;
         $this->voting = $voting;
