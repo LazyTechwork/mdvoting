@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'Просмотр голосования: ' . $voting->name)
+@section('title', 'Панель управления: ' . $voting->name)
 
 @section('content')
-    <vidash></vidash>
+    <vidash vid="{{ $voting->id }}"></vidash>
 @stop

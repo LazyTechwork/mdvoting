@@ -25,14 +25,23 @@
 <script>
     export default {
         name: "ViDashComponent",
+        props: ['vid'],
         data: function () {
             return {
                 devices: [{
                     uuid: 'adssa',
                     name: 'Стол №1',
                     status: 'free',
+                    ps: [],
+                    pgroups: []
                 }]
             };
+        },
+        mounted() {
+            axios.get('/gp', {params: {v: this.vid}}).then(function (response) {
+                this.ps = response.data.items;
+                this.psgroups = response.data.itemgroups;
+            }.bind(this)).catch(error => console.error(error));
         },
         methods: {
             parseStatus(status) {

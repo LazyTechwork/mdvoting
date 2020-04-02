@@ -5,8 +5,10 @@
  */
 
 require('./bootstrap');
+const axios = require('axios').default;
 
 window.Vue = require('vue');
+Vue.use(axios);
 
 /**
  * The following block of code may be used to automatically register your

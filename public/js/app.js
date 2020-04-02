@@ -2155,14 +2155,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViDashComponent",
+  props: ['vid'],
   data: function data() {
     return {
       devices: [{
         uuid: 'adssa',
         name: 'Стол №1',
-        status: 'free'
+        status: 'free',
+        ps: [],
+        pgroups: []
       }]
     };
+  },
+  mounted: function mounted() {
+    axios.get('/gp', {
+      params: {
+        v: this.vid
+      }
+    }).then(function (response) {
+      this.ps = response.data.items;
+      this.psgroups = response.data.itemgroups;
+    }.bind(this))["catch"](function (error) {
+      return console.error(error);
+    });
   },
   methods: {
     parseStatus: function parseStatus(status) {
@@ -50111,7 +50126,10 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")["default"];
+
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+Vue.use(axios);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
