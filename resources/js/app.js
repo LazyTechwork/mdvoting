@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('variants-edit', require('./components/VariantsEdit.vue').default);
+Vue.component('vicomponent', require('./components/ViComponent.vue').default);
 
 const app = new Vue({
     el: '#app',
