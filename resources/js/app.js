@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('variants-edit', require('./components/VariantsEdit.vue').default);
 Vue.component('vicomponent', require('./components/ViComponent.vue').default);
+Vue.component('vidash', require('./components/ViDashComponent.vue').default);
 
 const app = new Vue({
     el: '#app',
