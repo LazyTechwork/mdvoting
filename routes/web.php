@@ -2,6 +2,8 @@
 
 Route::get('/', 'MainController@home')->name('home');
 Route::get('/vi', 'MainController@vi')->name('vi');
+Route::post('/sv', 'VoteController@startVoting');
+Route::post('/ev', 'VoteController@endVoting');
 
 // All guest routes
 Route::middleware('guest')->group(function () {
@@ -18,6 +20,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('logout', 'UserController@logout')->name('logout');
     Route::get('/gp', 'MainController@getParticipantsAPI');
+    Route::get('/pl', 'VoteController@participantLink');
 
     Route::prefix('votings')->name('votings.')->group(function () {
 //        New votings

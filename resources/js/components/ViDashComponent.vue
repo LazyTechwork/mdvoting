@@ -25,11 +25,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="d in devices" :key="d.uuid">
+            <tr v-for="d in devices" :key="d.id">
                 <td>{{ d.name }}</td>
                 <td v-html="parseStatus(d.status)"></td>
                 <td>
-                    <button class="btn btn-outline-primary w-100" :disabled="!selected">Направить на это устройство</button>
+                    <button class="btn btn-outline-primary w-100" :disabled="!selected" @click="sendondevice(d.id)">Направить на это устройство</button>
                     <button class="btn btn-outline-danger w-100">Удалить устройство</button>
                 </td>
             </tr>
@@ -45,7 +45,7 @@
         data: function () {
             return {
                 devices: [{
-                    uuid: 'adssa',
+                    id: 'adssa',
                     name: 'Стол №1',
                     status: 'free'
                 }],
@@ -60,6 +60,7 @@
                 this.ps = response.data.items;
                 this.pgroups = response.data.itemgroups;
             }.bind(this)).catch(error => console.error(error));
+            // TODO: device getting
         },
         methods: {
             parseStatus(status) {
@@ -76,6 +77,11 @@
                 axios.get('/gp', {params: {v: this.vid}}).then(function (response) {
                     this.ps = response.data.items;
                     this.psgroups = response.data.itemgroups;
+                }.bind(this)).catch(error => console.error(error));
+            },
+            sendondevice(devid) {
+                axios.post('/pl', {params: {p: this.selected.id, v: this.vid, d: devid}}).then(function (response) {
+                    // TODO: participant linking
                 }.bind(this)).catch(error => console.error(error));
             }
         }
