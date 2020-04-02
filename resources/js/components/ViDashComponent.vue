@@ -9,10 +9,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>УСТРОЙСТВО</td>
-                <td></td>
-                <td><a href="{{ route('votings.edit', ['id' => $voting->id]) }}" class="btn btn-outline-primary w-100">Изменить</a>
+            <tr v-for="d in devices" :key="d.uuid">
+                <td>{{ d.name }}</td>
+                <td v-html="parseStatus(d.status)"></td>
+                <td>
+                    <button class="btn btn-outline-primary w-100">Направление</button>
+                    <button class="btn btn-outline-danger w-100">Удалить устройство</button>
                 </td>
             </tr>
             </tbody>
@@ -25,8 +27,24 @@
         name: "ViDashComponent",
         data: function () {
             return {
-                devices: []
+                devices: [{
+                    uuid: 'adssa',
+                    name: 'Стол №1',
+                    status: 'free',
+                }]
             };
+        },
+        methods: {
+            parseStatus(status) {
+                switch (status) {
+                    case 'free':
+                        return '<span class="badge badge-success" style="font-size: 1rem;">Свободно</span>';
+                    case 'voting':
+                        return '<span class="badge badge-warning" style="font-size: 1rem;">Голосует</span>';
+                    default:
+                        return '<span class="badge badge-secondary" style="font-size: 1rem;">Неизвестный статус</span>';
+                }
+            }
         }
     }
 </script>

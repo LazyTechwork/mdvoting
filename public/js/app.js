@@ -2151,12 +2151,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViDashComponent",
   data: function data() {
     return {
-      devices: []
+      devices: [{
+        uuid: 'adssa',
+        name: 'Стол №1',
+        status: 'free'
+      }]
     };
+  },
+  methods: {
+    parseStatus: function parseStatus(status) {
+      switch (status) {
+        case 'free':
+          return '<span class="badge badge-success" style="font-size: 1rem;">Свободно</span>';
+
+        case 'voting':
+          return '<span class="badge badge-warning" style="font-size: 1rem;">Голосует</span>';
+
+        default:
+          return '<span class="badge badge-secondary" style="font-size: 1rem;">Неизвестный статус</span>';
+      }
+    }
   }
 });
 
@@ -37858,8 +37878,63 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function () {}
-var staticRenderFns = []
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("table", { staticClass: "table table-responsive-md" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.devices, function(d) {
+          return _c("tr", { key: d.uuid }, [
+            _c("td", [_vm._v(_vm._s(d.name))]),
+            _vm._v(" "),
+            _c("td", {
+              domProps: { innerHTML: _vm._s(_vm.parseStatus(d.status)) }
+            }),
+            _vm._v(" "),
+            _vm._m(1, true)
+          ])
+        }),
+        0
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", [_vm._v("Устройство")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Статус")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Действия")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-outline-primary w-100" }, [
+        _vm._v("Направление")
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-outline-danger w-100" }, [
+        _vm._v("Удалить устройство")
+      ])
+    ])
+  }
+]
+render._withStripped = true
 
 
 

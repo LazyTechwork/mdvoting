@@ -266,4 +266,18 @@ class MainController extends Controller
 
         return view('votings.dashboard', compact('voting'));
     }
+
+    public function getParticipantsAPI(Request $request)
+    {
+        $validator = validator($request->all(), [
+            'v' => ['required', 'integer', 'exists:votings,id']
+        ]);
+
+        if ($validator->fails())
+            return response()->json(['status' => 'error'])->setStatusCode(400);
+
+        $voting = Voting::whereId($request->get('v'))->first();
+        $participants = $voting->participants->groupBy('group');
+        return response()->json(['status' => 'ok', 'items' => $participants->toArray(), 'itemgroups' => $participants->keys()]);
+    }
 }

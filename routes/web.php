@@ -17,6 +17,7 @@ Route::middleware('guest')->group(function () {
 // All authentificated routes
 Route::middleware('auth')->group(function () {
     Route::get('logout', 'UserController@logout')->name('logout');
+    Route::get('/gp', 'MainController@getParticipantsAPI');
 
     Route::prefix('votings')->name('votings.')->group(function () {
 //        New votings
