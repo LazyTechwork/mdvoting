@@ -2031,17 +2031,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViComponent",
   data: function data() {
     return {
       code: null,
-      screen: ''
+      screen: '',
+      devicename: ''
     };
   },
   mounted: function mounted() {
     if (localStorage.getItem('vi_code')) {
       this.code = localStorage.getItem('vi_code');
+      this.devicename = localStorage.getItem('vi_devicename') ? localStorage.getItem('vi_devicename') : '';
       this.connect();
     } else {
       this.screen = 'intro';
@@ -2052,11 +2068,19 @@ __webpack_require__.r(__webpack_exports__);
       if (value.length > 6) value = value.substr(0, 6);
       if (!/^[a-zA-Z0-9]+$/gm.test(value)) value = value.replace(/[^a-zA-Z0-9]/g, '');
       this.code = value.toUpperCase();
+    },
+    devicename: function devicename(value) {
+      if (value.length > 20) this.devicename = value.substr(0, 20);
     }
   },
   methods: {
     connect: function connect() {
       localStorage.setItem('vi_code', this.code);
+      this.screen = 'setup';
+    },
+    setup: function setup() {
+      if (this.devicename.length === 0) return;
+      localStorage.setItem('vi_devicename', this.devicename);
       this.screen = 'wait';
     }
   }
@@ -37549,8 +37573,8 @@ var render = function() {
         {
           attrs: {
             name: "custom-classes-transition",
-            "enter-active-class": "animated bounceIn",
-            "leave-active-class": "animated bounceOut",
+            "enter-active-class": "animated fast bounceIn",
+            "leave-active-class": "animated fast bounceOut",
             mode: "out-in"
           }
         },
@@ -37560,63 +37584,126 @@ var render = function() {
                 "div",
                 {
                   key: _vm.screen,
-                  staticClass:
-                    "d-flex flex-column align-items-center justify-content-center h-100"
+                  staticClass: "col-md-6 mx-auto text-center h-100"
                 },
                 [
-                  _c("div", { staticClass: "col-md-6 text-center" }, [
-                    _c("h2", { staticClass: "font-weight-bold" }, [
-                      _vm._v("Система Vi")
-                    ]),
-                    _vm._v(" "),
-                    _c("h4", { staticClass: "mb-4" }, [
-                      _vm._v("Подключите устройство к голосованию")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "input-group" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.code,
-                            expression: "code"
-                          }
-                        ],
-                        staticClass:
-                          "form-control form-control-lg text-center font-weight-bold text-uppercase",
-                        attrs: {
-                          type: "text",
-                          "aria-label": "КОД ГОЛОСОВАНИЯ",
-                          placeholder: "Код голосования",
-                          maxlength: "6"
-                        },
-                        domProps: { value: _vm.code },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.code = $event.target.value
-                          }
+                  _c("h2", { staticClass: "font-weight-bold" }, [
+                    _vm._v("Система Vi")
+                  ]),
+                  _vm._v(" "),
+                  _c("h4", { staticClass: "mb-4" }, [
+                    _vm._v("Подключите устройство к голосованию")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.code,
+                          expression: "code"
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "input-group-append" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "btn btn-lg font-weight-bold btn-outline-primary text-uppercase",
-                            on: { click: _vm.connect }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Подключиться\n                        "
-                            )
-                          ]
-                        )
-                      ])
+                      ],
+                      staticClass:
+                        "form-control form-control-lg text-center font-weight-bold text-uppercase",
+                      attrs: {
+                        type: "text",
+                        "aria-label": "КОД ГОЛОСОВАНИЯ",
+                        placeholder: "Код голосования",
+                        maxlength: "6"
+                      },
+                      domProps: { value: _vm.code },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.code = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group-append" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-lg font-weight-bold btn-outline-primary text-uppercase",
+                          on: { click: _vm.connect }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Подключиться\n                    "
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.screen === "setup"
+            ? _c(
+                "div",
+                {
+                  key: _vm.screen,
+                  staticClass: "col-md-6 flex-center mx-auto text-center h-100"
+                },
+                [
+                  _c("h2", { staticClass: "font-weight-bold" }, [
+                    _vm._v("Система Vi")
+                  ]),
+                  _vm._v(" "),
+                  _c("h4", { staticClass: "mb-4" }, [
+                    _vm._v("Устройство подключено к голосованию ("),
+                    _c("b", [_vm._v(_vm._s(this.code))]),
+                    _vm._v(")")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.devicename,
+                          expression: "devicename"
+                        }
+                      ],
+                      staticClass: "form-control form-control-lg text-center",
+                      attrs: {
+                        type: "text",
+                        "aria-label": "Название устройства",
+                        placeholder: "Название устройства",
+                        maxlength: "20"
+                      },
+                      domProps: { value: _vm.devicename },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.devicename = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group-append" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-lg font-weight-bold btn-outline-primary text-uppercase",
+                          on: { click: _vm.setup }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Сохранить\n                    "
+                          )
+                        ]
+                      )
                     ])
                   ])
                 ]
@@ -37628,22 +37715,21 @@ var render = function() {
                 "div",
                 {
                   key: _vm.screen,
-                  staticClass:
-                    "d-flex flex-column align-items-center justify-content-center h-100"
+                  staticClass: "col-md-6 mx-auto text-center h-100"
                 },
                 [
-                  _c("div", { staticClass: "col-md-6 text-center" }, [
-                    _c("h2", { staticClass: "font-weight-bold" }, [
-                      _vm._v("Система Vi")
-                    ]),
-                    _vm._v(" "),
-                    _c("h4", { staticClass: "mb-4" }, [
-                      _vm._v("Устройство подключено к голосованию "),
-                      _c("br"),
-                      _vm._v(
-                        " Подождите, когда оператор включит здесь\n                    голосование"
-                      )
-                    ])
+                  _c("h2", { staticClass: "font-weight-bold" }, [
+                    _vm._v("Система Vi")
+                  ]),
+                  _vm._v(" "),
+                  _c("h4", { staticClass: "mb-4" }, [
+                    _vm._v("Устройство подключено к голосованию ("),
+                    _c("b", [_vm._v(_vm._s(this.code))]),
+                    _vm._v(")")
+                  ]),
+                  _vm._v(" "),
+                  _c("h5", { staticClass: "text-secondary" }, [
+                    _vm._v("Подождите, когда оператор начнёт голосование")
                   ])
                 ]
               )

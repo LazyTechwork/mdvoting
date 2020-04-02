@@ -1,3 +1,4 @@
+@php($navbardisabled = true)
 @extends('layouts.app')
 
 @section('content')
