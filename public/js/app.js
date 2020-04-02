@@ -2153,6 +2153,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViDashComponent",
   props: ['vid'],
@@ -2161,10 +2177,12 @@ __webpack_require__.r(__webpack_exports__);
       devices: [{
         uuid: 'adssa',
         name: 'Стол №1',
-        status: 'free',
-        ps: [],
-        pgroups: []
-      }]
+        status: 'free'
+      }],
+      selected: null,
+      selectedgroup: null,
+      ps: [],
+      pgroups: []
     };
   },
   mounted: function mounted() {
@@ -2174,7 +2192,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }).then(function (response) {
       this.ps = response.data.items;
-      this.psgroups = response.data.itemgroups;
+      this.pgroups = response.data.itemgroups;
     }.bind(this))["catch"](function (error) {
       return console.error(error);
     });
@@ -2191,6 +2209,18 @@ __webpack_require__.r(__webpack_exports__);
         default:
           return '<span class="badge badge-secondary" style="font-size: 1rem;">Неизвестный статус</span>';
       }
+    },
+    test: function test() {
+      axios.get('/gp', {
+        params: {
+          v: this.vid
+        }
+      }).then(function (response) {
+        this.ps = response.data.items;
+        this.psgroups = response.data.itemgroups;
+      }.bind(this))["catch"](function (error) {
+        return console.error(error);
+      });
     }
   }
 });
@@ -37898,6 +37928,117 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "mb-5",
+        attrs: { action: "#", method: "GET", id: "selectuser" }
+      },
+      [
+        _vm.pgroups
+          ? _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "groupselect" } }, [
+                _vm._v("Выберите группу")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedgroup,
+                      expression: "selectedgroup"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "groupselect" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selectedgroup = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { domProps: { value: null } }, [
+                    _vm._v("Не выбрано")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.pgroups, function(pg) {
+                    return _c("option", { key: pg, domProps: { value: pg } }, [
+                      _vm._v(_vm._s(pg))
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.ps && _vm.selectedgroup
+          ? _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "participantselect" } }, [
+                _vm._v("Выберите участника")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selected,
+                      expression: "selected"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "participantselect" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selected = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { domProps: { value: null } }, [
+                    _vm._v("Не выбрано")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.ps[_vm.selectedgroup], function(p) {
+                    return _c("option", { key: p.id, domProps: { value: p } }, [
+                      _vm._v(_vm._s(p.name))
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          : _vm._e()
+      ]
+    ),
+    _vm._v(" "),
     _c("table", { staticClass: "table table-responsive-md" }, [
       _vm._m(0),
       _vm._v(" "),
@@ -37911,7 +38052,20 @@ var render = function() {
               domProps: { innerHTML: _vm._s(_vm.parseStatus(d.status)) }
             }),
             _vm._v(" "),
-            _vm._m(1, true)
+            _c("td", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-primary w-100",
+                  attrs: { disabled: !_vm.selected }
+                },
+                [_vm._v("Направить на это устройство")]
+              ),
+              _vm._v(" "),
+              _c("button", { staticClass: "btn btn-outline-danger w-100" }, [
+                _vm._v("Удалить устройство")
+              ])
+            ])
           ])
         }),
         0
@@ -37931,20 +38085,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Статус")]),
         _vm._v(" "),
         _c("th", [_vm._v("Действия")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-outline-primary w-100" }, [
-        _vm._v("Направление")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-outline-danger w-100" }, [
-        _vm._v("Удалить устройство")
       ])
     ])
   }
