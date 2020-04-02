@@ -61,6 +61,8 @@
                     <a href="{{ route('votings.lock', ['id' => $voting->id]) }}"
                        class="btn btn-outline-primary">{{ $voting->locked ? 'Раз' : 'За' }}блокировать
                         изменения</a>
+                    <a href="{{ $voting->locked ? route('votings.dashboard', ['id' => $voting->id]) : '#' }}"
+                       class="btn btn-outline-primary @if(!$voting->locked) disabled @endif">Начать голосование</a>
                 </div>
             </td>
         </tr>

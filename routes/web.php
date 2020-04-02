@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
 //        Locking changes
         Route::get('/{id}/lock', 'MainController@lock')->name('lock');
+        Route::get('/{id}/dashboard', 'MainController@dashboard')->name('dashboard');
 
 //        Participants
         Route::get('/{id}/participants', 'MainController@participantsPage')->name('participants');

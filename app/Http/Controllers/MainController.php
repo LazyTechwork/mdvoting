@@ -254,4 +254,16 @@ class MainController extends Controller
     {
         return view('vi');
     }
+
+    public function dashboard(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+
+        if (!$voting->locked)
+            return redirect()->route('votings.show', ['id' => $id])->withErrors(new MessageBag(['action_error' => 'Доступ запрещён, т.к. голосование не заблокировано']));
+
+        return view('votings.dashboard', compact('voting'));
+    }
 }
