@@ -249,4 +249,9 @@ class MainController extends Controller
 
         return redirect()->route('votings.participants', ['id' => $voting->id]);
     }
+
+    public function vi()
+    {
+        return view('vi');
+    }
 }

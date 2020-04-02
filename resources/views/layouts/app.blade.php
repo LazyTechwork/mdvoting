@@ -40,8 +40,8 @@
     </div>
 </nav>
 <main class="flex-grow-1">
-    <div id="app">
-        <div class="container py-5">
+    <div id="app" class="h-100">
+        <div class="container py-5 h-100">
             @error('action_error')
             <div class="alert alert-danger" role="alert"><h5 class="alert-heading font-weight-bold">Ошибка</h5>
                 <p class="mb-0">{{ $message }}</p></div>

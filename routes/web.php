@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/', 'MainController@home')->name('home');
+Route::get('/vi', 'MainController@vi')->name('vi');
 
 // All guest routes
 Route::middleware('guest')->group(function () {
