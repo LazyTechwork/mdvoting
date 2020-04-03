@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Device;
+use App\Events\EndVotingEvent;
 use App\Events\ParticipantLinkedDevice;
 use App\Events\StartVotingEvent;
 use App\Participant;
@@ -18,6 +19,7 @@ class VoteController extends Controller
 
         $voting = Voting::whereId($request->get('v'))->first();
         $device = Device::whereId($request->get('d'))->first();
+        $device->update(['status' => 'busy']);
         event(new ParticipantLinkedDevice($voting, $device, $participant));
 
         return response()->json(['status' => 'ok'])->setStatusCode(200);
@@ -27,6 +29,7 @@ class VoteController extends Controller
     {
         $voting = Voting::whereId($request->get('v'))->first();
         $device = Device::whereId($request->get('d'))->first();
+        $device->update(['status' => 'voting']);
         event(new StartVotingEvent($voting, $device));
 
         return response()->json(['items' => $voting->variants, 'maxvotes' => $voting->maxVotes])->setStatusCode(200);
@@ -39,8 +42,16 @@ class VoteController extends Controller
             $participant->update(['vote' => collect($request->get('vote'))->join(',')]);
         $voting = Voting::whereId($request->get('v'))->first();
         $device = Device::whereId($request->get('d'))->first();
-        event(new StartVotingEvent($voting, $device));
+        $device->update(['status' => 'free']);
+        event(new EndVotingEvent($voting, $device));
 
         return response()->json(['status' => 'ok'])->setStatusCode(200);
+    }
+
+    public function getDevices(Request $request)
+    {
+        $voting = Voting::whereId($request->get('v'))->first();
+        $devices = Device::whereVotingId($voting->id)->get();
+        return response()->json(['status' => 'ok', 'items' => $devices, 'count' => $devices->count()]);
     }
 }

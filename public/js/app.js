@@ -2169,13 +2169,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViDashComponent",
   props: ['vid'],
   data: function data() {
     return {
       devices: [{
-        uuid: 'adssa',
+        id: 'adssa',
         name: 'Стол №1',
         status: 'free'
       }],
@@ -2186,16 +2188,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    axios.get('/gp', {
-      params: {
-        v: this.vid
-      }
-    }).then(function (response) {
-      this.ps = response.data.items;
-      this.pgroups = response.data.itemgroups;
-    }.bind(this))["catch"](function (error) {
-      return console.error(error);
-    });
+    this.updatedevices();
+    this.updateparticipants();
   },
   methods: {
     parseStatus: function parseStatus(status) {
@@ -2205,6 +2199,9 @@ __webpack_require__.r(__webpack_exports__);
 
         case 'voting':
           return '<span class="badge badge-warning" style="font-size: 1rem;">Голосует</span>';
+
+        case 'busy':
+          return '<span class="badge badge-danger" style="font-size: 1rem;">Занято</span>';
 
         default:
           return '<span class="badge badge-secondary" style="font-size: 1rem;">Неизвестный статус</span>';
@@ -2218,6 +2215,42 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         this.ps = response.data.items;
         this.psgroups = response.data.itemgroups;
+      }.bind(this))["catch"](function (error) {
+        return console.error(error);
+      });
+    },
+    updatedevices: function updatedevices() {
+      axios.post('/gd', {
+        params: {
+          v: this.vid
+        }
+      }).then(function (response) {
+        if (response.data.status === 'ok') this.devices = response.data.items;
+      }.bind(this))["catch"](function (error) {
+        return console.error(error);
+      });
+    },
+    updateparticipants: function updateparticipants() {
+      axios.get('/gp', {
+        params: {
+          v: this.vid
+        }
+      }).then(function (response) {
+        this.ps = response.data.items;
+        this.pgroups = response.data.itemgroups;
+      }.bind(this))["catch"](function (error) {
+        return console.error(error);
+      });
+    },
+    sendondevice: function sendondevice(devid) {
+      axios.post('/pl', {
+        params: {
+          p: this.selected.id,
+          v: this.vid,
+          d: devid
+        }
+      }).then(function (response) {
+        if (response.data.status === 'ok') this.updatedevices();
       }.bind(this))["catch"](function (error) {
         return console.error(error);
       });
@@ -38045,7 +38078,7 @@ var render = function() {
       _c(
         "tbody",
         _vm._l(_vm.devices, function(d) {
-          return _c("tr", { key: d.uuid }, [
+          return _c("tr", { key: d.id }, [
             _c("td", [_vm._v(_vm._s(d.name))]),
             _vm._v(" "),
             _c("td", {
@@ -38057,9 +38090,18 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-outline-primary w-100",
-                  attrs: { disabled: !_vm.selected }
+                  attrs: { disabled: !_vm.selected },
+                  on: {
+                    click: function($event) {
+                      return _vm.sendondevice(d.id)
+                    }
+                  }
                 },
-                [_vm._v("Направить на это устройство")]
+                [
+                  _vm._v(
+                    "\n                    Направить на это устройство\n                "
+                  )
+                ]
               ),
               _vm._v(" "),
               _c("button", { staticClass: "btn btn-outline-danger w-100" }, [

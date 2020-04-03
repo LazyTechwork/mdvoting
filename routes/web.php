@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('logout', 'UserController@logout')->name('logout');
     Route::get('/gp', 'MainController@getParticipantsAPI');
     Route::get('/pl', 'VoteController@participantLink');
+    Route::get('/gd', 'VoteController@getDevices');
 
     Route::prefix('votings')->name('votings.')->group(function () {
 //        New votings

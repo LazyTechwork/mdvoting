@@ -17,6 +17,7 @@ class CreateDevicesTable extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('voting_id');
+            $table->enum('status', ['free', 'voting', 'busy', 'unknown'])->default('free');
             $table->timestamps();
         });
     }

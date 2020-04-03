@@ -29,7 +29,9 @@
                 <td>{{ d.name }}</td>
                 <td v-html="parseStatus(d.status)"></td>
                 <td>
-                    <button class="btn btn-outline-primary w-100" :disabled="!selected" @click="sendondevice(d.id)">Направить на это устройство</button>
+                    <button class="btn btn-outline-primary w-100" :disabled="!selected" @click="sendondevice(d.id)">
+                        Направить на это устройство
+                    </button>
                     <button class="btn btn-outline-danger w-100">Удалить устройство</button>
                 </td>
             </tr>
@@ -56,11 +58,8 @@
             };
         },
         mounted() {
-            axios.get('/gp', {params: {v: this.vid}}).then(function (response) {
-                this.ps = response.data.items;
-                this.pgroups = response.data.itemgroups;
-            }.bind(this)).catch(error => console.error(error));
-            // TODO: device getting
+            this.updatedevices();
+            this.updateparticipants();
         },
         methods: {
             parseStatus(status) {
@@ -69,6 +68,8 @@
                         return '<span class="badge badge-success" style="font-size: 1rem;">Свободно</span>';
                     case 'voting':
                         return '<span class="badge badge-warning" style="font-size: 1rem;">Голосует</span>';
+                    case 'busy':
+                        return '<span class="badge badge-danger" style="font-size: 1rem;">Занято</span>';
                     default:
                         return '<span class="badge badge-secondary" style="font-size: 1rem;">Неизвестный статус</span>';
                 }
@@ -79,9 +80,22 @@
                     this.psgroups = response.data.itemgroups;
                 }.bind(this)).catch(error => console.error(error));
             },
+            updatedevices() {
+                axios.post('/gd', {params: {v: this.vid}}).then(function (response) {
+                    if (response.data.status === 'ok')
+                        this.devices = response.data.items;
+                }.bind(this)).catch(error => console.error(error));
+            },
+            updateparticipants() {
+                axios.get('/gp', {params: {v: this.vid}}).then(function (response) {
+                    this.ps = response.data.items;
+                    this.pgroups = response.data.itemgroups;
+                }.bind(this)).catch(error => console.error(error));
+            },
             sendondevice(devid) {
                 axios.post('/pl', {params: {p: this.selected.id, v: this.vid, d: devid}}).then(function (response) {
-                    // TODO: participant linking
+                    if (response.data.status === 'ok')
+                        this.updatedevices();
                 }.bind(this)).catch(error => console.error(error));
             }
         }
