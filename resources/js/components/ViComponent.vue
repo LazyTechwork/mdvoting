@@ -120,7 +120,15 @@
                         this.screen = 'wait';
                         this.deviceid = response.data.item.id;
                     }
-                }.bind(this)).catch(error => console.error(error));
+                }.bind(this), function (error) {
+                    let response = error.response;
+                    if (response.data.status === 'notfound') {
+                        this.loading = false;
+                        this.code = '';
+                        this.devicename = '';
+                        this.screen = 'intro';
+                    }
+                }.bind(this));
             }
         }
     }

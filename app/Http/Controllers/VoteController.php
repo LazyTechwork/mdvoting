@@ -59,6 +59,8 @@ class VoteController extends Controller
     public function connectDevice(Request $request)
     {
         $voting = Voting::whereCode($request->get('vi_code'))->first();
+        if (!$voting)
+            return response()->json(['status' => 'notfound'])->setStatusCode(404);
         $device = Device::create(['name' => $request->get('vi_name'), 'voting_id' => $voting->id]);
         event(new NewDeviceEvent($voting, $device));
         return response()->json(['status' => 'ok', 'item' => $device]);

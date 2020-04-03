@@ -2112,9 +2112,16 @@ __webpack_require__.r(__webpack_exports__);
           this.screen = 'wait';
           this.deviceid = response.data.item.id;
         }
-      }.bind(this))["catch"](function (error) {
-        return console.error(error);
-      });
+      }.bind(this), function (error) {
+        var response = error.response;
+
+        if (response.data.status === 'notfound') {
+          this.loading = false;
+          this.code = '';
+          this.devicename = '';
+          this.screen = 'intro';
+        }
+      }.bind(this));
     }
   }
 });
