@@ -1,5 +1,7 @@
 <template>
     <div>
+        <h2>Панель управления голосованием</h2>
+        <h4 class="mb-5">Код для подключения: <b>{{ vicode }}</b></h4>
         <form action="#" method="GET" id="selectuser" class="mb-5">
             <div class="form-group" v-if="pgroups">
                 <label for="groupselect">Выберите группу</label>
@@ -43,7 +45,7 @@
 <script>
     export default {
         name: "ViDashComponent",
-        props: ['vid'],
+        props: ['vid', 'vicode'],
         data: function () {
             return {
                 devices: [{
@@ -74,14 +76,8 @@
                         return '<span class="badge badge-secondary" style="font-size: 1rem;">Неизвестный статус</span>';
                 }
             },
-            test() {
-                axios.get('/gp', {params: {v: this.vid}}).then(function (response) {
-                    this.ps = response.data.items;
-                    this.psgroups = response.data.itemgroups;
-                }.bind(this)).catch(error => console.error(error));
-            },
             updatedevices() {
-                axios.post('/gd', {params: {v: this.vid}}).then(function (response) {
+                axios.get('/gd', {params: {v: this.vid}}).then(function (response) {
                     if (response.data.status === 'ok')
                         this.devices = response.data.items;
                 }.bind(this)).catch(error => console.error(error));
@@ -93,7 +89,7 @@
                 }.bind(this)).catch(error => console.error(error));
             },
             sendondevice(devid) {
-                axios.post('/pl', {params: {p: this.selected.id, v: this.vid, d: devid}}).then(function (response) {
+                axios.post('/pl', {p: this.selected.id, v: this.vid, d: devid}).then(function (response) {
                     if (response.data.status === 'ok')
                         this.updatedevices();
                 }.bind(this)).catch(error => console.error(error));

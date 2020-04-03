@@ -2059,6 +2059,7 @@ __webpack_require__.r(__webpack_exports__);
       code: null,
       screen: '',
       devicename: '',
+      deviceid: null,
       loading: false
     };
   },
@@ -2088,8 +2089,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     connect: function connect() {
-      var _this = this;
-
       var withoutSetup = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       localStorage.setItem('vi_code', this.code);
 
@@ -2098,22 +2097,24 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.loading = true;
-      setTimeout(function () {
-        _this.loading = false;
-        _this.screen = 'setup';
-      }, 1500);
+      this.screen = 'setup';
     },
     setup: function setup() {
-      var _this2 = this;
-
       if (this.devicename.length === 0) return;
       localStorage.setItem('vi_devicename', this.devicename);
       this.loading = true;
-      setTimeout(function () {
-        _this2.loading = false;
-        _this2.screen = 'wait';
-      }, 1500);
+      axios.post('/cd', {
+        vi_code: this.code,
+        vi_name: this.devicename
+      }).then(function (response) {
+        if (response.data.status === 'ok') {
+          this.loading = false;
+          this.screen = 'wait';
+          this.deviceid = response.data.item.id;
+        }
+      }.bind(this))["catch"](function (error) {
+        return console.error(error);
+      });
     }
   }
 });
@@ -2171,9 +2172,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViDashComponent",
-  props: ['vid'],
+  props: ['vid', 'vicode'],
   data: function data() {
     return {
       devices: [{
@@ -2207,20 +2210,8 @@ __webpack_require__.r(__webpack_exports__);
           return '<span class="badge badge-secondary" style="font-size: 1rem;">Неизвестный статус</span>';
       }
     },
-    test: function test() {
-      axios.get('/gp', {
-        params: {
-          v: this.vid
-        }
-      }).then(function (response) {
-        this.ps = response.data.items;
-        this.psgroups = response.data.itemgroups;
-      }.bind(this))["catch"](function (error) {
-        return console.error(error);
-      });
-    },
     updatedevices: function updatedevices() {
-      axios.post('/gd', {
+      axios.get('/gd', {
         params: {
           v: this.vid
         }
@@ -2244,11 +2235,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     sendondevice: function sendondevice(devid) {
       axios.post('/pl', {
-        params: {
-          p: this.selected.id,
-          v: this.vid,
-          d: devid
-        }
+        p: this.selected.id,
+        v: this.vid,
+        d: devid
       }).then(function (response) {
         if (response.data.status === 'ok') this.updatedevices();
       }.bind(this))["catch"](function (error) {
@@ -37961,6 +37950,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("h2", [_vm._v("Панель управления голосованием")]),
+    _vm._v(" "),
+    _c("h4", { staticClass: "mb-5" }, [
+      _vm._v("Код для подключения: "),
+      _c("b", [_vm._v(_vm._s(_vm.vicode))])
+    ]),
+    _vm._v(" "),
     _c(
       "form",
       {

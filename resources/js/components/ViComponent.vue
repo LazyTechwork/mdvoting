@@ -65,6 +65,7 @@
                 code: null,
                 screen: '',
                 devicename: '',
+                deviceid: null,
                 loading: false
             };
         },
@@ -103,22 +104,23 @@
                     this.setup();
                     return;
                 }
-                this.loading = true;
-                setTimeout(() => {
-                    this.loading = false;
-                    this.screen = 'setup';
-                }, 1500);
-
+                this.screen = 'setup';
             },
             setup: function () {
                 if (this.devicename.length === 0)
                     return;
                 localStorage.setItem('vi_devicename', this.devicename);
                 this.loading = true;
-                setTimeout(() => {
-                    this.loading = false;
-                    this.screen = 'wait';
-                }, 1500);
+                axios.post('/cd', {
+                    vi_code: this.code,
+                    vi_name: this.devicename
+                }).then(function (response) {
+                    if (response.data.status === 'ok') {
+                        this.loading = false;
+                        this.screen = 'wait';
+                        this.deviceid = response.data.item.id;
+                    }
+                }.bind(this)).catch(error => console.error(error));
             }
         }
     }

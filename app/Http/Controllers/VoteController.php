@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Device;
 use App\Events\EndVotingEvent;
+use App\Events\NewDeviceEvent;
 use App\Events\ParticipantLinkedDevice;
 use App\Events\StartVotingEvent;
 use App\Participant;
@@ -53,5 +54,13 @@ class VoteController extends Controller
         $voting = Voting::whereId($request->get('v'))->first();
         $devices = Device::whereVotingId($voting->id)->get();
         return response()->json(['status' => 'ok', 'items' => $devices, 'count' => $devices->count()]);
+    }
+
+    public function connectDevice(Request $request)
+    {
+        $voting = Voting::whereCode($request->get('vi_code'))->first();
+        $device = Device::create(['name' => $request->get('vi_name'), 'voting_id' => $voting->id]);
+        event(new NewDeviceEvent($voting, $device));
+        return response()->json(['status' => 'ok', 'item' => $device]);
     }
 }
