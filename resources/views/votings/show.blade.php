@@ -46,7 +46,7 @@
             <td><b>{{ $voting->participants->where('vote', '!=', null)->count() }}</b></td>
             <td>
                 <div class="btn-group w-100">
-                    <a href="#" class="btn btn-outline-primary">Статистика голосов</a>
+                    <a href="{{ route('votings.votestats', ['id'=>$voting->id]) }}" class="btn btn-outline-primary">Статистика голосов</a>
                     <a href="{{ route('votings.resetvotes', ['id'=>$voting->id]) }}" class="btn btn-outline-primary">Сбросить
                         голоса</a>
                 </div>

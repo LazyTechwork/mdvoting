@@ -21,7 +21,7 @@ class NewVoteEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Voting $voting, Device $device)
+    public function __construct(Voting $voting)
     {
         $this->voting = $voting;
     }

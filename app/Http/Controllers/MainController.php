@@ -289,4 +289,28 @@ class MainController extends Controller
         $voting->participants()->where('vote', '!=', null)->update(['vote' => null]);
         return redirect()->route('votings.show', ['id' => $id]);
     }
+
+    public function voteStats(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+        return view('votings.stats', compact('voting'));
+    }
+
+    public function getVotes(Request $request)
+    {
+        $voting = Voting::whereId($request->get('v'))->first();
+
+        $prevotes = $voting->participants()->where('vote', '!=', null)->get(['vote'])->toArray();
+        $votes = [];
+
+        foreach ($prevotes as $prevote) {
+            foreach ($prevote as $item) {
+                if (!isset($votes[$item])) $votes[$item] = 1; else $votes[$item]++;
+            }
+        }
+
+        return response()->json(['status' => 'ok', 'voting' => $voting, 'votes' => $votes])->setStatusCode(200);
+    }
 }

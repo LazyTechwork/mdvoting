@@ -8,6 +8,7 @@ require('./bootstrap');
 import axios from "axios";
 import Echo from "laravel-echo"
 import moment from "moment";
+import Vue from "vue";
 
 window.io = require('socket.io-client');
 
@@ -18,8 +19,7 @@ window.Echo = new Echo({
 
 window.axios = axios;
 window.moment = moment;
-
-window.Vue = require('vue');
+window.Vue = Vue;
 
 /**
  * The following block of code may be used to automatically register your

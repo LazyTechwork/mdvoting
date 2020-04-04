@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cpl', 'VoteController@cancelParticipantLink');
     Route::get('/gd', 'VoteController@getDevices');
     Route::post('/du', 'VoteController@deviceUnlink');
+    Route::get('/gv', 'MainController@getVotes');
 
     Route::prefix('votings')->name('votings.')->group(function () {
 //        New votings
@@ -52,5 +53,8 @@ Route::middleware('auth')->group(function () {
 //        Participants
         Route::get('/{id}/participants', 'MainController@participantsPage')->name('participants');
         Route::post('/{id}/participants', 'MainController@participants')->name('participants');
+
+//        Vote Statistics
+        Route::get('/{id}/stats', 'MainController@voteStats')->name('votestats');
     });
 });
