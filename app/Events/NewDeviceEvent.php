@@ -6,7 +6,6 @@ use App\Device;
 use App\Voting;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -16,7 +15,7 @@ class NewDeviceEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $voting;
-    public $device;
+    private $device;
 
     /**
      * Create a new event instance.
@@ -36,11 +35,19 @@ class NewDeviceEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel($this->voting->code);
+        return new Channel($this->voting->code);
     }
 
     public function broadcastAs()
     {
         return 'newdevice';
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'connected' => $this->device,
+            'devices' => Device::all()
+        ];
     }
 }

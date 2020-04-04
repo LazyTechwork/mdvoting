@@ -1,5 +1,5 @@
 {
-	"authHost": "http://127.0.0.1:4341/",
+	"authHost": "localhost:4341",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [],
 	"database": "redis",

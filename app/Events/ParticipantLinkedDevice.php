@@ -7,7 +7,6 @@ use App\Participant;
 use App\Voting;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -41,11 +40,18 @@ class ParticipantLinkedDevice implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel($this->voting->code);
+        return new Channel($this->voting->code);
     }
 
     public function broadcastAs()
     {
         return 'participantlinked';
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'participant' => $this->participant
+        ];
     }
 }

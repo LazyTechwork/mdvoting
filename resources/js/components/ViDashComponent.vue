@@ -62,6 +62,9 @@
         mounted() {
             this.updatedevices();
             this.updateparticipants();
+            Echo.channel("mdvoting_" + this.vicode).listen('.newdevice', function (e) {
+                this.devices = e.devices;
+            }.bind(this));
         },
         methods: {
             parseStatus(status) {

@@ -277,7 +277,7 @@ class MainController extends Controller
             return response()->json(['status' => 'error'])->setStatusCode(400);
 
         $voting = Voting::whereId($request->get('v'))->first();
-        $participants = $voting->participants->groupBy('group');
+        $participants = $voting->participants()->where('vote', null)->get()->groupBy('group');
         return response()->json(['status' => 'ok', 'items' => $participants->toArray(), 'itemgroups' => $participants->keys()]);
     }
 }
