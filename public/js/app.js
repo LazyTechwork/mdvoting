@@ -2185,6 +2185,9 @@ __webpack_require__.r(__webpack_exports__);
       this.screen = 'intro';
     }
   },
+  created: function created() {
+    window.addEventListener('beforeunload', this.unlinkdevice);
+  },
   watch: {
     code: function code(value) {
       if (value.length > 6) value = value.substr(0, 6);
@@ -2284,6 +2287,7 @@ __webpack_require__.r(__webpack_exports__);
     bindlisteners: function bindlisteners() {
       var _this = this;
 
+      Echo.connect();
       Echo.channel("mdvoting_" + this.code).listen('.participantlinked', function (e) {
         if (e.device.id === _this.deviceid) {
           _this.participant = e.participant;
@@ -2307,6 +2311,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectBlock: function selectBlock(id) {
       return this.selected_variants.length >= this.maxvotes && !this.selected_variants.includes(id);
+    },
+    unlinkdevice: function unlinkdevice() {
+      axios.post('/devdis', {
+        v: this.code,
+        d: this.deviceid
+      }).then(function (e) {
+        window.location.reload();
+      }.bind(this), function (e) {});
     }
   }
 });
@@ -2399,6 +2411,9 @@ __webpack_require__.r(__webpack_exports__);
       _this.devices = e.devices;
       _this.ps = e.participants;
       _this.pgroups = e.participant_groups;
+    });
+    Echo.channel("mdvoting_" + this.vicode).listen('.devicedisconnect', function (e) {
+      _this.devices = e.devices;
     });
   },
   methods: {

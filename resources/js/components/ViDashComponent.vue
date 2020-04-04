@@ -75,6 +75,9 @@
                 this.ps = e.participants;
                 this.pgroups = e.participant_groups;
             });
+            Echo.channel("mdvoting_" + this.vicode).listen('.devicedisconnect', (e) => {
+                this.devices = e.devices;
+            });
         },
         methods: {
             parseStatus(status) {

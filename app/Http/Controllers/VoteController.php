@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Device;
+use App\Events\DeviceDisconnect;
 use App\Events\DeviceUnlink;
 use App\Events\EndVotingEvent;
 use App\Events\NewDeviceEvent;
@@ -75,5 +76,15 @@ class VoteController extends Controller
         $device->forceDelete();
 
         return response()->json(['status' => 'ok']);
+    }
+
+    public function deviceDisconnect(Request $request)
+    {
+        $voting = Voting::whereCode($request->get('v'))->first();
+        $device = Device::whereId($request->get('d'))->first();
+        event(new DeviceDisconnect($voting, $device));
+        $device->forceDelete();
+
+        return response()->json(['status' => 'ok'])->setStatusCode(200);
     }
 }

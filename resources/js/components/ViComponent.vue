@@ -111,6 +111,9 @@
                 this.screen = 'intro';
             }
         },
+        created() {
+            window.addEventListener('beforeunload', this.unlinkdevice);
+        },
         watch: {
             code: function (value) {
                 if (value.length > 6)
@@ -210,6 +213,7 @@
                 }.bind(this));
             },
             bindlisteners: function () {
+                Echo.connect();
                 Echo.channel("mdvoting_" + this.code).listen('.participantlinked', (e) => {
                     if (e.device.id === this.deviceid) {
                         this.participant = e.participant;
@@ -232,8 +236,13 @@
             },
             selectBlock: function (id) {
                 return this.selected_variants.length >= this.maxvotes && !this.selected_variants.includes(id);
+            },
+            unlinkdevice: function () {
+                axios.post('/devdis', {v: this.code, d: this.deviceid}).then(function (e) {
+                    window.location.reload();
+                }.bind(this), (e) => {
+                });
             }
         }
     }
 </script>
-
