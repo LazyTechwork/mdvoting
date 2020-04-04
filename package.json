@@ -26,6 +26,7 @@
     "dependencies": {
         "chart.js": "^2.9.3",
         "chartjs-plugin-colorschemes": "^0.4.0",
+        "chartjs-plugin-labels": "^1.1.0",
         "ioredis": "^4.16.1",
         "laravel-echo": "^1.6.1",
         "moment": "^2.24.0",

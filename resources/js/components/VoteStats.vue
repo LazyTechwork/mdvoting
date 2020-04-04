@@ -43,22 +43,13 @@
                 }
             });
         },
-        watch: {
-            votes: function (val) {
-                this.chartData.datasets = [{
-                    data: val
-                }];
-            },
-            variants: function (val) {
-                this.chartData.labels = val;
-            }
-        },
         methods: {
             updateChart() {
                 this.chartData.datasets = [{
                     data: this.votes
                 }];
                 this.chartData.labels = this.variants;
+                window.dispatchEvent(new Event('resize'));
             }
         }
     }

@@ -1988,9 +1988,8 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_chartjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-chartjs */ "./node_modules/vue-chartjs/es/index.js");
-/* harmony import */ var chartjs_plugin_colorschemes_src_plugins_plugin_colorschemes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes */ "./node_modules/chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes.js");
-/* harmony import */ var chartjs_plugin_colorschemes_src_colorschemes_colorschemes_office__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office */ "./node_modules/chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office.js");
-
+/* harmony import */ var chartjs_plugin_colorschemes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! chartjs-plugin-colorschemes */ "./node_modules/chartjs-plugin-colorschemes/dist/chartjs-plugin-colorschemes.js");
+/* harmony import */ var chartjs_plugin_colorschemes__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(chartjs_plugin_colorschemes__WEBPACK_IMPORTED_MODULE_1__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2006,15 +2005,36 @@ __webpack_require__.r(__webpack_exports__);
     return {
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        legend: {
+          position: 'bottom'
+        },
+        tooltips: {
+          callbacks: {
+            label: function label(tooltipItem, data) {
+              //get the concerned dataset
+              var dataset = data.datasets[tooltipItem.datasetIndex]; //calculate the total of this data set
+
+              var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                return previousValue + currentValue;
+              }); //get the current items value
+
+              var currentValue = dataset.data[tooltipItem.index]; //calculate the precentage based on the total and current item, also this does a rough rounding to give a whole number
+
+              var percentage = Math.floor(currentValue / total * 100 + 0.5);
+              return currentValue + " (" + percentage + "%)";
+            }
+          }
+        }
       }
     };
   },
   mixins: [vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["mixins"].reactiveProp],
   mounted: function mounted() {
     this.addPlugin({
-      id: "plugin.colorschemes",
-      scheme: chartjs_plugin_colorschemes_src_colorschemes_colorschemes_office__WEBPACK_IMPORTED_MODULE_2__["Aspect6"]
+      colorschemes: {
+        scheme: 'brewer.PRGn11'
+      }
     });
     this.renderChart(this.chartData, this.options);
   }
@@ -2613,22 +2633,13 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
   },
-  watch: {
-    votes: function votes(val) {
-      this.chartData.datasets = [{
-        data: val
-      }];
-    },
-    variants: function variants(val) {
-      this.chartData.labels = val;
-    }
-  },
   methods: {
     updateChart: function updateChart() {
       this.chartData.datasets = [{
         data: this.votes
       }];
       this.chartData.labels = this.variants;
+      window.dispatchEvent(new Event('resize'));
     }
   }
 });
@@ -25578,148 +25589,598 @@ return src;
 
 /***/ }),
 
-/***/ "./node_modules/chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office.js":
-/*!******************************************************************************************!*\
-  !*** ./node_modules/chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office.js ***!
-  \******************************************************************************************/
-/*! exports provided: Adjacency6, Advantage6, Angles6, Apex6, Apothecary6, Aspect6, Atlas6, Austin6, Badge6, Banded6, Basis6, Berlin6, BlackTie6, Blue6, BlueGreen6, BlueII6, BlueRed6, BlueWarm6, Breeze6, Capital6, Celestial6, Circuit6, Civic6, Clarity6, Codex6, Composite6, Concourse6, Couture6, Crop6, Damask6, Depth6, Dividend6, Droplet6, Elemental6, Equity6, Essential6, Excel16, Executive6, Exhibit6, Expo6, Facet6, Feathered6, Flow6, Focus6, Folio6, Formal6, Forte6, Foundry6, Frame6, Gallery6, Genesis6, Grayscale6, Green6, GreenYellow6, Grid6, Habitat6, Hardcover6, Headlines6, Horizon6, Infusion6, Inkwell6, Inspiration6, Integral6, Ion6, IonBoardroom6, Kilter6, Madison6, MainEvent6, Marquee6, Median6, Mesh6, Metail6, Metro6, Metropolitan6, Module6, NewsPrint6, Office6, OfficeClassic6, Opulent6, Orange6, OrangeRed6, Orbit6, Organic6, Oriel6, Origin6, Paper6, Parallax6, Parcel6, Perception6, Perspective6, Pixel6, Plaza6, Precedent6, Pushpin6, Quotable6, Red6, RedOrange6, RedViolet6, Retrospect6, Revolution6, Saddle6, Savon6, Sketchbook6, Sky6, Slate6, Slice6, Slipstream6, SOHO6, Solstice6, Spectrum6, Story6, Studio6, Summer6, Technic6, Thatch6, Tradition6, Travelogue6, Trek6, Twilight6, Urban6, UrbanPop6, VaporTrail6, Venture6, Verve6, View6, Violet6, VioletII6, Waveform6, Wisp6, WoodType6, Yellow6, YellowOrange6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./node_modules/chartjs-plugin-colorschemes/dist/chartjs-plugin-colorschemes.js":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/chartjs-plugin-colorschemes/dist/chartjs-plugin-colorschemes.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Adjacency6", function() { return Adjacency6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Advantage6", function() { return Advantage6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Angles6", function() { return Angles6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Apex6", function() { return Apex6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Apothecary6", function() { return Apothecary6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Aspect6", function() { return Aspect6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Atlas6", function() { return Atlas6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Austin6", function() { return Austin6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Badge6", function() { return Badge6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Banded6", function() { return Banded6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Basis6", function() { return Basis6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Berlin6", function() { return Berlin6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlackTie6", function() { return BlackTie6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Blue6", function() { return Blue6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlueGreen6", function() { return BlueGreen6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlueII6", function() { return BlueII6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlueRed6", function() { return BlueRed6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlueWarm6", function() { return BlueWarm6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Breeze6", function() { return Breeze6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Capital6", function() { return Capital6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Celestial6", function() { return Celestial6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Circuit6", function() { return Circuit6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Civic6", function() { return Civic6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Clarity6", function() { return Clarity6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Codex6", function() { return Codex6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Composite6", function() { return Composite6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Concourse6", function() { return Concourse6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Couture6", function() { return Couture6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Crop6", function() { return Crop6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Damask6", function() { return Damask6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Depth6", function() { return Depth6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Dividend6", function() { return Dividend6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Droplet6", function() { return Droplet6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Elemental6", function() { return Elemental6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Equity6", function() { return Equity6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Essential6", function() { return Essential6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Excel16", function() { return Excel16; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Executive6", function() { return Executive6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Exhibit6", function() { return Exhibit6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Expo6", function() { return Expo6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Facet6", function() { return Facet6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Feathered6", function() { return Feathered6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Flow6", function() { return Flow6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Focus6", function() { return Focus6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Folio6", function() { return Folio6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Formal6", function() { return Formal6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Forte6", function() { return Forte6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Foundry6", function() { return Foundry6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Frame6", function() { return Frame6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Gallery6", function() { return Gallery6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Genesis6", function() { return Genesis6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Grayscale6", function() { return Grayscale6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Green6", function() { return Green6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GreenYellow6", function() { return GreenYellow6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Grid6", function() { return Grid6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Habitat6", function() { return Habitat6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Hardcover6", function() { return Hardcover6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Headlines6", function() { return Headlines6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Horizon6", function() { return Horizon6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Infusion6", function() { return Infusion6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Inkwell6", function() { return Inkwell6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Inspiration6", function() { return Inspiration6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Integral6", function() { return Integral6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Ion6", function() { return Ion6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IonBoardroom6", function() { return IonBoardroom6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Kilter6", function() { return Kilter6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Madison6", function() { return Madison6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainEvent6", function() { return MainEvent6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Marquee6", function() { return Marquee6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Median6", function() { return Median6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Mesh6", function() { return Mesh6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metail6", function() { return Metail6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metro6", function() { return Metro6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metropolitan6", function() { return Metropolitan6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Module6", function() { return Module6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewsPrint6", function() { return NewsPrint6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Office6", function() { return Office6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OfficeClassic6", function() { return OfficeClassic6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Opulent6", function() { return Opulent6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Orange6", function() { return Orange6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrangeRed6", function() { return OrangeRed6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Orbit6", function() { return Orbit6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Organic6", function() { return Organic6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Oriel6", function() { return Oriel6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Origin6", function() { return Origin6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Paper6", function() { return Paper6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Parallax6", function() { return Parallax6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Parcel6", function() { return Parcel6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Perception6", function() { return Perception6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Perspective6", function() { return Perspective6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pixel6", function() { return Pixel6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Plaza6", function() { return Plaza6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Precedent6", function() { return Precedent6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pushpin6", function() { return Pushpin6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Quotable6", function() { return Quotable6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Red6", function() { return Red6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RedOrange6", function() { return RedOrange6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RedViolet6", function() { return RedViolet6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Retrospect6", function() { return Retrospect6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Revolution6", function() { return Revolution6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Saddle6", function() { return Saddle6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Savon6", function() { return Savon6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Sketchbook6", function() { return Sketchbook6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Sky6", function() { return Sky6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Slate6", function() { return Slate6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Slice6", function() { return Slice6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Slipstream6", function() { return Slipstream6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SOHO6", function() { return SOHO6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Solstice6", function() { return Solstice6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Spectrum6", function() { return Spectrum6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Story6", function() { return Story6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Studio6", function() { return Studio6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Summer6", function() { return Summer6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Technic6", function() { return Technic6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Thatch6", function() { return Thatch6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tradition6", function() { return Tradition6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Travelogue6", function() { return Travelogue6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Trek6", function() { return Trek6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Twilight6", function() { return Twilight6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Urban6", function() { return Urban6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UrbanPop6", function() { return UrbanPop6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaporTrail6", function() { return VaporTrail6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Venture6", function() { return Venture6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Verve6", function() { return Verve6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "View6", function() { return View6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Violet6", function() { return Violet6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VioletII6", function() { return VioletII6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Waveform6", function() { return Waveform6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Wisp6", function() { return Wisp6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WoodType6", function() { return WoodType6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Yellow6", function() { return Yellow6; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YellowOrange6", function() { return YellowOrange6; });
+/*!
+ * chartjs-plugin-colorschemes v0.4.0
+ * https://nagix.github.io/chartjs-plugin-colorschemes
+ * (c) 2019 Akihiko Kusanagi
+ * Released under the MIT license
+ */
+(function (global, factory) {
+ true ? module.exports = factory(__webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js")) :
+undefined;
+}(this, function (Chart) { 'use strict';
 
+Chart = Chart && Chart.hasOwnProperty('default') ? Chart['default'] : Chart;
+
+// eslint-disable-next-line one-var
+var
+	// Sequential
+	YlGn3 = ['#f7fcb9', '#addd8e', '#31a354'],
+	YlGn4 = ['#ffffcc', '#c2e699', '#78c679', '#238443'],
+	YlGn5 = ['#ffffcc', '#c2e699', '#78c679', '#31a354', '#006837'],
+	YlGn6 = ['#ffffcc', '#d9f0a3', '#addd8e', '#78c679', '#31a354', '#006837'],
+	YlGn7 = ['#ffffcc', '#d9f0a3', '#addd8e', '#78c679', '#41ab5d', '#238443', '#005a32'],
+	YlGn8 = ['#ffffe5', '#f7fcb9', '#d9f0a3', '#addd8e', '#78c679', '#41ab5d', '#238443', '#005a32'],
+	YlGn9 = ['#ffffe5', '#f7fcb9', '#d9f0a3', '#addd8e', '#78c679', '#41ab5d', '#238443', '#006837', '#004529'],
+
+	YlGnBu3 = ['#edf8b1', '#7fcdbb', '#2c7fb8'],
+	YlGnBu4 = ['#ffffcc', '#a1dab4', '#41b6c4', '#225ea8'],
+	YlGnBu5 = ['#ffffcc', '#a1dab4', '#41b6c4', '#2c7fb8', '#253494'],
+	YlGnBu6 = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#2c7fb8', '#253494'],
+	YlGnBu7 = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#0c2c84'],
+	YlGnBu8 = ['#ffffd9', '#edf8b1', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#0c2c84'],
+	YlGnBu9 = ['#ffffd9', '#edf8b1', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494', '#081d58'],
+
+	GnBu3 = ['#e0f3db', '#a8ddb5', '#43a2ca'],
+	GnBu4 = ['#f0f9e8', '#bae4bc', '#7bccc4', '#2b8cbe'],
+	GnBu5 = ['#f0f9e8', '#bae4bc', '#7bccc4', '#43a2ca', '#0868ac'],
+	GnBu6 = ['#f0f9e8', '#ccebc5', '#a8ddb5', '#7bccc4', '#43a2ca', '#0868ac'],
+	GnBu7 = ['#f0f9e8', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#08589e'],
+	GnBu8 = ['#f7fcf0', '#e0f3db', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#08589e'],
+	GnBu9 = ['#f7fcf0', '#e0f3db', '#ccebc5', '#a8ddb5', '#7bccc4', '#4eb3d3', '#2b8cbe', '#0868ac', '#084081'],
+
+	BuGn3 = ['#e5f5f9', '#99d8c9', '#2ca25f'],
+	BuGn4 = ['#edf8fb', '#b2e2e2', '#66c2a4', '#238b45'],
+	BuGn5 = ['#edf8fb', '#b2e2e2', '#66c2a4', '#2ca25f', '#006d2c'],
+	BuGn6 = ['#edf8fb', '#ccece6', '#99d8c9', '#66c2a4', '#2ca25f', '#006d2c'],
+	BuGn7 = ['#edf8fb', '#ccece6', '#99d8c9', '#66c2a4', '#41ae76', '#238b45', '#005824'],
+	BuGn8 = ['#f7fcfd', '#e5f5f9', '#ccece6', '#99d8c9', '#66c2a4', '#41ae76', '#238b45', '#005824'],
+	BuGn9 = ['#f7fcfd', '#e5f5f9', '#ccece6', '#99d8c9', '#66c2a4', '#41ae76', '#238b45', '#006d2c', '#00441b'],
+
+	PuBuGn3 = ['#ece2f0', '#a6bddb', '#1c9099'],
+	PuBuGn4 = ['#f6eff7', '#bdc9e1', '#67a9cf', '#02818a'],
+	PuBuGn5 = ['#f6eff7', '#bdc9e1', '#67a9cf', '#1c9099', '#016c59'],
+	PuBuGn6 = ['#f6eff7', '#d0d1e6', '#a6bddb', '#67a9cf', '#1c9099', '#016c59'],
+	PuBuGn7 = ['#f6eff7', '#d0d1e6', '#a6bddb', '#67a9cf', '#3690c0', '#02818a', '#016450'],
+	PuBuGn8 = ['#fff7fb', '#ece2f0', '#d0d1e6', '#a6bddb', '#67a9cf', '#3690c0', '#02818a', '#016450'],
+	PuBuGn9 = ['#fff7fb', '#ece2f0', '#d0d1e6', '#a6bddb', '#67a9cf', '#3690c0', '#02818a', '#016c59', '#014636'],
+
+	PuBu3 = ['#ece7f2', '#a6bddb', '#2b8cbe'],
+	PuBu4 = ['#f1eef6', '#bdc9e1', '#74a9cf', '#0570b0'],
+	PuBu5 = ['#f1eef6', '#bdc9e1', '#74a9cf', '#2b8cbe', '#045a8d'],
+	PuBu6 = ['#f1eef6', '#d0d1e6', '#a6bddb', '#74a9cf', '#2b8cbe', '#045a8d'],
+	PuBu7 = ['#f1eef6', '#d0d1e6', '#a6bddb', '#74a9cf', '#3690c0', '#0570b0', '#034e7b'],
+	PuBu8 = ['#fff7fb', '#ece7f2', '#d0d1e6', '#a6bddb', '#74a9cf', '#3690c0', '#0570b0', '#034e7b'],
+	PuBu9 = ['#fff7fb', '#ece7f2', '#d0d1e6', '#a6bddb', '#74a9cf', '#3690c0', '#0570b0', '#045a8d', '#023858'],
+
+	BuPu3 = ['#e0ecf4', '#9ebcda', '#8856a7'],
+	BuPu4 = ['#edf8fb', '#b3cde3', '#8c96c6', '#88419d'],
+	BuPu5 = ['#edf8fb', '#b3cde3', '#8c96c6', '#8856a7', '#810f7c'],
+	BuPu6 = ['#edf8fb', '#bfd3e6', '#9ebcda', '#8c96c6', '#8856a7', '#810f7c'],
+	BuPu7 = ['#edf8fb', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#6e016b'],
+	BuPu8 = ['#f7fcfd', '#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#6e016b'],
+	BuPu9 = ['#f7fcfd', '#e0ecf4', '#bfd3e6', '#9ebcda', '#8c96c6', '#8c6bb1', '#88419d', '#810f7c', '#4d004b'],
+
+	RdPu3 = ['#fde0dd', '#fa9fb5', '#c51b8a'],
+	RdPu4 = ['#feebe2', '#fbb4b9', '#f768a1', '#ae017e'],
+	RdPu5 = ['#feebe2', '#fbb4b9', '#f768a1', '#c51b8a', '#7a0177'],
+	RdPu6 = ['#feebe2', '#fcc5c0', '#fa9fb5', '#f768a1', '#c51b8a', '#7a0177'],
+	RdPu7 = ['#feebe2', '#fcc5c0', '#fa9fb5', '#f768a1', '#dd3497', '#ae017e', '#7a0177'],
+	RdPu8 = ['#fff7f3', '#fde0dd', '#fcc5c0', '#fa9fb5', '#f768a1', '#dd3497', '#ae017e', '#7a0177'],
+	RdPu9 = ['#fff7f3', '#fde0dd', '#fcc5c0', '#fa9fb5', '#f768a1', '#dd3497', '#ae017e', '#7a0177', '#49006a'],
+
+	PuRd3 = ['#e7e1ef', '#c994c7', '#dd1c77'],
+	PuRd4 = ['#f1eef6', '#d7b5d8', '#df65b0', '#ce1256'],
+	PuRd5 = ['#f1eef6', '#d7b5d8', '#df65b0', '#dd1c77', '#980043'],
+	PuRd6 = ['#f1eef6', '#d4b9da', '#c994c7', '#df65b0', '#dd1c77', '#980043'],
+	PuRd7 = ['#f1eef6', '#d4b9da', '#c994c7', '#df65b0', '#e7298a', '#ce1256', '#91003f'],
+	PuRd8 = ['#f7f4f9', '#e7e1ef', '#d4b9da', '#c994c7', '#df65b0', '#e7298a', '#ce1256', '#91003f'],
+	PuRd9 = ['#f7f4f9', '#e7e1ef', '#d4b9da', '#c994c7', '#df65b0', '#e7298a', '#ce1256', '#980043', '#67001f'],
+
+	OrRd3 = ['#fee8c8', '#fdbb84', '#e34a33'],
+	OrRd4 = ['#fef0d9', '#fdcc8a', '#fc8d59', '#d7301f'],
+	OrRd5 = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'],
+	OrRd6 = ['#fef0d9', '#fdd49e', '#fdbb84', '#fc8d59', '#e34a33', '#b30000'],
+	OrRd7 = ['#fef0d9', '#fdd49e', '#fdbb84', '#fc8d59', '#ef6548', '#d7301f', '#990000'],
+	OrRd8 = ['#fff7ec', '#fee8c8', '#fdd49e', '#fdbb84', '#fc8d59', '#ef6548', '#d7301f', '#990000'],
+	OrRd9 = ['#fff7ec', '#fee8c8', '#fdd49e', '#fdbb84', '#fc8d59', '#ef6548', '#d7301f', '#b30000', '#7f0000'],
+
+	YlOrRd3 = ['#ffeda0', '#feb24c', '#f03b20'],
+	YlOrRd4 = ['#ffffb2', '#fecc5c', '#fd8d3c', '#e31a1c'],
+	YlOrRd5 = ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'],
+	YlOrRd6 = ['#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#f03b20', '#bd0026'],
+	YlOrRd7 = ['#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#b10026'],
+	YlOrRd8 = ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#b10026'],
+	YlOrRd9 = ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#800026'],
+
+	YlOrBr3 = ['#fff7bc', '#fec44f', '#d95f0e'],
+	YlOrBr4 = ['#ffffd4', '#fed98e', '#fe9929', '#cc4c02'],
+	YlOrBr5 = ['#ffffd4', '#fed98e', '#fe9929', '#d95f0e', '#993404'],
+	YlOrBr6 = ['#ffffd4', '#fee391', '#fec44f', '#fe9929', '#d95f0e', '#993404'],
+	YlOrBr7 = ['#ffffd4', '#fee391', '#fec44f', '#fe9929', '#ec7014', '#cc4c02', '#8c2d04'],
+	YlOrBr8 = ['#ffffe5', '#fff7bc', '#fee391', '#fec44f', '#fe9929', '#ec7014', '#cc4c02', '#8c2d04'],
+	YlOrBr9 = ['#ffffe5', '#fff7bc', '#fee391', '#fec44f', '#fe9929', '#ec7014', '#cc4c02', '#993404', '#662506'],
+
+	Purples3 = ['#efedf5', '#bcbddc', '#756bb1'],
+	Purples4 = ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#6a51a3'],
+	Purples5 = ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#756bb1', '#54278f'],
+	Purples6 = ['#f2f0f7', '#dadaeb', '#bcbddc', '#9e9ac8', '#756bb1', '#54278f'],
+	Purples7 = ['#f2f0f7', '#dadaeb', '#bcbddc', '#9e9ac8', '#807dba', '#6a51a3', '#4a1486'],
+	Purples8 = ['#fcfbfd', '#efedf5', '#dadaeb', '#bcbddc', '#9e9ac8', '#807dba', '#6a51a3', '#4a1486'],
+	Purples9 = ['#fcfbfd', '#efedf5', '#dadaeb', '#bcbddc', '#9e9ac8', '#807dba', '#6a51a3', '#54278f', '#3f007d'],
+
+	Blues3 = ['#deebf7', '#9ecae1', '#3182bd'],
+	Blues4 = ['#eff3ff', '#bdd7e7', '#6baed6', '#2171b5'],
+	Blues5 = ['#eff3ff', '#bdd7e7', '#6baed6', '#3182bd', '#08519c'],
+	Blues6 = ['#eff3ff', '#c6dbef', '#9ecae1', '#6baed6', '#3182bd', '#08519c'],
+	Blues7 = ['#eff3ff', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
+	Blues8 = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
+	Blues9 = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'],
+
+	Greens3 = ['#e5f5e0', '#a1d99b', '#31a354'],
+	Greens4 = ['#edf8e9', '#bae4b3', '#74c476', '#238b45'],
+	Greens5 = ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c'],
+	Greens6 = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#31a354', '#006d2c'],
+	Greens7 = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#005a32'],
+	Greens8 = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#005a32'],
+	Greens9 = ['#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#006d2c', '#00441b'],
+
+	Oranges3 = ['#fee6ce', '#fdae6b', '#e6550d'],
+	Oranges4 = ['#feedde', '#fdbe85', '#fd8d3c', '#d94701'],
+	Oranges5 = ['#feedde', '#fdbe85', '#fd8d3c', '#e6550d', '#a63603'],
+	Oranges6 = ['#feedde', '#fdd0a2', '#fdae6b', '#fd8d3c', '#e6550d', '#a63603'],
+	Oranges7 = ['#feedde', '#fdd0a2', '#fdae6b', '#fd8d3c', '#f16913', '#d94801', '#8c2d04'],
+	Oranges8 = ['#fff5eb', '#fee6ce', '#fdd0a2', '#fdae6b', '#fd8d3c', '#f16913', '#d94801', '#8c2d04'],
+	Oranges9 = ['#fff5eb', '#fee6ce', '#fdd0a2', '#fdae6b', '#fd8d3c', '#f16913', '#d94801', '#a63603', '#7f2704'],
+
+	Reds3 = ['#fee0d2', '#fc9272', '#de2d26'],
+	Reds4 = ['#fee5d9', '#fcae91', '#fb6a4a', '#cb181d'],
+	Reds5 = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'],
+	Reds6 = ['#fee5d9', '#fcbba1', '#fc9272', '#fb6a4a', '#de2d26', '#a50f15'],
+	Reds7 = ['#fee5d9', '#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d', '#99000d'],
+	Reds8 = ['#fff5f0', '#fee0d2', '#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d', '#99000d'],
+	Reds9 = ['#fff5f0', '#fee0d2', '#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d', '#a50f15', '#67000d'],
+
+	Greys3 = ['#f0f0f0', '#bdbdbd', '#636363'],
+	Greys4 = ['#f7f7f7', '#cccccc', '#969696', '#525252'],
+	Greys5 = ['#f7f7f7', '#cccccc', '#969696', '#636363', '#252525'],
+	Greys6 = ['#f7f7f7', '#d9d9d9', '#bdbdbd', '#969696', '#636363', '#252525'],
+	Greys7 = ['#f7f7f7', '#d9d9d9', '#bdbdbd', '#969696', '#737373', '#525252', '#252525'],
+	Greys8 = ['#ffffff', '#f0f0f0', '#d9d9d9', '#bdbdbd', '#969696', '#737373', '#525252', '#252525'],
+	Greys9 = ['#ffffff', '#f0f0f0', '#d9d9d9', '#bdbdbd', '#969696', '#737373', '#525252', '#252525', '#000000'],
+
+	// Diverging
+	PuOr3 = ['#f1a340', '#f7f7f7', '#998ec3'],
+	PuOr4 = ['#e66101', '#fdb863', '#b2abd2', '#5e3c99'],
+	PuOr5 = ['#e66101', '#fdb863', '#f7f7f7', '#b2abd2', '#5e3c99'],
+	PuOr6 = ['#b35806', '#f1a340', '#fee0b6', '#d8daeb', '#998ec3', '#542788'],
+	PuOr7 = ['#b35806', '#f1a340', '#fee0b6', '#f7f7f7', '#d8daeb', '#998ec3', '#542788'],
+	PuOr8 = ['#b35806', '#e08214', '#fdb863', '#fee0b6', '#d8daeb', '#b2abd2', '#8073ac', '#542788'],
+	PuOr9 = ['#b35806', '#e08214', '#fdb863', '#fee0b6', '#f7f7f7', '#d8daeb', '#b2abd2', '#8073ac', '#542788'],
+	PuOr10 = ['#7f3b08', '#b35806', '#e08214', '#fdb863', '#fee0b6', '#d8daeb', '#b2abd2', '#8073ac', '#542788', '#2d004b'],
+	PuOr11 = ['#7f3b08', '#b35806', '#e08214', '#fdb863', '#fee0b6', '#f7f7f7', '#d8daeb', '#b2abd2', '#8073ac', '#542788', '#2d004b'],
+
+	BrBG3 = ['#d8b365', '#f5f5f5', '#5ab4ac'],
+	BrBG4 = ['#a6611a', '#dfc27d', '#80cdc1', '#018571'],
+	BrBG5 = ['#a6611a', '#dfc27d', '#f5f5f5', '#80cdc1', '#018571'],
+	BrBG6 = ['#8c510a', '#d8b365', '#f6e8c3', '#c7eae5', '#5ab4ac', '#01665e'],
+	BrBG7 = ['#8c510a', '#d8b365', '#f6e8c3', '#f5f5f5', '#c7eae5', '#5ab4ac', '#01665e'],
+	BrBG8 = ['#8c510a', '#bf812d', '#dfc27d', '#f6e8c3', '#c7eae5', '#80cdc1', '#35978f', '#01665e'],
+	BrBG9 = ['#8c510a', '#bf812d', '#dfc27d', '#f6e8c3', '#f5f5f5', '#c7eae5', '#80cdc1', '#35978f', '#01665e'],
+	BrBG10 = ['#543005', '#8c510a', '#bf812d', '#dfc27d', '#f6e8c3', '#c7eae5', '#80cdc1', '#35978f', '#01665e', '#003c30'],
+	BrBG11 = ['#543005', '#8c510a', '#bf812d', '#dfc27d', '#f6e8c3', '#f5f5f5', '#c7eae5', '#80cdc1', '#35978f', '#01665e', '#003c30'],
+
+	PRGn3 = ['#af8dc3', '#f7f7f7', '#7fbf7b'],
+	PRGn4 = ['#7b3294', '#c2a5cf', '#a6dba0', '#008837'],
+	PRGn5 = ['#7b3294', '#c2a5cf', '#f7f7f7', '#a6dba0', '#008837'],
+	PRGn6 = ['#762a83', '#af8dc3', '#e7d4e8', '#d9f0d3', '#7fbf7b', '#1b7837'],
+	PRGn7 = ['#762a83', '#af8dc3', '#e7d4e8', '#f7f7f7', '#d9f0d3', '#7fbf7b', '#1b7837'],
+	PRGn8 = ['#762a83', '#9970ab', '#c2a5cf', '#e7d4e8', '#d9f0d3', '#a6dba0', '#5aae61', '#1b7837'],
+	PRGn9 = ['#762a83', '#9970ab', '#c2a5cf', '#e7d4e8', '#f7f7f7', '#d9f0d3', '#a6dba0', '#5aae61', '#1b7837'],
+	PRGn10 = ['#40004b', '#762a83', '#9970ab', '#c2a5cf', '#e7d4e8', '#d9f0d3', '#a6dba0', '#5aae61', '#1b7837', '#00441b'],
+	PRGn11 = ['#40004b', '#762a83', '#9970ab', '#c2a5cf', '#e7d4e8', '#f7f7f7', '#d9f0d3', '#a6dba0', '#5aae61', '#1b7837', '#00441b'],
+
+	PiYG3 = ['#e9a3c9', '#f7f7f7', '#a1d76a'],
+	PiYG4 = ['#d01c8b', '#f1b6da', '#b8e186', '#4dac26'],
+	PiYG5 = ['#d01c8b', '#f1b6da', '#f7f7f7', '#b8e186', '#4dac26'],
+	PiYG6 = ['#c51b7d', '#e9a3c9', '#fde0ef', '#e6f5d0', '#a1d76a', '#4d9221'],
+	PiYG7 = ['#c51b7d', '#e9a3c9', '#fde0ef', '#f7f7f7', '#e6f5d0', '#a1d76a', '#4d9221'],
+	PiYG8 = ['#c51b7d', '#de77ae', '#f1b6da', '#fde0ef', '#e6f5d0', '#b8e186', '#7fbc41', '#4d9221'],
+	PiYG9 = ['#c51b7d', '#de77ae', '#f1b6da', '#fde0ef', '#f7f7f7', '#e6f5d0', '#b8e186', '#7fbc41', '#4d9221'],
+	PiYG10 = ['#8e0152', '#c51b7d', '#de77ae', '#f1b6da', '#fde0ef', '#e6f5d0', '#b8e186', '#7fbc41', '#4d9221', '#276419'],
+	PiYG11 = ['#8e0152', '#c51b7d', '#de77ae', '#f1b6da', '#fde0ef', '#f7f7f7', '#e6f5d0', '#b8e186', '#7fbc41', '#4d9221', '#276419'],
+
+	RdBu3 = ['#ef8a62', '#f7f7f7', '#67a9cf'],
+	RdBu4 = ['#ca0020', '#f4a582', '#92c5de', '#0571b0'],
+	RdBu5 = ['#ca0020', '#f4a582', '#f7f7f7', '#92c5de', '#0571b0'],
+	RdBu6 = ['#b2182b', '#ef8a62', '#fddbc7', '#d1e5f0', '#67a9cf', '#2166ac'],
+	RdBu7 = ['#b2182b', '#ef8a62', '#fddbc7', '#f7f7f7', '#d1e5f0', '#67a9cf', '#2166ac'],
+	RdBu8 = ['#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#d1e5f0', '#92c5de', '#4393c3', '#2166ac'],
+	RdBu9 = ['#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#f7f7f7', '#d1e5f0', '#92c5de', '#4393c3', '#2166ac'],
+	RdBu10 = ['#67001f', '#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#d1e5f0', '#92c5de', '#4393c3', '#2166ac', '#053061'],
+	RdBu11 = ['#67001f', '#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#f7f7f7', '#d1e5f0', '#92c5de', '#4393c3', '#2166ac', '#053061'],
+
+	RdGy3 = ['#ef8a62', '#ffffff', '#999999'],
+	RdGy4 = ['#ca0020', '#f4a582', '#bababa', '#404040'],
+	RdGy5 = ['#ca0020', '#f4a582', '#ffffff', '#bababa', '#404040'],
+	RdGy6 = ['#b2182b', '#ef8a62', '#fddbc7', '#e0e0e0', '#999999', '#4d4d4d'],
+	RdGy7 = ['#b2182b', '#ef8a62', '#fddbc7', '#ffffff', '#e0e0e0', '#999999', '#4d4d4d'],
+	RdGy8 = ['#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#e0e0e0', '#bababa', '#878787', '#4d4d4d'],
+	RdGy9 = ['#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#ffffff', '#e0e0e0', '#bababa', '#878787', '#4d4d4d'],
+	RdGy10 = ['#67001f', '#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#e0e0e0', '#bababa', '#878787', '#4d4d4d', '#1a1a1a'],
+	RdGy11 = ['#67001f', '#b2182b', '#d6604d', '#f4a582', '#fddbc7', '#ffffff', '#e0e0e0', '#bababa', '#878787', '#4d4d4d', '#1a1a1a'],
+
+	RdYlBu3 = ['#fc8d59', '#ffffbf', '#91bfdb'],
+	RdYlBu4 = ['#d7191c', '#fdae61', '#abd9e9', '#2c7bb6'],
+	RdYlBu5 = ['#d7191c', '#fdae61', '#ffffbf', '#abd9e9', '#2c7bb6'],
+	RdYlBu6 = ['#d73027', '#fc8d59', '#fee090', '#e0f3f8', '#91bfdb', '#4575b4'],
+	RdYlBu7 = ['#d73027', '#fc8d59', '#fee090', '#ffffbf', '#e0f3f8', '#91bfdb', '#4575b4'],
+	RdYlBu8 = ['#d73027', '#f46d43', '#fdae61', '#fee090', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4'],
+	RdYlBu9 = ['#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4'],
+	RdYlBu10 = ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'],
+	RdYlBu11 = ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'],
+
+	Spectral3 = ['#fc8d59', '#ffffbf', '#99d594'],
+	Spectral4 = ['#d7191c', '#fdae61', '#abdda4', '#2b83ba'],
+	Spectral5 = ['#d7191c', '#fdae61', '#ffffbf', '#abdda4', '#2b83ba'],
+	Spectral6 = ['#d53e4f', '#fc8d59', '#fee08b', '#e6f598', '#99d594', '#3288bd'],
+	Spectral7 = ['#d53e4f', '#fc8d59', '#fee08b', '#ffffbf', '#e6f598', '#99d594', '#3288bd'],
+	Spectral8 = ['#d53e4f', '#f46d43', '#fdae61', '#fee08b', '#e6f598', '#abdda4', '#66c2a5', '#3288bd'],
+	Spectral9 = ['#d53e4f', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#e6f598', '#abdda4', '#66c2a5', '#3288bd'],
+	Spectral10 = ['#9e0142', '#d53e4f', '#f46d43', '#fdae61', '#fee08b', '#e6f598', '#abdda4', '#66c2a5', '#3288bd', '#5e4fa2'],
+	Spectral11 = ['#9e0142', '#d53e4f', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#e6f598', '#abdda4', '#66c2a5', '#3288bd', '#5e4fa2'],
+
+	RdYlGn3 = ['#fc8d59', '#ffffbf', '#91cf60'],
+	RdYlGn4 = ['#d7191c', '#fdae61', '#a6d96a', '#1a9641'],
+	RdYlGn5 = ['#d7191c', '#fdae61', '#ffffbf', '#a6d96a', '#1a9641'],
+	RdYlGn6 = ['#d73027', '#fc8d59', '#fee08b', '#d9ef8b', '#91cf60', '#1a9850'],
+	RdYlGn7 = ['#d73027', '#fc8d59', '#fee08b', '#ffffbf', '#d9ef8b', '#91cf60', '#1a9850'],
+	RdYlGn8 = ['#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850'],
+	RdYlGn9 = ['#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850'],
+	RdYlGn10 = ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850', '#006837'],
+	RdYlGn11 = ['#a50026', '#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850', '#006837'],
+
+	// Qualitative
+	Accent3 = ['#7fc97f', '#beaed4', '#fdc086'],
+	Accent4 = ['#7fc97f', '#beaed4', '#fdc086', '#ffff99'],
+	Accent5 = ['#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0'],
+	Accent6 = ['#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0', '#f0027f'],
+	Accent7 = ['#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0', '#f0027f', '#bf5b17'],
+	Accent8 = ['#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0', '#f0027f', '#bf5b17', '#666666'],
+
+	DarkTwo3 = ['#1b9e77', '#d95f02', '#7570b3'],
+	DarkTwo4 = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a'],
+	DarkTwo5 = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e'],
+	DarkTwo6 = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02'],
+	DarkTwo7 = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d'],
+	DarkTwo8 = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d', '#666666'],
+
+	Paired3 = ['#a6cee3', '#1f78b4', '#b2df8a'],
+	Paired4 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c'],
+	Paired5 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99'],
+	Paired6 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c'],
+	Paired7 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f'],
+	Paired8 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00'],
+	Paired9 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6'],
+	Paired10 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a'],
+	Paired11 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99'],
+	Paired12 = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928'],
+
+	PastelOne3 = ['#fbb4ae', '#b3cde3', '#ccebc5'],
+	PastelOne4 = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4'],
+	PastelOne5 = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6'],
+	PastelOne6 = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6', '#ffffcc'],
+	PastelOne7 = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6', '#ffffcc', '#e5d8bd'],
+	PastelOne8 = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6', '#ffffcc', '#e5d8bd', '#fddaec'],
+	PastelOne9 = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6', '#ffffcc', '#e5d8bd', '#fddaec', '#f2f2f2'],
+
+	PastelTwo3 = ['#b3e2cd', '#fdcdac', '#cbd5e8'],
+	PastelTwo4 = ['#b3e2cd', '#fdcdac', '#cbd5e8', '#f4cae4'],
+	PastelTwo5 = ['#b3e2cd', '#fdcdac', '#cbd5e8', '#f4cae4', '#e6f5c9'],
+	PastelTwo6 = ['#b3e2cd', '#fdcdac', '#cbd5e8', '#f4cae4', '#e6f5c9', '#fff2ae'],
+	PastelTwo7 = ['#b3e2cd', '#fdcdac', '#cbd5e8', '#f4cae4', '#e6f5c9', '#fff2ae', '#f1e2cc'],
+	PastelTwo8 = ['#b3e2cd', '#fdcdac', '#cbd5e8', '#f4cae4', '#e6f5c9', '#fff2ae', '#f1e2cc', '#cccccc'],
+
+	SetOne3 = ['#e41a1c', '#377eb8', '#4daf4a'],
+	SetOne4 = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3'],
+	SetOne5 = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'],
+	SetOne6 = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'],
+	SetOne7 = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628'],
+	SetOne8 = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf'],
+	SetOne9 = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'],
+
+	SetTwo3 = ['#66c2a5', '#fc8d62', '#8da0cb'],
+	SetTwo4 = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3'],
+	SetTwo5 = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854'],
+	SetTwo6 = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f'],
+	SetTwo7 = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494'],
+	SetTwo8 = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494', '#b3b3b3'],
+
+	SetThree3 = ['#8dd3c7', '#ffffb3', '#bebada'],
+	SetThree4 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'],
+	SetThree5 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3'],
+	SetThree6 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462'],
+	SetThree7 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69'],
+	SetThree8 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5'],
+	SetThree9 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9'],
+	SetThree10 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd'],
+	SetThree11 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd', '#ccebc5'],
+	SetThree12 = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd', '#ccebc5', '#ffed6f'];
+
+var brewer = /*#__PURE__*/Object.freeze({
+YlGn3: YlGn3,
+YlGn4: YlGn4,
+YlGn5: YlGn5,
+YlGn6: YlGn6,
+YlGn7: YlGn7,
+YlGn8: YlGn8,
+YlGn9: YlGn9,
+YlGnBu3: YlGnBu3,
+YlGnBu4: YlGnBu4,
+YlGnBu5: YlGnBu5,
+YlGnBu6: YlGnBu6,
+YlGnBu7: YlGnBu7,
+YlGnBu8: YlGnBu8,
+YlGnBu9: YlGnBu9,
+GnBu3: GnBu3,
+GnBu4: GnBu4,
+GnBu5: GnBu5,
+GnBu6: GnBu6,
+GnBu7: GnBu7,
+GnBu8: GnBu8,
+GnBu9: GnBu9,
+BuGn3: BuGn3,
+BuGn4: BuGn4,
+BuGn5: BuGn5,
+BuGn6: BuGn6,
+BuGn7: BuGn7,
+BuGn8: BuGn8,
+BuGn9: BuGn9,
+PuBuGn3: PuBuGn3,
+PuBuGn4: PuBuGn4,
+PuBuGn5: PuBuGn5,
+PuBuGn6: PuBuGn6,
+PuBuGn7: PuBuGn7,
+PuBuGn8: PuBuGn8,
+PuBuGn9: PuBuGn9,
+PuBu3: PuBu3,
+PuBu4: PuBu4,
+PuBu5: PuBu5,
+PuBu6: PuBu6,
+PuBu7: PuBu7,
+PuBu8: PuBu8,
+PuBu9: PuBu9,
+BuPu3: BuPu3,
+BuPu4: BuPu4,
+BuPu5: BuPu5,
+BuPu6: BuPu6,
+BuPu7: BuPu7,
+BuPu8: BuPu8,
+BuPu9: BuPu9,
+RdPu3: RdPu3,
+RdPu4: RdPu4,
+RdPu5: RdPu5,
+RdPu6: RdPu6,
+RdPu7: RdPu7,
+RdPu8: RdPu8,
+RdPu9: RdPu9,
+PuRd3: PuRd3,
+PuRd4: PuRd4,
+PuRd5: PuRd5,
+PuRd6: PuRd6,
+PuRd7: PuRd7,
+PuRd8: PuRd8,
+PuRd9: PuRd9,
+OrRd3: OrRd3,
+OrRd4: OrRd4,
+OrRd5: OrRd5,
+OrRd6: OrRd6,
+OrRd7: OrRd7,
+OrRd8: OrRd8,
+OrRd9: OrRd9,
+YlOrRd3: YlOrRd3,
+YlOrRd4: YlOrRd4,
+YlOrRd5: YlOrRd5,
+YlOrRd6: YlOrRd6,
+YlOrRd7: YlOrRd7,
+YlOrRd8: YlOrRd8,
+YlOrRd9: YlOrRd9,
+YlOrBr3: YlOrBr3,
+YlOrBr4: YlOrBr4,
+YlOrBr5: YlOrBr5,
+YlOrBr6: YlOrBr6,
+YlOrBr7: YlOrBr7,
+YlOrBr8: YlOrBr8,
+YlOrBr9: YlOrBr9,
+Purples3: Purples3,
+Purples4: Purples4,
+Purples5: Purples5,
+Purples6: Purples6,
+Purples7: Purples7,
+Purples8: Purples8,
+Purples9: Purples9,
+Blues3: Blues3,
+Blues4: Blues4,
+Blues5: Blues5,
+Blues6: Blues6,
+Blues7: Blues7,
+Blues8: Blues8,
+Blues9: Blues9,
+Greens3: Greens3,
+Greens4: Greens4,
+Greens5: Greens5,
+Greens6: Greens6,
+Greens7: Greens7,
+Greens8: Greens8,
+Greens9: Greens9,
+Oranges3: Oranges3,
+Oranges4: Oranges4,
+Oranges5: Oranges5,
+Oranges6: Oranges6,
+Oranges7: Oranges7,
+Oranges8: Oranges8,
+Oranges9: Oranges9,
+Reds3: Reds3,
+Reds4: Reds4,
+Reds5: Reds5,
+Reds6: Reds6,
+Reds7: Reds7,
+Reds8: Reds8,
+Reds9: Reds9,
+Greys3: Greys3,
+Greys4: Greys4,
+Greys5: Greys5,
+Greys6: Greys6,
+Greys7: Greys7,
+Greys8: Greys8,
+Greys9: Greys9,
+PuOr3: PuOr3,
+PuOr4: PuOr4,
+PuOr5: PuOr5,
+PuOr6: PuOr6,
+PuOr7: PuOr7,
+PuOr8: PuOr8,
+PuOr9: PuOr9,
+PuOr10: PuOr10,
+PuOr11: PuOr11,
+BrBG3: BrBG3,
+BrBG4: BrBG4,
+BrBG5: BrBG5,
+BrBG6: BrBG6,
+BrBG7: BrBG7,
+BrBG8: BrBG8,
+BrBG9: BrBG9,
+BrBG10: BrBG10,
+BrBG11: BrBG11,
+PRGn3: PRGn3,
+PRGn4: PRGn4,
+PRGn5: PRGn5,
+PRGn6: PRGn6,
+PRGn7: PRGn7,
+PRGn8: PRGn8,
+PRGn9: PRGn9,
+PRGn10: PRGn10,
+PRGn11: PRGn11,
+PiYG3: PiYG3,
+PiYG4: PiYG4,
+PiYG5: PiYG5,
+PiYG6: PiYG6,
+PiYG7: PiYG7,
+PiYG8: PiYG8,
+PiYG9: PiYG9,
+PiYG10: PiYG10,
+PiYG11: PiYG11,
+RdBu3: RdBu3,
+RdBu4: RdBu4,
+RdBu5: RdBu5,
+RdBu6: RdBu6,
+RdBu7: RdBu7,
+RdBu8: RdBu8,
+RdBu9: RdBu9,
+RdBu10: RdBu10,
+RdBu11: RdBu11,
+RdGy3: RdGy3,
+RdGy4: RdGy4,
+RdGy5: RdGy5,
+RdGy6: RdGy6,
+RdGy7: RdGy7,
+RdGy8: RdGy8,
+RdGy9: RdGy9,
+RdGy10: RdGy10,
+RdGy11: RdGy11,
+RdYlBu3: RdYlBu3,
+RdYlBu4: RdYlBu4,
+RdYlBu5: RdYlBu5,
+RdYlBu6: RdYlBu6,
+RdYlBu7: RdYlBu7,
+RdYlBu8: RdYlBu8,
+RdYlBu9: RdYlBu9,
+RdYlBu10: RdYlBu10,
+RdYlBu11: RdYlBu11,
+Spectral3: Spectral3,
+Spectral4: Spectral4,
+Spectral5: Spectral5,
+Spectral6: Spectral6,
+Spectral7: Spectral7,
+Spectral8: Spectral8,
+Spectral9: Spectral9,
+Spectral10: Spectral10,
+Spectral11: Spectral11,
+RdYlGn3: RdYlGn3,
+RdYlGn4: RdYlGn4,
+RdYlGn5: RdYlGn5,
+RdYlGn6: RdYlGn6,
+RdYlGn7: RdYlGn7,
+RdYlGn8: RdYlGn8,
+RdYlGn9: RdYlGn9,
+RdYlGn10: RdYlGn10,
+RdYlGn11: RdYlGn11,
+Accent3: Accent3,
+Accent4: Accent4,
+Accent5: Accent5,
+Accent6: Accent6,
+Accent7: Accent7,
+Accent8: Accent8,
+DarkTwo3: DarkTwo3,
+DarkTwo4: DarkTwo4,
+DarkTwo5: DarkTwo5,
+DarkTwo6: DarkTwo6,
+DarkTwo7: DarkTwo7,
+DarkTwo8: DarkTwo8,
+Paired3: Paired3,
+Paired4: Paired4,
+Paired5: Paired5,
+Paired6: Paired6,
+Paired7: Paired7,
+Paired8: Paired8,
+Paired9: Paired9,
+Paired10: Paired10,
+Paired11: Paired11,
+Paired12: Paired12,
+PastelOne3: PastelOne3,
+PastelOne4: PastelOne4,
+PastelOne5: PastelOne5,
+PastelOne6: PastelOne6,
+PastelOne7: PastelOne7,
+PastelOne8: PastelOne8,
+PastelOne9: PastelOne9,
+PastelTwo3: PastelTwo3,
+PastelTwo4: PastelTwo4,
+PastelTwo5: PastelTwo5,
+PastelTwo6: PastelTwo6,
+PastelTwo7: PastelTwo7,
+PastelTwo8: PastelTwo8,
+SetOne3: SetOne3,
+SetOne4: SetOne4,
+SetOne5: SetOne5,
+SetOne6: SetOne6,
+SetOne7: SetOne7,
+SetOne8: SetOne8,
+SetOne9: SetOne9,
+SetTwo3: SetTwo3,
+SetTwo4: SetTwo4,
+SetTwo5: SetTwo5,
+SetTwo6: SetTwo6,
+SetTwo7: SetTwo7,
+SetTwo8: SetTwo8,
+SetThree3: SetThree3,
+SetThree4: SetThree4,
+SetThree5: SetThree5,
+SetThree6: SetThree6,
+SetThree7: SetThree7,
+SetThree8: SetThree8,
+SetThree9: SetThree9,
+SetThree10: SetThree10,
+SetThree11: SetThree11,
+SetThree12: SetThree12
+});
 
 // eslint-disable-next-line one-var
 var
@@ -25856,32 +26317,324 @@ var
 	Yellow6 = ['#ffca08', '#f8931d', '#ce8d3e', '#ec7016', '#e64823', '#9c6a6a'],
 	YellowOrange6 = ['#f0a22e', '#a5644e', '#b58b80', '#c3986d', '#a19574', '#c17529'];
 
+var office = /*#__PURE__*/Object.freeze({
+Adjacency6: Adjacency6,
+Advantage6: Advantage6,
+Angles6: Angles6,
+Apex6: Apex6,
+Apothecary6: Apothecary6,
+Aspect6: Aspect6,
+Atlas6: Atlas6,
+Austin6: Austin6,
+Badge6: Badge6,
+Banded6: Banded6,
+Basis6: Basis6,
+Berlin6: Berlin6,
+BlackTie6: BlackTie6,
+Blue6: Blue6,
+BlueGreen6: BlueGreen6,
+BlueII6: BlueII6,
+BlueRed6: BlueRed6,
+BlueWarm6: BlueWarm6,
+Breeze6: Breeze6,
+Capital6: Capital6,
+Celestial6: Celestial6,
+Circuit6: Circuit6,
+Civic6: Civic6,
+Clarity6: Clarity6,
+Codex6: Codex6,
+Composite6: Composite6,
+Concourse6: Concourse6,
+Couture6: Couture6,
+Crop6: Crop6,
+Damask6: Damask6,
+Depth6: Depth6,
+Dividend6: Dividend6,
+Droplet6: Droplet6,
+Elemental6: Elemental6,
+Equity6: Equity6,
+Essential6: Essential6,
+Excel16: Excel16,
+Executive6: Executive6,
+Exhibit6: Exhibit6,
+Expo6: Expo6,
+Facet6: Facet6,
+Feathered6: Feathered6,
+Flow6: Flow6,
+Focus6: Focus6,
+Folio6: Folio6,
+Formal6: Formal6,
+Forte6: Forte6,
+Foundry6: Foundry6,
+Frame6: Frame6,
+Gallery6: Gallery6,
+Genesis6: Genesis6,
+Grayscale6: Grayscale6,
+Green6: Green6,
+GreenYellow6: GreenYellow6,
+Grid6: Grid6,
+Habitat6: Habitat6,
+Hardcover6: Hardcover6,
+Headlines6: Headlines6,
+Horizon6: Horizon6,
+Infusion6: Infusion6,
+Inkwell6: Inkwell6,
+Inspiration6: Inspiration6,
+Integral6: Integral6,
+Ion6: Ion6,
+IonBoardroom6: IonBoardroom6,
+Kilter6: Kilter6,
+Madison6: Madison6,
+MainEvent6: MainEvent6,
+Marquee6: Marquee6,
+Median6: Median6,
+Mesh6: Mesh6,
+Metail6: Metail6,
+Metro6: Metro6,
+Metropolitan6: Metropolitan6,
+Module6: Module6,
+NewsPrint6: NewsPrint6,
+Office6: Office6,
+OfficeClassic6: OfficeClassic6,
+Opulent6: Opulent6,
+Orange6: Orange6,
+OrangeRed6: OrangeRed6,
+Orbit6: Orbit6,
+Organic6: Organic6,
+Oriel6: Oriel6,
+Origin6: Origin6,
+Paper6: Paper6,
+Parallax6: Parallax6,
+Parcel6: Parcel6,
+Perception6: Perception6,
+Perspective6: Perspective6,
+Pixel6: Pixel6,
+Plaza6: Plaza6,
+Precedent6: Precedent6,
+Pushpin6: Pushpin6,
+Quotable6: Quotable6,
+Red6: Red6,
+RedOrange6: RedOrange6,
+RedViolet6: RedViolet6,
+Retrospect6: Retrospect6,
+Revolution6: Revolution6,
+Saddle6: Saddle6,
+Savon6: Savon6,
+Sketchbook6: Sketchbook6,
+Sky6: Sky6,
+Slate6: Slate6,
+Slice6: Slice6,
+Slipstream6: Slipstream6,
+SOHO6: SOHO6,
+Solstice6: Solstice6,
+Spectrum6: Spectrum6,
+Story6: Story6,
+Studio6: Studio6,
+Summer6: Summer6,
+Technic6: Technic6,
+Thatch6: Thatch6,
+Tradition6: Tradition6,
+Travelogue6: Travelogue6,
+Trek6: Trek6,
+Twilight6: Twilight6,
+Urban6: Urban6,
+UrbanPop6: UrbanPop6,
+VaporTrail6: VaporTrail6,
+Venture6: Venture6,
+Verve6: Verve6,
+View6: View6,
+Violet6: Violet6,
+VioletII6: VioletII6,
+Waveform6: Waveform6,
+Wisp6: Wisp6,
+WoodType6: WoodType6,
+Yellow6: Yellow6,
+YellowOrange6: YellowOrange6
+});
 
-/***/ }),
+// eslint-disable-next-line one-var
+var
+	// New
+	Tableau10 = ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', '#EDC948', '#B07AA1', '#FF9DA7', '#9C755F', '#BAB0AC'],
+	Tableau20 = ['#4E79A7', '#A0CBE8', '#F28E2B', '#FFBE7D', '#59A14F', '#8CD17D', '#B6992D', '#F1CE63', '#499894', '#86BCB6', '#E15759', '#FF9D9A', '#79706E', '#BAB0AC', '#D37295', '#FABFD2', '#B07AA1', '#D4A6C8', '#9D7660', '#D7B5A6'],
+	ColorBlind10 = ['#1170aa', '#fc7d0b', '#a3acb9', '#57606c', '#5fa2ce', '#c85200', '#7b848f', '#a3cce9', '#ffbc79', '#c8d0d9'],
+	SeattleGrays5 = ['#767f8b', '#b3b7b8', '#5c6068', '#d3d3d3', '#989ca3'],
+	Traffic9 = ['#b60a1c', '#e39802', '#309143', '#e03531', '#f0bd27', '#51b364', '#ff684c', '#ffda66', '#8ace7e'],
+	MillerStone11 = ['#4f6980', '#849db1', '#a2ceaa', '#638b66', '#bfbb60', '#f47942', '#fbb04e', '#b66353', '#d7ce9f', '#b9aa97', '#7e756d'],
+	SuperfishelStone10 = ['#6388b4', '#ffae34', '#ef6f6a', '#8cc2ca', '#55ad89', '#c3bc3f', '#bb7693', '#baa094', '#a9b5ae', '#767676'],
+	NurielStone9 = ['#8175aa', '#6fb899', '#31a1b3', '#ccb22b', '#a39fc9', '#94d0c0', '#959c9e', '#027b8e', '#9f8f12'],
+	JewelBright9 = ['#eb1e2c', '#fd6f30', '#f9a729', '#f9d23c', '#5fbb68', '#64cdcc', '#91dcea', '#a4a4d5', '#bbc9e5'],
+	Summer8 = ['#bfb202', '#b9ca5d', '#cf3e53', '#f1788d', '#00a2b3', '#97cfd0', '#f3a546', '#f7c480'],
+	Winter10 = ['#90728f', '#b9a0b4', '#9d983d', '#cecb76', '#e15759', '#ff9888', '#6b6b6b', '#bab2ae', '#aa8780', '#dab6af'],
+	GreenOrangeTeal12 = ['#4e9f50', '#87d180', '#ef8a0c', '#fcc66d', '#3ca8bc', '#98d9e4', '#94a323', '#c3ce3d', '#a08400', '#f7d42a', '#26897e', '#8dbfa8'],
+	RedBlueBrown12 = ['#466f9d', '#91b3d7', '#ed444a', '#feb5a2', '#9d7660', '#d7b5a6', '#3896c4', '#a0d4ee', '#ba7e45', '#39b87f', '#c8133b', '#ea8783'],
+	PurplePinkGray12 = ['#8074a8', '#c6c1f0', '#c46487', '#ffbed1', '#9c9290', '#c5bfbe', '#9b93c9', '#ddb5d5', '#7c7270', '#f498b6', '#b173a0', '#c799bc'],
+	HueCircle19 = ['#1ba3c6', '#2cb5c0', '#30bcad', '#21B087', '#33a65c', '#57a337', '#a2b627', '#d5bb21', '#f8b620', '#f89217', '#f06719', '#e03426', '#f64971', '#fc719e', '#eb73b3', '#ce69be', '#a26dc2', '#7873c0', '#4f7cba'],
+	OrangeBlue7 = ['#9e3d22', '#d45b21', '#f69035', '#d9d5c9', '#77acd3', '#4f81af', '#2b5c8a'],
+	RedGreen7 = ['#a3123a', '#e33f43', '#f8816b', '#ced7c3', '#73ba67', '#44914e', '#24693d'],
+	GreenBlue7 = ['#24693d', '#45934d', '#75bc69', '#c9dad2', '#77a9cf', '#4e7fab', '#2a5783'],
+	RedBlue7 = ['#a90c38', '#e03b42', '#f87f69', '#dfd4d1', '#7eaed3', '#5383af', '#2e5a87'],
+	RedBlack7 = ['#ae123a', '#e33e43', '#f8816b', '#d9d9d9', '#a0a7a8', '#707c83', '#49525e'],
+	GoldPurple7 = ['#ad9024', '#c1a33b', '#d4b95e', '#e3d8cf', '#d4a3c3', '#c189b0', '#ac7299'],
+	RedGreenGold7 = ['#be2a3e', '#e25f48', '#f88f4d', '#f4d166', '#90b960', '#4b9b5f', '#22763f'],
+	SunsetSunrise7 = ['#33608c', '#9768a5', '#e7718a', '#f6ba57', '#ed7846', '#d54c45', '#b81840'],
+	OrangeBlueWhite7 = ['#9e3d22', '#e36621', '#fcad52', '#ffffff', '#95c5e1', '#5b8fbc', '#2b5c8a'],
+	RedGreenWhite7 = ['#ae123a', '#ee574d', '#fdac9e', '#ffffff', '#91d183', '#539e52', '#24693d'],
+	GreenBlueWhite7 = ['#24693d', '#529c51', '#8fd180', '#ffffff', '#95c1dd', '#598ab5', '#2a5783'],
+	RedBlueWhite7 = ['#a90c38', '#ec534b', '#feaa9a', '#ffffff', '#9ac4e1', '#5c8db8', '#2e5a87'],
+	RedBlackWhite7 = ['#ae123a', '#ee574d', '#fdac9d', '#ffffff', '#bdc0bf', '#7d888d', '#49525e'],
+	OrangeBlueLight7 = ['#ffcc9e', '#f9d4b6', '#f0dccd', '#e5e5e5', '#dae1ea', '#cfdcef', '#c4d8f3'],
+	Temperature7 = ['#529985', '#6c9e6e', '#99b059', '#dbcf47', '#ebc24b', '#e3a14f', '#c26b51'],
+	BlueGreen7 = ['#feffd9', '#f2fabf', '#dff3b2', '#c4eab1', '#94d6b7', '#69c5be', '#41b7c4'],
+	BlueLight7 = ['#e5e5e5', '#e0e3e8', '#dbe1ea', '#d5dfec', '#d0dcef', '#cadaf1', '#c4d8f3'],
+	OrangeLight7 = ['#e5e5e5', '#ebe1d9', '#f0ddcd', '#f5d9c2', '#f9d4b6', '#fdd0aa', '#ffcc9e'],
+	Blue20 = ['#b9ddf1', '#afd6ed', '#a5cfe9', '#9bc7e4', '#92c0df', '#89b8da', '#80b0d5', '#79aacf', '#72a3c9', '#6a9bc3', '#6394be', '#5b8cb8', '#5485b2', '#4e7fac', '#4878a6', '#437a9f', '#3d6a98', '#376491', '#305d8a', '#2a5783'],
+	Orange20 = ['#ffc685', '#fcbe75', '#f9b665', '#f7ae54', '#f5a645', '#f59c3c', '#f49234', '#f2882d', '#f07e27', '#ee7422', '#e96b20', '#e36420', '#db5e20', '#d25921', '#ca5422', '#c14f22', '#b84b23', '#af4623', '#a64122', '#9e3d22'],
+	Green20 = ['#b3e0a6', '#a5db96', '#98d687', '#8ed07f', '#85ca77', '#7dc370', '#75bc69', '#6eb663', '#67af5c', '#61a956', '#59a253', '#519c51', '#49964f', '#428f4d', '#398949', '#308344', '#2b7c40', '#27763d', '#256f3d', '#24693d'],
+	Red20 = ['#ffbeb2', '#feb4a6', '#fdab9b', '#fca290', '#fb9984', '#fa8f79', '#f9856e', '#f77b66', '#f5715d', '#f36754', '#f05c4d', '#ec5049', '#e74545', '#e13b42', '#da323f', '#d3293d', '#ca223c', '#c11a3b', '#b8163a', '#ae123a'],
+	Purple20 = ['#eec9e5', '#eac1df', '#e6b9d9', '#e0b2d2', '#daabcb', '#d5a4c4', '#cf9dbe', '#ca96b8', '#c48fb2', '#be89ac', '#b882a6', '#b27ba1', '#aa759d', '#a27099', '#9a6a96', '#926591', '#8c5f86', '#865986', '#81537f', '#7c4d79'],
+	Brown20 = ['#eedbbd', '#ecd2ad', '#ebc994', '#eac085', '#e8b777', '#e5ae6c', '#e2a562', '#de9d5a', '#d99455', '#d38c54', '#ce8451', '#c9784d', '#c47247', '#c16941', '#bd6036', '#b85636', '#b34d34', '#ad4433', '#a63d32', '#9f3632'],
+	Gray20 = ['#d5d5d5', '#cdcecd', '#c5c7c6', '#bcbfbe', '#b4b7b7', '#acb0b1', '#a4a9ab', '#9ca3a4', '#939c9e', '#8b9598', '#848e93', '#7c878d', '#758087', '#6e7a81', '#67737c', '#616c77', '#5b6570', '#555f6a', '#4f5864', '#49525e'],
+	GrayWarm20 = ['#dcd4d0', '#d4ccc8', '#cdc4c0', '#c5bdb9', '#beb6b2', '#b7afab', '#b0a7a4', '#a9a09d', '#a29996', '#9b938f', '#948c88', '#8d8481', '#867e7b', '#807774', '#79706e', '#736967', '#6c6260', '#665c51', '#5f5654', '#59504e'],
+	BlueTeal20 = ['#bce4d8', '#aedcd5', '#a1d5d2', '#95cecf', '#89c8cc', '#7ec1ca', '#72bac6', '#66b2c2', '#59acbe', '#4ba5ba', '#419eb6', '#3b96b2', '#358ead', '#3586a7', '#347ea1', '#32779b', '#316f96', '#2f6790', '#2d608a', '#2c5985'],
+	OrangeGold20 = ['#f4d166', '#f6c760', '#f8bc58', '#f8b252', '#f7a84a', '#f69e41', '#f49538', '#f38b2f', '#f28026', '#f0751e', '#eb6c1c', '#e4641e', '#de5d1f', '#d75521', '#cf4f22', '#c64a22', '#bc4623', '#b24223', '#a83e24', '#9e3a26'],
+	GreenGold20 = ['#f4d166', '#e3cd62', '#d3c95f', '#c3c55d', '#b2c25b', '#a3bd5a', '#93b958', '#84b457', '#76af56', '#67a956', '#5aa355', '#4f9e53', '#479751', '#40914f', '#3a8a4d', '#34844a', '#2d7d45', '#257740', '#1c713b', '#146c36'],
+	RedGold21 = ['#f4d166', '#f5c75f', '#f6bc58', '#f7b254', '#f9a750', '#fa9d4f', '#fa9d4f', '#fb934d', '#f7894b', '#f47f4a', '#f0774a', '#eb6349', '#e66549', '#e15c48', '#dc5447', '#d64c45', '#d04344', '#ca3a42', '#c43141', '#bd273f', '#b71d3e'],
 
-/***/ "./node_modules/chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes.js":
-/*!*************************************************************************************!*\
-  !*** ./node_modules/chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes.js ***!
-  \*************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+	// Classic
+	Classic10 = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'],
+	ClassicMedium10 = ['#729ece', '#ff9e4a', '#67bf5c', '#ed665d', '#ad8bc9', '#a8786e', '#ed97ca', '#a2a2a2', '#cdcc5d', '#6dccda'],
+	ClassicLight10 = ['#aec7e8', '#ffbb78', '#98df8a', '#ff9896', '#c5b0d5', '#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5'],
+	Classic20 = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5'],
+	ClassicGray5 = ['#60636a', '#a5acaf', '#414451', '#8f8782', '#cfcfcf'],
+	ClassicColorBlind10 = ['#006ba4', '#ff800e', '#ababab', '#595959', '#5f9ed1', '#c85200', '#898989', '#a2c8ec', '#ffbc79', '#cfcfcf'],
+	ClassicTrafficLight9 = ['#b10318', '#dba13a', '#309343', '#d82526', '#ffc156', '#69b764', '#f26c64', '#ffdd71', '#9fcd99'],
+	ClassicPurpleGray6 = ['#7b66d2', '#dc5fbd', '#94917b', '#995688', '#d098ee', '#d7d5c5'],
+	ClassicPurpleGray12 = ['#7b66d2', '#a699e8', '#dc5fbd', '#ffc0da', '#5f5a41', '#b4b19b', '#995688', '#d898ba', '#ab6ad5', '#d098ee', '#8b7c6e', '#dbd4c5'],
+	ClassicGreenOrange6 = ['#32a251', '#ff7f0f', '#3cb7cc', '#ffd94a', '#39737c', '#b85a0d'],
+	ClassicGreenOrange12 = ['#32a251', '#acd98d', '#ff7f0f', '#ffb977', '#3cb7cc', '#98d9e4', '#b85a0d', '#ffd94a', '#39737c', '#86b4a9', '#82853b', '#ccc94d'],
+	ClassicBlueRed6 = ['#2c69b0', '#f02720', '#ac613c', '#6ba3d6', '#ea6b73', '#e9c39b'],
+	ClassicBlueRed12 = ['#2c69b0', '#b5c8e2', '#f02720', '#ffb6b0', '#ac613c', '#e9c39b', '#6ba3d6', '#b5dffd', '#ac8763', '#ddc9b4', '#bd0a36', '#f4737a'],
+	ClassicCyclic13 = ['#1f83b4', '#12a2a8', '#2ca030', '#78a641', '#bcbd22', '#ffbf50', '#ffaa0e', '#ff7f0e', '#d63a3a', '#c7519c', '#ba43b4', '#8a60b0', '#6f63bb'],
+	ClassicGreen7 = ['#bccfb4', '#94bb83', '#69a761', '#339444', '#27823b', '#1a7232', '#09622a'],
+	ClassicGray13 = ['#c3c3c3', '#b2b2b2', '#a2a2a2', '#929292', '#838383', '#747474', '#666666', '#585858', '#4b4b4b', '#3f3f3f', '#333333', '#282828', '#1e1e1e'],
+	ClassicBlue7 = ['#b4d4da', '#7bc8e2', '#67add4', '#3a87b7', '#1c73b1', '#1c5998', '#26456e'],
+	ClassicRed9 = ['#eac0bd', '#f89a90', '#f57667', '#e35745', '#d8392c', '#cf1719', '#c21417', '#b10c1d', '#9c0824'],
+	ClassicOrange7 = ['#f0c294', '#fdab67', '#fd8938', '#f06511', '#d74401', '#a33202', '#7b3014'],
+	ClassicAreaRed11 = ['#f5cac7', '#fbb3ab', '#fd9c8f', '#fe8b7a', '#fd7864', '#f46b55', '#ea5e45', '#e04e35', '#d43e25', '#c92b14', '#bd1100'],
+	ClassicAreaGreen11 = ['#dbe8b4', '#c3e394', '#acdc7a', '#9ad26d', '#8ac765', '#7abc5f', '#6cae59', '#60a24d', '#569735', '#4a8c1c', '#3c8200'],
+	ClassicAreaBrown11 = ['#f3e0c2', '#f6d29c', '#f7c577', '#f0b763', '#e4aa63', '#d89c63', '#cc8f63', '#c08262', '#bb7359', '#bb6348', '#bb5137'],
+	ClassicRedGreen11 = ['#9c0824', '#bd1316', '#d11719', '#df513f', '#fc8375', '#cacaca', '#a2c18f', '#69a761', '#2f8e41', '#1e7735', '#09622a'],
+	ClassicRedBlue11 = ['#9c0824', '#bd1316', '#d11719', '#df513f', '#fc8375', '#cacaca', '#67add4', '#3a87b7', '#1c73b1', '#1c5998', '#26456e'],
+	ClassicRedBlack11 = ['#9c0824', '#bd1316', '#d11719', '#df513f', '#fc8375', '#cacaca', '#9b9b9b', '#777777', '#565656', '#383838', '#1e1e1e'],
+	ClassicAreaRedGreen21 = ['#bd1100', '#c82912', '#d23a21', '#dc4930', '#e6583e', '#ef654d', '#f7705b', '#fd7e6b', '#fe8e7e', '#fca294', '#e9dabe', '#c7e298', '#b1de7f', '#a0d571', '#90cb68', '#82c162', '#75b65d', '#69aa56', '#5ea049', '#559633', '#4a8c1c'],
+	ClassicOrangeBlue13 = ['#7b3014', '#a33202', '#d74401', '#f06511', '#fd8938', '#fdab67', '#cacaca', '#7bc8e2', '#67add4', '#3a87b7', '#1c73b1', '#1c5998', '#26456e'],
+	ClassicGreenBlue11 = ['#09622a', '#1e7735', '#2f8e41', '#69a761', '#a2c18f', '#cacaca', '#67add4', '#3a87b7', '#1c73b1', '#1c5998', '#26456e'],
+	ClassicRedWhiteGreen11 = ['#9c0824', '#b41f27', '#cc312b', '#e86753', '#fcb4a5', '#ffffff', '#b9d7b7', '#74af72', '#428f49', '#297839', '#09622a'],
+	ClassicRedWhiteBlack11 = ['#9c0824', '#b41f27', '#cc312b', '#e86753', '#fcb4a5', '#ffffff', '#bfbfbf', '#838383', '#575757', '#393939', '#1e1e1e'],
+	ClassicOrangeWhiteBlue11 = ['#7b3014', '#a84415', '#d85a13', '#fb8547', '#ffc2a1', '#ffffff', '#b7cde2', '#6a9ec5', '#3679a8', '#2e5f8a', '#26456e'],
+	ClassicRedWhiteBlackLight10 = ['#ffc2c5', '#ffd1d3', '#ffe0e1', '#fff0f0', '#ffffff', '#f3f3f3', '#e8e8e8', '#dddddd', '#d1d1d1', '#c6c6c6'],
+	ClassicOrangeWhiteBlueLight11 = ['#ffcc9e', '#ffd6b1', '#ffe0c5', '#ffead8', '#fff5eb', '#ffffff', '#f3f7fd', '#e8effa', '#dce8f8', '#d0e0f6', '#c4d8f3'],
+	ClassicRedWhiteGreenLight11 = ['#ffb2b6', '#ffc2c5', '#ffd1d3', '#ffe0e1', '#fff0f0', '#ffffff', '#f1faed', '#e3f5db', '#d5f0ca', '#c6ebb8', '#b7e6a7'],
+	ClassicRedGreenLight11 = ['#ffb2b6', '#fcbdc0', '#f8c7c9', '#f2d1d2', '#ecdbdc', '#e5e5e5', '#dde6d9', '#d4e6cc', '#cae6c0', '#c1e6b4', '#b7e6a7'];
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chart_js__WEBPACK_IMPORTED_MODULE_0__);
+var tableau = /*#__PURE__*/Object.freeze({
+Tableau10: Tableau10,
+Tableau20: Tableau20,
+ColorBlind10: ColorBlind10,
+SeattleGrays5: SeattleGrays5,
+Traffic9: Traffic9,
+MillerStone11: MillerStone11,
+SuperfishelStone10: SuperfishelStone10,
+NurielStone9: NurielStone9,
+JewelBright9: JewelBright9,
+Summer8: Summer8,
+Winter10: Winter10,
+GreenOrangeTeal12: GreenOrangeTeal12,
+RedBlueBrown12: RedBlueBrown12,
+PurplePinkGray12: PurplePinkGray12,
+HueCircle19: HueCircle19,
+OrangeBlue7: OrangeBlue7,
+RedGreen7: RedGreen7,
+GreenBlue7: GreenBlue7,
+RedBlue7: RedBlue7,
+RedBlack7: RedBlack7,
+GoldPurple7: GoldPurple7,
+RedGreenGold7: RedGreenGold7,
+SunsetSunrise7: SunsetSunrise7,
+OrangeBlueWhite7: OrangeBlueWhite7,
+RedGreenWhite7: RedGreenWhite7,
+GreenBlueWhite7: GreenBlueWhite7,
+RedBlueWhite7: RedBlueWhite7,
+RedBlackWhite7: RedBlackWhite7,
+OrangeBlueLight7: OrangeBlueLight7,
+Temperature7: Temperature7,
+BlueGreen7: BlueGreen7,
+BlueLight7: BlueLight7,
+OrangeLight7: OrangeLight7,
+Blue20: Blue20,
+Orange20: Orange20,
+Green20: Green20,
+Red20: Red20,
+Purple20: Purple20,
+Brown20: Brown20,
+Gray20: Gray20,
+GrayWarm20: GrayWarm20,
+BlueTeal20: BlueTeal20,
+OrangeGold20: OrangeGold20,
+GreenGold20: GreenGold20,
+RedGold21: RedGold21,
+Classic10: Classic10,
+ClassicMedium10: ClassicMedium10,
+ClassicLight10: ClassicLight10,
+Classic20: Classic20,
+ClassicGray5: ClassicGray5,
+ClassicColorBlind10: ClassicColorBlind10,
+ClassicTrafficLight9: ClassicTrafficLight9,
+ClassicPurpleGray6: ClassicPurpleGray6,
+ClassicPurpleGray12: ClassicPurpleGray12,
+ClassicGreenOrange6: ClassicGreenOrange6,
+ClassicGreenOrange12: ClassicGreenOrange12,
+ClassicBlueRed6: ClassicBlueRed6,
+ClassicBlueRed12: ClassicBlueRed12,
+ClassicCyclic13: ClassicCyclic13,
+ClassicGreen7: ClassicGreen7,
+ClassicGray13: ClassicGray13,
+ClassicBlue7: ClassicBlue7,
+ClassicRed9: ClassicRed9,
+ClassicOrange7: ClassicOrange7,
+ClassicAreaRed11: ClassicAreaRed11,
+ClassicAreaGreen11: ClassicAreaGreen11,
+ClassicAreaBrown11: ClassicAreaBrown11,
+ClassicRedGreen11: ClassicRedGreen11,
+ClassicRedBlue11: ClassicRedBlue11,
+ClassicRedBlack11: ClassicRedBlack11,
+ClassicAreaRedGreen21: ClassicAreaRedGreen21,
+ClassicOrangeBlue13: ClassicOrangeBlue13,
+ClassicGreenBlue11: ClassicGreenBlue11,
+ClassicRedWhiteGreen11: ClassicRedWhiteGreen11,
+ClassicRedWhiteBlack11: ClassicRedWhiteBlack11,
+ClassicOrangeWhiteBlue11: ClassicOrangeWhiteBlue11,
+ClassicRedWhiteBlackLight10: ClassicRedWhiteBlackLight10,
+ClassicOrangeWhiteBlueLight11: ClassicOrangeWhiteBlueLight11,
+ClassicRedWhiteGreenLight11: ClassicRedWhiteGreenLight11,
+ClassicRedGreenLight11: ClassicRedGreenLight11
+});
 
+var colorschemes = {
+	brewer: brewer,
+	office: office,
+	tableau: tableau
+};
 
-
-
-var helpers = chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.helpers;
+var helpers = Chart.helpers;
 
 // Element models are always reset when hovering in Chart.js 2.7.2 or earlier
-var hoverReset = chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.DatasetController.prototype.removeHoverStyle.length === 2;
+var hoverReset = Chart.DatasetController.prototype.removeHoverStyle.length === 2;
 
 var EXPANDO_KEY = '$colorschemes';
 
-chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.global.plugins.colorschemes = {
+Chart.defaults.global.plugins.colorschemes = {
 	scheme: 'brewer.Paired12',
 	fillAlpha: 0.5,
 	reverse: false,
@@ -25894,7 +26647,7 @@ function getScheme(scheme) {
 	if (helpers.isArray(scheme)) {
 		return scheme;
 	} else if (typeof scheme === 'string') {
-		colorschemes = chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.colorschemes || {};
+		colorschemes = Chart.colorschemes || {};
 
 		// For backward compatibility
 		matches = scheme.match(/^(brewer\.\w+)([1-3])-(\d+)$/);
@@ -26030,9 +26783,13 @@ var ColorSchemesPlugin = {
 	}
 };
 
-chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.plugins.register(ColorSchemesPlugin);
+Chart.plugins.register(ColorSchemesPlugin);
 
-/* harmony default export */ __webpack_exports__["default"] = (ColorSchemesPlugin);
+Chart.colorschemes = colorschemes;
+
+return ColorSchemesPlugin;
+
+}));
 
 
 /***/ }),
