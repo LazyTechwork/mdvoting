@@ -2609,8 +2609,10 @@ __webpack_require__.r(__webpack_exports__);
 
     Echo.connect();
     Echo.channel("mdvoting_" + this.vicode).listen(".newvote", function (e) {
-      _this.variants = e.voting.variants;
-      _this.votes = e.votes;
+      if (e.voting.id === parseInt(_this.vid)) {
+        _this.variants = e.voting.variants;
+        _this.votes = e.votes;
+      }
     });
     axios.get('/gv', {
       params: {

@@ -7,6 +7,7 @@ use App\Events\DeviceDisconnect;
 use App\Events\DeviceUnlink;
 use App\Events\EndVotingEvent;
 use App\Events\NewDeviceEvent;
+use App\Events\NewVoteEvent;
 use App\Events\ParticipantLinkedDevice;
 use App\Events\ParticipantUnlink;
 use App\Events\StartVotingEvent;
@@ -67,6 +68,7 @@ class VoteController extends Controller
         $device = Device::whereId($request->get('d'))->first();
         $device->update(['status' => 'free']);
         event(new EndVotingEvent($voting, $device));
+        event(new NewVoteEvent($voting));
 
         return response()->json(['status' => 'ok'])->setStatusCode(200);
     }

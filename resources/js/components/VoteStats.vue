@@ -25,8 +25,10 @@
         mounted() {
             Echo.connect();
             Echo.channel("mdvoting_" + this.vicode).listen(".newvote", (e) => {
-                this.variants = e.voting.variants;
-                this.votes = e.votes;
+                if (e.voting.id === parseInt(this.vid)) {
+                    this.variants = e.voting.variants;
+                    this.votes = e.votes;
+                }
             });
             axios.get('/gv', {params: {v: this.vid}}).then(response => {
                 if (response.data.status === 'ok') {
