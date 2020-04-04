@@ -5,8 +5,9 @@
  */
 
 require('./bootstrap');
-const axios = require('axios').default;
+import axios from "axios";
 import Echo from "laravel-echo"
+import moment from "moment";
 
 window.io = require('socket.io-client');
 
@@ -16,6 +17,7 @@ window.Echo = new Echo({
 });
 
 window.axios = axios;
+window.moment = moment;
 
 window.Vue = require('vue');
 

@@ -28,7 +28,11 @@
             </thead>
             <tbody>
             <tr v-for="d in devices" :key="d.id">
-                <td>{{ d.name }}</td>
+                <td>
+                    Название:<br><b>{{ d.name }}</b> <br>
+                    Дата подключения:<br><b>{{ formatDates(d.created_at) }}</b> <br>
+                    Последнее обновление:<br><b>{{ formatDates(d.updated_at) }}</b>
+                </td>
                 <td v-html="parseStatus(d.status)"></td>
                 <td>
                     <button class="btn btn-outline-primary w-100" :disabled="!selected || d.status !== 'free'"
@@ -133,6 +137,9 @@
                     if (response.data.status === 'ok')
                         this.devices = response.data.devices;
                 }.bind(this)).catch(error => console.error(error));
+            },
+            formatDates(date) {
+                return moment(date).format("DD.MM.YYYY HH:mm:ss");
             }
         }
     }
