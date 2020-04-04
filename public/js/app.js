@@ -49615,7 +49615,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                        Подключиться\n                    "
+                            "\n                            Подключиться\n                        "
                           )
                         ]
                       )
@@ -49685,7 +49685,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                        Сохранить\n                    "
+                            "\n                            Сохранить\n                        "
                           )
                         ]
                       )
@@ -49732,8 +49732,9 @@ var render = function() {
                     _vm._v("Система Vi")
                   ]),
                   _vm._v(" "),
-                  _c("h4", { staticClass: "mb-4" }, [
-                    _vm._v("К устройству подключён голосующий "),
+                  _c("h4", [_vm._v("К устройству подключён голосующий")]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mb-4" }, [
                     _c("b", [_vm._v(_vm._s(_vm.participant.name))]),
                     _vm._v(" (" + _vm._s(_vm.participant.group) + ")")
                   ]),
@@ -49862,24 +49863,6 @@ var render = function() {
                   )
                 ]
               )
-            : _vm._e()
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "transition",
-        {
-          attrs: {
-            name: "animatecss",
-            "enter-active-class": "animated faster fadeIn",
-            "leave-active-class": "animated faster fadeOut"
-          }
-        },
-        [
-          _vm.loading
-            ? _c("div", { staticClass: "loader" }, [
-                _c("h1", [_vm._v("Идёт загрузка")])
-              ])
             : _vm._e()
         ]
       )
@@ -62364,8 +62347,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
   host: window.location.hostname + ':6001'
 });
+window.axios = axios;
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-Vue.use(axios);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

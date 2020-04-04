@@ -51,8 +51,8 @@
                  v-if="screen === 'approvalwait' && !loading && participant"
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
-                <h4 class="mb-4">К устройству подключён голосующий <b>{{ participant.name }}</b> ({{ participant.group
-                    }})</h4>
+                <h4>К устройству подключён голосующий</h4>
+                <p class="mb-4"><b>{{ participant.name }}</b> ({{ participant.group }})</p>
                 <button class="w-100 btn btn-outline-primary" @click="startvoting">Начать голосование</button>
             </div>
 
@@ -72,13 +72,13 @@
                 </form>
             </div>
         </transition>
-        <transition name="animatecss"
-                    enter-active-class="animated faster fadeIn"
-                    leave-active-class="animated faster fadeOut">
-            <div class="loader" v-if="loading">
-                <h1>Идёт загрузка</h1>
-            </div>
-        </transition>
+<!--        <transition name="animatecss"-->
+<!--                    enter-active-class="animated faster fadeIn"-->
+<!--                    leave-active-class="animated faster fadeOut">-->
+<!--            <div class="loader" v-if="loading">-->
+<!--                <h1>Идёт загрузка</h1>-->
+<!--            </div>-->
+<!--        </transition>-->
     </div>
 </template>
 

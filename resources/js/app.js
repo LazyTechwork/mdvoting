@@ -15,8 +15,9 @@ window.Echo = new Echo({
     host: window.location.hostname + ':6001'
 });
 
+window.axios = axios;
+
 window.Vue = require('vue');
-Vue.use(axios);
 
 /**
  * The following block of code may be used to automatically register your
