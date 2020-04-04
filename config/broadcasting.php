@@ -42,7 +42,7 @@ return [
         ],
 
         'redis' => [
-            'driver' => 'phpredis',
+            'driver' => 'redis',
             'connection' => 'default',
         ],
 

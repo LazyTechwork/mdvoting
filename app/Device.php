@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereVotingId($value)
  * @mixin \Eloquent
  * @property-read \App\Voting $voting
+ * @property string $status
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereStatus($value)
  */
 class Device extends Model
 {
