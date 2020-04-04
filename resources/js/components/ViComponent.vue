@@ -186,7 +186,7 @@
                 }.bind(this));
             },
             vote: function () {
-                if (!this.participant || !this.selected_variants)
+                if (!this.participant || !this.selected_variants || this.selected_variants.length < this.maxvotes)
                     return;
                 this.loading = true;
                 axios.post('/ev', {

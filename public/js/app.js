@@ -2258,7 +2258,7 @@ __webpack_require__.r(__webpack_exports__);
       }.bind(this));
     },
     vote: function vote() {
-      if (!this.participant || !this.selected_variants) return;
+      if (!this.participant || !this.selected_variants || this.selected_variants.length < this.maxvotes) return;
       this.loading = true;
       axios.post('/ev', {
         v: this.code,
