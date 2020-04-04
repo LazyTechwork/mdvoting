@@ -44,4 +44,9 @@ class Voting extends Model
     {
         return $this->hasMany(Participant::class, 'voting_id')->orderBy('group')->orderBy('name');
     }
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class, 'voting_id');
+    }
 }

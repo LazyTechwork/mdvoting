@@ -10,12 +10,12 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class EndVotingEvent implements ShouldBroadcast
+class DeviceUnlink implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $device;
     private $voting;
+    private $device;
 
     /**
      * Create a new event instance.
@@ -24,8 +24,8 @@ class EndVotingEvent implements ShouldBroadcast
      */
     public function __construct(Voting $voting, Device $device)
     {
-        $this->device = $device;
         $this->voting = $voting;
+        $this->device = $device;
     }
 
     /**
@@ -40,17 +40,15 @@ class EndVotingEvent implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'endvoting';
+        return 'deviceunlink';
     }
 
     public function broadcastWith()
     {
-        $participants = $this->voting->participants()->where('vote', null)->get()->groupBy('group');
         return [
-            'device' => $this->device,
-            'devices' => $this->voting->devices,
-            'participants' => $participants,
-            'participant_groups' => $participants->keys()
+            'device' => $this->device
         ];
     }
+
+
 }

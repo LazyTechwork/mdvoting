@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Device;
+use App\Events\DeviceUnlink;
 use App\Events\EndVotingEvent;
 use App\Events\NewDeviceEvent;
 use App\Events\ParticipantLinkedDevice;
@@ -64,5 +65,15 @@ class VoteController extends Controller
         $device = Device::create(['name' => $request->get('vi_name'), 'voting_id' => $voting->id]);
         event(new NewDeviceEvent($voting, $device));
         return response()->json(['status' => 'ok', 'item' => $device]);
+    }
+
+    public function deviceUnlink(Request $request)
+    {
+        $voting = Voting::whereId($request->get('v'))->first();
+        $device = Device::whereId($request->get('d'))->first();
+        event(new DeviceUnlink($voting, $device));
+        $device->forceDelete();
+
+        return response()->json(['status' => 'ok']);
     }
 }

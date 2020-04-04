@@ -34,7 +34,7 @@
                     <button class="btn btn-outline-primary w-100" :disabled="!selected" @click="sendondevice(d.id)">
                         Направить на это устройство
                     </button>
-                    <button class="btn btn-outline-danger w-100">Удалить устройство</button>
+                    <button class="btn btn-outline-danger w-100" @click="unlinkdevice(d.id)">Удалить устройство</button>
                 </td>
             </tr>
             </tbody>
@@ -103,6 +103,12 @@
             },
             sendondevice(devid) {
                 axios.post('/pl', {p: this.selected.id, v: this.vid, d: devid}).then(function (response) {
+                    if (response.data.status === 'ok')
+                        this.updatedevices();
+                }.bind(this)).catch(error => console.error(error));
+            },
+            unlinkdevice(devid) {
+                axios.post('/du', {v: this.vid, d: devid}).then(function (response) {
                     if (response.data.status === 'ok')
                         this.updatedevices();
                 }.bind(this)).catch(error => console.error(error));

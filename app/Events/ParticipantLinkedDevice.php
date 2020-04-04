@@ -51,7 +51,8 @@ class ParticipantLinkedDevice implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'participant' => $this->participant
+            'participant' => $this->participant,
+            'device' => $this->device
         ];
     }
 }

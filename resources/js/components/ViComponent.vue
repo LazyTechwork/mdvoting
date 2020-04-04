@@ -66,7 +66,8 @@
                 screen: '',
                 devicename: '',
                 deviceid: null,
-                loading: false
+                loading: false,
+                participant: null,
             };
         },
         mounted() {
@@ -129,6 +130,21 @@
                         this.screen = 'intro';
                     }
                 }.bind(this));
+
+                Echo.channel("mdvoting_" + this.code).listen('.participantlinked', (e) => {
+                    if (e.device.id === this.deviceid)
+                        this.participant = e.participant;
+                });
+                Echo.channel("mdvoting_" + this.code).listen('.deviceunlink', (e) => {
+                    if (e.device.id === this.deviceid) {
+                        localStorage.removeItem('vi_code');
+                        localStorage.removeItem('vi_devicename');
+                        this.devicename = '';
+                        this.code = '';
+                        this.screen = 'intro';
+                        Echo.disconnect();
+                    }
+                });
             }
         }
     }

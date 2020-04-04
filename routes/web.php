@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/gp', 'MainController@getParticipantsAPI');
     Route::post('/pl', 'VoteController@participantLink');
     Route::get('/gd', 'VoteController@getDevices');
+    Route::post('/du', 'VoteController@deviceUnlink');
 
     Route::prefix('votings')->name('votings.')->group(function () {
 //        New votings

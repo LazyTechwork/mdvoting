@@ -2139,7 +2139,8 @@ __webpack_require__.r(__webpack_exports__);
       screen: '',
       devicename: '',
       deviceid: null,
-      loading: false
+      loading: false,
+      participant: null
     };
   },
   mounted: function mounted() {
@@ -2179,6 +2180,8 @@ __webpack_require__.r(__webpack_exports__);
       this.screen = 'setup';
     },
     setup: function setup() {
+      var _this = this;
+
       if (this.devicename.length === 0) return;
       localStorage.setItem('vi_devicename', this.devicename);
       this.loading = true;
@@ -2201,6 +2204,19 @@ __webpack_require__.r(__webpack_exports__);
           this.screen = 'intro';
         }
       }.bind(this));
+      Echo.channel("mdvoting_" + this.code).listen('.participantlinked', function (e) {
+        if (e.device.id === _this.deviceid) _this.participant = e.participant;
+      });
+      Echo.channel("mdvoting_" + this.code).listen('.deviceunlink', function (e) {
+        if (e.device.id === _this.deviceid) {
+          localStorage.removeItem('vi_code');
+          localStorage.removeItem('vi_devicename');
+          _this.devicename = '';
+          _this.code = '';
+          _this.screen = 'intro';
+          Echo.disconnect();
+        }
+      });
     }
   }
 });
@@ -2337,6 +2353,16 @@ __webpack_require__.r(__webpack_exports__);
     sendondevice: function sendondevice(devid) {
       axios.post('/pl', {
         p: this.selected.id,
+        v: this.vid,
+        d: devid
+      }).then(function (response) {
+        if (response.data.status === 'ok') this.updatedevices();
+      }.bind(this))["catch"](function (error) {
+        return console.error(error);
+      });
+    },
+    unlinkdevice: function unlinkdevice(devid) {
+      axios.post('/du', {
         v: this.vid,
         d: devid
       }).then(function (response) {
@@ -49785,9 +49811,18 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("button", { staticClass: "btn btn-outline-danger w-100" }, [
-                _vm._v("Удалить устройство")
-              ])
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-danger w-100",
+                  on: {
+                    click: function($event) {
+                      return _vm.unlinkdevice(d.id)
+                    }
+                  }
+                },
+                [_vm._v("Удалить устройство")]
+              )
             ])
           ])
         }),

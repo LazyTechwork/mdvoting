@@ -48,7 +48,7 @@ class StartVotingEvent implements ShouldBroadcast
         $participants = $this->voting->participants()->where('vote', null)->get()->groupBy('group');
         return [
             'device' => $this->device,
-            'devices' => Device::all(),
+            'devices' => $this->voting->devices,
             'participants' => $participants,
             'participant_groups' => $participants->keys()
         ];

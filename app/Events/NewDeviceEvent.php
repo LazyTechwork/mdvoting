@@ -47,7 +47,7 @@ class NewDeviceEvent implements ShouldBroadcast
     {
         return [
             'connected' => $this->device,
-            'devices' => Device::all()
+            'devices' => $this->voting->devices
         ];
     }
 }
