@@ -2277,11 +2277,23 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.updatedevices();
     this.updateparticipants();
     Echo.channel("mdvoting_" + this.vicode).listen('.newdevice', function (e) {
-      this.devices = e.devices;
-    }.bind(this));
+      _this.devices = e.devices;
+    });
+    Echo.channel("mdvoting_" + this.vicode).listen('.startvoting', function (e) {
+      _this.devices = e.devices;
+      _this.ps = e.participants;
+      _this.pgroups = e.participant_groups;
+    });
+    Echo.channel("mdvoting_" + this.vicode).listen('.endvoting', function (e) {
+      _this.devices = e.devices;
+      _this.ps = e.participants;
+      _this.pgroups = e.participant_groups;
+    });
   },
   methods: {
     parseStatus: function parseStatus(status) {

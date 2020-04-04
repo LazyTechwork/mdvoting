@@ -45,10 +45,12 @@ class EndVotingEvent implements ShouldBroadcast
 
     public function broadcastWith()
     {
+        $participants = $this->voting->participants()->where('vote', null)->get()->groupBy('group');
         return [
             'device' => $this->device,
             'devices' => Device::all(),
-            'participants' => $this->voting->participants()->where('vote', null)->get()->groupBy('group')
+            'participants' => $participants,
+            'participant_groups' => $participants->keys()
         ];
     }
 }

@@ -62,9 +62,19 @@
         mounted() {
             this.updatedevices();
             this.updateparticipants();
-            Echo.channel("mdvoting_" + this.vicode).listen('.newdevice', function (e) {
+            Echo.channel("mdvoting_" + this.vicode).listen('.newdevice', (e) => {
                 this.devices = e.devices;
-            }.bind(this));
+            });
+            Echo.channel("mdvoting_" + this.vicode).listen('.startvoting', (e) => {
+                this.devices = e.devices;
+                this.ps = e.participants;
+                this.pgroups = e.participant_groups;
+            });
+            Echo.channel("mdvoting_" + this.vicode).listen('.endvoting', (e) => {
+                this.devices = e.devices;
+                this.ps = e.participants;
+                this.pgroups = e.participant_groups;
+            });
         },
         methods: {
             parseStatus(status) {
