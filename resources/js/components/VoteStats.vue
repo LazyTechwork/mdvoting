@@ -1,12 +1,16 @@
 <template>
     <div>
-        <canvas id="voteChart" width="400" height="400" ref="voteChart"></canvas>
+        <!--        <statschart v-if="variants && votes" :chartData="chartData"></statschart>-->
+        <statschart v-if="variants && votes" :chartData="{
+                    labels: ['Test 1', 'Test 2'],
+                    datasets: [{
+                        data: [2, 5]
+                    }]
+                }"></statschart>
     </div>
 </template>
 
 <script>
-    import Chart from 'chart.js';
-
     export default {
         name: "VoteStats",
         props: ["vid", "vicode"],
@@ -15,7 +19,13 @@
                 votes: [],
                 variants: [],
                 canvas: null,
-                chart: null
+                chart: null,
+                chartData: {
+                    labels: [],
+                    datasets: [{
+                        data: []
+                    }]
+                },
             };
         },
         mounted() {
@@ -23,26 +33,32 @@
             Echo.channel("mdvoting_" + this.vicode).listen(".newvote", (e) => {
                 this.variants = e.voting.variants;
                 this.votes = e.votes;
+                this.updateChart();
             });
-            this.canvas = this.$refs.voteChart;
             axios.get('/gv', {params: {v: this.vid}}).then(response => {
-                if (response.data.status==='ok'){
+                if (response.data.status === 'ok') {
                     this.votes = response.data.votes;
                     this.variants = response.data.voting.variants;
+                    this.updateChart();
                 }
             });
         },
         watch: {
             votes: function (val) {
-                this.chart = new Chart(this.canvas, {
-                    type: 'doughnut',
-                    data: {
-                        labels: this.variants,
-                        datasets: [{
-                            data: val
-                        }]
-                    }
-                });
+                this.chartData.datasets = [{
+                    data: val
+                }];
+            },
+            variants: function (val) {
+                this.chartData.labels = val;
+            }
+        },
+        methods: {
+            updateChart() {
+                this.chartData.datasets = [{
+                    data: this.votes
+                }];
+                this.chartData.labels = this.variants;
             }
         }
     }

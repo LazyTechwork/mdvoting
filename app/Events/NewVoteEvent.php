@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Device;
 use App\Voting;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -43,13 +42,16 @@ class NewVoteEvent implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        $prevotes = $this->voting->participants()->where('vote', '!=', null)->get(['vote'])->toArray();
-        $votes = [];
-        foreach ($prevotes as $prevote) {
-            foreach ($prevote as $item) {
-                if (!isset($votes[$item])) $votes[$item] = 1; else $votes[$item]++;
-            }
+        $prevotes = $this->voting->participants()->where('vote', '!=', null)->get(['vote']);
+
+        $votes = array_fill(0, $this->voting->variants->count(), 0);
+
+        foreach ($prevotes as $el) {
+            $el = explode(',', $el['vote']);
+            foreach ($el as $item)
+                $votes[$item]++;
         }
+
         return [
             'voting' => $this->voting,
             'votes' => $votes,

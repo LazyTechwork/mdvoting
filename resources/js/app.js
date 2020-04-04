@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import VueChartJs from "vue-chartjs/src/BaseCharts";
+
 require('./bootstrap');
 import axios from "axios";
 import Echo from "laravel-echo"
@@ -36,6 +38,7 @@ Vue.component('variants-edit', require('./components/VariantsEdit.vue').default)
 Vue.component('vicomponent', require('./components/ViComponent.vue').default);
 Vue.component('vidash', require('./components/ViDashComponent.vue').default);
 Vue.component('votestats', require('./components/VoteStats.vue').default);
+Vue.component('statschart', require('./components/Chart.vue').default);
 
 const app = new Vue({
     el: '#app',

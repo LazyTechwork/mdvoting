@@ -302,13 +302,13 @@ class MainController extends Controller
     {
         $voting = Voting::whereId($request->get('v'))->first();
 
-        $prevotes = $voting->participants()->where('vote', '!=', null)->get(['vote'])->toArray();
-        $votes = [];
+        $prevotes = $voting->participants()->where('vote', '!=', null)->get(['vote']);
+        $votes = array_fill(0, $voting->variants->count(), 0);
 
-        foreach ($prevotes as $prevote) {
-            foreach ($prevote as $item) {
-                if (!isset($votes[$item])) $votes[$item] = 1; else $votes[$item]++;
-            }
+        foreach ($prevotes as $el) {
+            $el = explode(',', $el['vote']);
+            foreach ($el as $item)
+                $votes[$item]++;
         }
 
         return response()->json(['status' => 'ok', 'voting' => $voting, 'votes' => $votes])->setStatusCode(200);
