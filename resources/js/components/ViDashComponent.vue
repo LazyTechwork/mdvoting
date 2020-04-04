@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>Панель управления голосованием</h2>
         <h4 class="mb-5">Код для подключения: <b>{{ vicode }}</b></h4>
         <form action="#" method="GET" id="selectuser" class="mb-5">
             <div class="form-group" v-if="pgroups">

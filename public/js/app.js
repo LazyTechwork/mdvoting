@@ -2454,7 +2454,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViDashComponent",
   props: ['vid', 'vicode'],
@@ -85442,8 +85441,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h2", [_vm._v("Панель управления голосованием")]),
-    _vm._v(" "),
     _c("h4", { staticClass: "mb-5" }, [
       _vm._v("Код для подключения: "),
       _c("b", [_vm._v(_vm._s(_vm.vicode))])
