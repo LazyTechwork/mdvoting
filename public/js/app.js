@@ -2131,6 +2131,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViComponent",
   data: function data() {
@@ -2180,8 +2188,6 @@ __webpack_require__.r(__webpack_exports__);
       this.screen = 'setup';
     },
     setup: function setup() {
-      var _this = this;
-
       if (this.devicename.length === 0) return;
       localStorage.setItem('vi_devicename', this.devicename);
       this.loading = true;
@@ -2193,6 +2199,7 @@ __webpack_require__.r(__webpack_exports__);
           this.loading = false;
           this.screen = 'wait';
           this.deviceid = response.data.item.id;
+          this.bindlisteners();
         }
       }.bind(this), function (error) {
         var response = error.response;
@@ -2204,8 +2211,15 @@ __webpack_require__.r(__webpack_exports__);
           this.screen = 'intro';
         }
       }.bind(this));
+    },
+    bindlisteners: function bindlisteners() {
+      var _this = this;
+
       Echo.channel("mdvoting_" + this.code).listen('.participantlinked', function (e) {
-        if (e.device.id === _this.deviceid) _this.participant = e.participant;
+        if (e.device.id === _this.deviceid) {
+          _this.participant = e.participant;
+          _this.screen = 'approvalwait';
+        }
       });
       Echo.channel("mdvoting_" + this.code).listen('.deviceunlink', function (e) {
         if (e.device.id === _this.deviceid) {
@@ -49611,6 +49625,33 @@ var render = function() {
                   _c("h5", { staticClass: "text-secondary" }, [
                     _vm._v("Подождите, когда оператор начнёт голосование")
                   ])
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.screen === "approvalwait" && !_vm.loading && _vm.participant
+            ? _c(
+                "div",
+                {
+                  key: _vm.screen,
+                  staticClass: "col-md-7 flex-center mx-auto text-center h-100"
+                },
+                [
+                  _c("h2", { staticClass: "font-weight-bold" }, [
+                    _vm._v("Система Vi")
+                  ]),
+                  _vm._v(" "),
+                  _c("h4", { staticClass: "mb-4" }, [
+                    _vm._v("К устройству подключён голосующий "),
+                    _c("b", [_vm._v(_vm._s(_vm.participant.name))]),
+                    _vm._v(" (" + _vm._s(_vm.participant.group) + ")")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    { staticClass: "w-100 btn btn-outline-primary" },
+                    [_vm._v("Начать голосование")]
+                  )
                 ]
               )
             : _vm._e()

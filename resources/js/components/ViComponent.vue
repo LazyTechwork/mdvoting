@@ -46,6 +46,14 @@
                 <h4 class="mb-4">Устройство подключено к голосованию (<b>{{ this.code }}</b>)</h4>
                 <h5 class="text-secondary">Подождите, когда оператор начнёт голосование</h5>
             </div>
+
+            <div class="col-md-7 flex-center mx-auto text-center h-100"
+                 v-if="screen === 'approvalwait' && !loading && participant"
+                 :key="screen">
+                <h2 class="font-weight-bold">Система Vi</h2>
+                <h4 class="mb-4">К устройству подключён голосующий <b>{{ participant.name }}</b> ({{ participant.group }})</h4>
+                <button class="w-100 btn btn-outline-primary">Начать голосование</button>
+            </div>
         </transition>
         <transition name="animatecss"
                     enter-active-class="animated faster fadeIn"
@@ -120,6 +128,7 @@
                         this.loading = false;
                         this.screen = 'wait';
                         this.deviceid = response.data.item.id;
+                        this.bindlisteners();
                     }
                 }.bind(this), function (error) {
                     let response = error.response;
@@ -130,10 +139,13 @@
                         this.screen = 'intro';
                     }
                 }.bind(this));
-
+            },
+            bindlisteners: function () {
                 Echo.channel("mdvoting_" + this.code).listen('.participantlinked', (e) => {
-                    if (e.device.id === this.deviceid)
+                    if (e.device.id === this.deviceid) {
                         this.participant = e.participant;
+                        this.screen = 'approvalwait';
+                    }
                 });
                 Echo.channel("mdvoting_" + this.code).listen('.deviceunlink', (e) => {
                     if (e.device.id === this.deviceid) {
