@@ -1988,6 +1988,10 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_chartjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-chartjs */ "./node_modules/vue-chartjs/es/index.js");
+/* harmony import */ var chartjs_plugin_colorschemes_src_plugins_plugin_colorschemes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes */ "./node_modules/chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes.js");
+/* harmony import */ var chartjs_plugin_colorschemes_src_colorschemes_colorschemes_office__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office */ "./node_modules/chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office.js");
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Doughnut"],
@@ -2008,6 +2012,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   mixins: [vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["mixins"].reactiveProp],
   mounted: function mounted() {
+    this.addPlugin({
+      id: "plugin.colorschemes",
+      scheme: chartjs_plugin_colorschemes_src_colorschemes_colorschemes_office__WEBPACK_IMPORTED_MODULE_2__["Aspect6"]
+    });
     this.renderChart(this.chartData, this.options);
   }
 });
@@ -25566,6 +25574,465 @@ core_controller.helpers.each(
 return src;
 
 })));
+
+
+/***/ }),
+
+/***/ "./node_modules/chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office.js":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office.js ***!
+  \******************************************************************************************/
+/*! exports provided: Adjacency6, Advantage6, Angles6, Apex6, Apothecary6, Aspect6, Atlas6, Austin6, Badge6, Banded6, Basis6, Berlin6, BlackTie6, Blue6, BlueGreen6, BlueII6, BlueRed6, BlueWarm6, Breeze6, Capital6, Celestial6, Circuit6, Civic6, Clarity6, Codex6, Composite6, Concourse6, Couture6, Crop6, Damask6, Depth6, Dividend6, Droplet6, Elemental6, Equity6, Essential6, Excel16, Executive6, Exhibit6, Expo6, Facet6, Feathered6, Flow6, Focus6, Folio6, Formal6, Forte6, Foundry6, Frame6, Gallery6, Genesis6, Grayscale6, Green6, GreenYellow6, Grid6, Habitat6, Hardcover6, Headlines6, Horizon6, Infusion6, Inkwell6, Inspiration6, Integral6, Ion6, IonBoardroom6, Kilter6, Madison6, MainEvent6, Marquee6, Median6, Mesh6, Metail6, Metro6, Metropolitan6, Module6, NewsPrint6, Office6, OfficeClassic6, Opulent6, Orange6, OrangeRed6, Orbit6, Organic6, Oriel6, Origin6, Paper6, Parallax6, Parcel6, Perception6, Perspective6, Pixel6, Plaza6, Precedent6, Pushpin6, Quotable6, Red6, RedOrange6, RedViolet6, Retrospect6, Revolution6, Saddle6, Savon6, Sketchbook6, Sky6, Slate6, Slice6, Slipstream6, SOHO6, Solstice6, Spectrum6, Story6, Studio6, Summer6, Technic6, Thatch6, Tradition6, Travelogue6, Trek6, Twilight6, Urban6, UrbanPop6, VaporTrail6, Venture6, Verve6, View6, Violet6, VioletII6, Waveform6, Wisp6, WoodType6, Yellow6, YellowOrange6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Adjacency6", function() { return Adjacency6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Advantage6", function() { return Advantage6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Angles6", function() { return Angles6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Apex6", function() { return Apex6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Apothecary6", function() { return Apothecary6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Aspect6", function() { return Aspect6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Atlas6", function() { return Atlas6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Austin6", function() { return Austin6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Badge6", function() { return Badge6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Banded6", function() { return Banded6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Basis6", function() { return Basis6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Berlin6", function() { return Berlin6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlackTie6", function() { return BlackTie6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Blue6", function() { return Blue6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlueGreen6", function() { return BlueGreen6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlueII6", function() { return BlueII6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlueRed6", function() { return BlueRed6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlueWarm6", function() { return BlueWarm6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Breeze6", function() { return Breeze6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Capital6", function() { return Capital6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Celestial6", function() { return Celestial6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Circuit6", function() { return Circuit6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Civic6", function() { return Civic6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Clarity6", function() { return Clarity6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Codex6", function() { return Codex6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Composite6", function() { return Composite6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Concourse6", function() { return Concourse6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Couture6", function() { return Couture6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Crop6", function() { return Crop6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Damask6", function() { return Damask6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Depth6", function() { return Depth6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Dividend6", function() { return Dividend6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Droplet6", function() { return Droplet6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Elemental6", function() { return Elemental6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Equity6", function() { return Equity6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Essential6", function() { return Essential6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Excel16", function() { return Excel16; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Executive6", function() { return Executive6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Exhibit6", function() { return Exhibit6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Expo6", function() { return Expo6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Facet6", function() { return Facet6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Feathered6", function() { return Feathered6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Flow6", function() { return Flow6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Focus6", function() { return Focus6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Folio6", function() { return Folio6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Formal6", function() { return Formal6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Forte6", function() { return Forte6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Foundry6", function() { return Foundry6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Frame6", function() { return Frame6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Gallery6", function() { return Gallery6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Genesis6", function() { return Genesis6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Grayscale6", function() { return Grayscale6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Green6", function() { return Green6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GreenYellow6", function() { return GreenYellow6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Grid6", function() { return Grid6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Habitat6", function() { return Habitat6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Hardcover6", function() { return Hardcover6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Headlines6", function() { return Headlines6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Horizon6", function() { return Horizon6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Infusion6", function() { return Infusion6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Inkwell6", function() { return Inkwell6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Inspiration6", function() { return Inspiration6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Integral6", function() { return Integral6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Ion6", function() { return Ion6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IonBoardroom6", function() { return IonBoardroom6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Kilter6", function() { return Kilter6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Madison6", function() { return Madison6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainEvent6", function() { return MainEvent6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Marquee6", function() { return Marquee6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Median6", function() { return Median6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Mesh6", function() { return Mesh6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metail6", function() { return Metail6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metro6", function() { return Metro6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Metropolitan6", function() { return Metropolitan6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Module6", function() { return Module6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewsPrint6", function() { return NewsPrint6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Office6", function() { return Office6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OfficeClassic6", function() { return OfficeClassic6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Opulent6", function() { return Opulent6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Orange6", function() { return Orange6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrangeRed6", function() { return OrangeRed6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Orbit6", function() { return Orbit6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Organic6", function() { return Organic6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Oriel6", function() { return Oriel6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Origin6", function() { return Origin6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Paper6", function() { return Paper6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Parallax6", function() { return Parallax6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Parcel6", function() { return Parcel6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Perception6", function() { return Perception6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Perspective6", function() { return Perspective6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pixel6", function() { return Pixel6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Plaza6", function() { return Plaza6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Precedent6", function() { return Precedent6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pushpin6", function() { return Pushpin6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Quotable6", function() { return Quotable6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Red6", function() { return Red6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RedOrange6", function() { return RedOrange6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RedViolet6", function() { return RedViolet6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Retrospect6", function() { return Retrospect6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Revolution6", function() { return Revolution6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Saddle6", function() { return Saddle6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Savon6", function() { return Savon6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Sketchbook6", function() { return Sketchbook6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Sky6", function() { return Sky6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Slate6", function() { return Slate6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Slice6", function() { return Slice6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Slipstream6", function() { return Slipstream6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SOHO6", function() { return SOHO6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Solstice6", function() { return Solstice6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Spectrum6", function() { return Spectrum6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Story6", function() { return Story6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Studio6", function() { return Studio6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Summer6", function() { return Summer6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Technic6", function() { return Technic6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Thatch6", function() { return Thatch6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tradition6", function() { return Tradition6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Travelogue6", function() { return Travelogue6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Trek6", function() { return Trek6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Twilight6", function() { return Twilight6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Urban6", function() { return Urban6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UrbanPop6", function() { return UrbanPop6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaporTrail6", function() { return VaporTrail6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Venture6", function() { return Venture6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Verve6", function() { return Verve6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "View6", function() { return View6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Violet6", function() { return Violet6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VioletII6", function() { return VioletII6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Waveform6", function() { return Waveform6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Wisp6", function() { return Wisp6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WoodType6", function() { return WoodType6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Yellow6", function() { return Yellow6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "YellowOrange6", function() { return YellowOrange6; });
+
+
+// eslint-disable-next-line one-var
+var
+	Adjacency6 = ['#a9a57c', '#9cbebd', '#d2cb6c', '#95a39d', '#c89f5d', '#b1a089'],
+	Advantage6 = ['#663366', '#330f42', '#666699', '#999966', '#f7901e', '#a3a101'],
+	Angles6 = ['#797b7e', '#f96a1b', '#08a1d9', '#7c984a', '#c2ad8d', '#506e94'],
+	Apex6 = ['#ceb966', '#9cb084', '#6bb1c9', '#6585cf', '#7e6bc9', '#a379bb'],
+	Apothecary6 = ['#93a299', '#cf543f', '#b5ae53', '#848058', '#e8b54d', '#786c71'],
+	Aspect6 = ['#f07f09', '#9f2936', '#1b587c', '#4e8542', '#604878', '#c19859'],
+	Atlas6 = ['#f81b02', '#fc7715', '#afbf41', '#50c49f', '#3b95c4', '#b560d4'],
+	Austin6 = ['#94c600', '#71685a', '#ff6700', '#909465', '#956b43', '#fea022'],
+	Badge6 = ['#f8b323', '#656a59', '#46b2b5', '#8caa7e', '#d36f68', '#826276'],
+	Banded6 = ['#ffc000', '#a5d028', '#08cc78', '#f24099', '#828288', '#f56617'],
+	Basis6 = ['#f09415', '#c1b56b', '#4baf73', '#5aa6c0', '#d17df9', '#fa7e5c'],
+	Berlin6 = ['#a6b727', '#df5327', '#fe9e00', '#418ab3', '#d7d447', '#818183'],
+	BlackTie6 = ['#6f6f74', '#a7b789', '#beae98', '#92a9b9', '#9c8265', '#8d6974'],
+	Blue6 = ['#0f6fc6', '#009dd9', '#0bd0d9', '#10cf9b', '#7cca62', '#a5c249'],
+	BlueGreen6 = ['#3494ba', '#58b6c0', '#75bda7', '#7a8c8e', '#84acb6', '#2683c6'],
+	BlueII6 = ['#1cade4', '#2683c6', '#27ced7', '#42ba97', '#3e8853', '#62a39f'],
+	BlueRed6 = ['#4a66ac', '#629dd1', '#297fd5', '#7f8fa9', '#5aa2ae', '#9d90a0'],
+	BlueWarm6 = ['#4a66ac', '#629dd1', '#297fd5', '#7f8fa9', '#5aa2ae', '#9d90a0'],
+	Breeze6 = ['#2c7c9f', '#244a58', '#e2751d', '#ffb400', '#7eb606', '#c00000'],
+	Capital6 = ['#4b5a60', '#9c5238', '#504539', '#c1ad79', '#667559', '#bad6ad'],
+	Celestial6 = ['#ac3ec1', '#477bd1', '#46b298', '#90ba4c', '#dd9d31', '#e25247'],
+	Circuit6 = ['#9acd4c', '#faa93a', '#d35940', '#b258d3', '#63a0cc', '#8ac4a7'],
+	Civic6 = ['#d16349', '#ccb400', '#8cadae', '#8c7b70', '#8fb08c', '#d19049'],
+	Clarity6 = ['#93a299', '#ad8f67', '#726056', '#4c5a6a', '#808da0', '#79463d'],
+	Codex6 = ['#990000', '#efab16', '#78ac35', '#35aca2', '#4083cf', '#0d335e'],
+	Composite6 = ['#98c723', '#59b0b9', '#deae00', '#b77bb4', '#e0773c', '#a98d63'],
+	Concourse6 = ['#2da2bf', '#da1f28', '#eb641b', '#39639d', '#474b78', '#7d3c4a'],
+	Couture6 = ['#9e8e5c', '#a09781', '#85776d', '#aeafa9', '#8d878b', '#6b6149'],
+	Crop6 = ['#8c8d86', '#e6c069', '#897b61', '#8dab8e', '#77a2bb', '#e28394'],
+	Damask6 = ['#9ec544', '#50bea3', '#4a9ccc', '#9a66ca', '#c54f71', '#de9c3c'],
+	Depth6 = ['#41aebd', '#97e9d5', '#a2cf49', '#608f3d', '#f4de3a', '#fcb11c'],
+	Dividend6 = ['#4d1434', '#903163', '#b2324b', '#969fa7', '#66b1ce', '#40619d'],
+	Droplet6 = ['#2fa3ee', '#4bcaad', '#86c157', '#d99c3f', '#ce6633', '#a35dd1'],
+	Elemental6 = ['#629dd1', '#297fd5', '#7f8fa9', '#4a66ac', '#5aa2ae', '#9d90a0'],
+	Equity6 = ['#d34817', '#9b2d1f', '#a28e6a', '#956251', '#918485', '#855d5d'],
+	Essential6 = ['#7a7a7a', '#f5c201', '#526db0', '#989aac', '#dc5924', '#b4b392'],
+	Excel16 = ['#9999ff', '#993366', '#ffffcc', '#ccffff', '#660066', '#ff8080', '#0066cc', '#ccccff', '#000080', '#ff00ff', '#ffff00', '#0000ff', '#800080', '#800000', '#008080', '#0000ff'],
+	Executive6 = ['#6076b4', '#9c5252', '#e68422', '#846648', '#63891f', '#758085'],
+	Exhibit6 = ['#3399ff', '#69ffff', '#ccff33', '#3333ff', '#9933ff', '#ff33ff'],
+	Expo6 = ['#fbc01e', '#efe1a2', '#fa8716', '#be0204', '#640f10', '#7e13e3'],
+	Facet6 = ['#90c226', '#54a021', '#e6b91e', '#e76618', '#c42f1a', '#918655'],
+	Feathered6 = ['#606372', '#79a8a4', '#b2ad8f', '#ad8082', '#dec18c', '#92a185'],
+	Flow6 = ['#0f6fc6', '#009dd9', '#0bd0d9', '#10cf9b', '#7cca62', '#a5c249'],
+	Focus6 = ['#ffb91d', '#f97817', '#6de304', '#ff0000', '#732bea', '#c913ad'],
+	Folio6 = ['#294171', '#748cbc', '#8e887c', '#834736', '#5a1705', '#a0a16a'],
+	Formal6 = ['#907f76', '#a46645', '#cd9c47', '#9a92cd', '#7d639b', '#733678'],
+	Forte6 = ['#c70f0c', '#dd6b0d', '#faa700', '#93e50d', '#17c7ba', '#0a96e4'],
+	Foundry6 = ['#72a376', '#b0ccb0', '#a8cdd7', '#c0beaf', '#cec597', '#e8b7b7'],
+	Frame6 = ['#40bad2', '#fab900', '#90bb23', '#ee7008', '#1ab39f', '#d5393d'],
+	Gallery6 = ['#b71e42', '#de478e', '#bc72f0', '#795faf', '#586ea6', '#6892a0'],
+	Genesis6 = ['#80b606', '#e29f1d', '#2397e2', '#35aca2', '#5430bb', '#8d34e0'],
+	Grayscale6 = ['#dddddd', '#b2b2b2', '#969696', '#808080', '#5f5f5f', '#4d4d4d'],
+	Green6 = ['#549e39', '#8ab833', '#c0cf3a', '#029676', '#4ab5c4', '#0989b1'],
+	GreenYellow6 = ['#99cb38', '#63a537', '#37a76f', '#44c1a3', '#4eb3cf', '#51c3f9'],
+	Grid6 = ['#c66951', '#bf974d', '#928b70', '#87706b', '#94734e', '#6f777d'],
+	Habitat6 = ['#f8c000', '#f88600', '#f83500', '#8b723d', '#818b3d', '#586215'],
+	Hardcover6 = ['#873624', '#d6862d', '#d0be40', '#877f6c', '#972109', '#aeb795'],
+	Headlines6 = ['#439eb7', '#e28b55', '#dcb64d', '#4ca198', '#835b82', '#645135'],
+	Horizon6 = ['#7e97ad', '#cc8e60', '#7a6a60', '#b4936d', '#67787b', '#9d936f'],
+	Infusion6 = ['#8c73d0', '#c2e8c4', '#c5a6e8', '#b45ec7', '#9fdafb', '#95c5b0'],
+	Inkwell6 = ['#860908', '#4a0505', '#7a500a', '#c47810', '#827752', '#b5bb83'],
+	Inspiration6 = ['#749805', '#bacc82', '#6e9ec2', '#2046a5', '#5039c6', '#7411d0'],
+	Integral6 = ['#1cade4', '#2683c6', '#27ced7', '#42ba97', '#3e8853', '#62a39f'],
+	Ion6 = ['#b01513', '#ea6312', '#e6b729', '#6aac90', '#5f9c9d', '#9e5e9b'],
+	IonBoardroom6 = ['#b31166', '#e33d6f', '#e45f3c', '#e9943a', '#9b6bf2', '#d53dd0'],
+	Kilter6 = ['#76c5ef', '#fea022', '#ff6700', '#70a525', '#a5d848', '#20768c'],
+	Madison6 = ['#a1d68b', '#5ec795', '#4dadcf', '#cdb756', '#e29c36', '#8ec0c1'],
+	MainEvent6 = ['#b80e0f', '#a6987d', '#7f9a71', '#64969f', '#9b75b2', '#80737a'],
+	Marquee6 = ['#418ab3', '#a6b727', '#f69200', '#838383', '#fec306', '#df5327'],
+	Median6 = ['#94b6d2', '#dd8047', '#a5ab81', '#d8b25c', '#7ba79d', '#968c8c'],
+	Mesh6 = ['#6f6f6f', '#bfbfa5', '#dcd084', '#e7bf5f', '#e9a039', '#cf7133'],
+	Metail6 = ['#6283ad', '#324966', '#5b9ea4', '#1d5b57', '#1b4430', '#2f3c35'],
+	Metro6 = ['#7fd13b', '#ea157a', '#feb80a', '#00addc', '#738ac8', '#1ab39f'],
+	Metropolitan6 = ['#50b4c8', '#a8b97f', '#9b9256', '#657689', '#7a855d', '#84ac9d'],
+	Module6 = ['#f0ad00', '#60b5cc', '#e66c7d', '#6bb76d', '#e88651', '#c64847'],
+	NewsPrint6 = ['#ad0101', '#726056', '#ac956e', '#808da9', '#424e5b', '#730e00'],
+	Office6 = ['#5b9bd5', '#ed7d31', '#a5a5a5', '#ffc000', '#4472c4', '#70ad47'],
+	OfficeClassic6 = ['#4f81bd', '#c0504d', '#9bbb59', '#8064a2', '#4bacc6', '#f79646'],
+	Opulent6 = ['#b83d68', '#ac66bb', '#de6c36', '#f9b639', '#cf6da4', '#fa8d3d'],
+	Orange6 = ['#e48312', '#bd582c', '#865640', '#9b8357', '#c2bc80', '#94a088'],
+	OrangeRed6 = ['#d34817', '#9b2d1f', '#a28e6a', '#956251', '#918485', '#855d5d'],
+	Orbit6 = ['#f2d908', '#9de61e', '#0d8be6', '#c61b1b', '#e26f08', '#8d35d1'],
+	Organic6 = ['#83992a', '#3c9770', '#44709d', '#a23c33', '#d97828', '#deb340'],
+	Oriel6 = ['#fe8637', '#7598d9', '#b32c16', '#f5cd2d', '#aebad5', '#777c84'],
+	Origin6 = ['#727ca3', '#9fb8cd', '#d2da7a', '#fada7a', '#b88472', '#8e736a'],
+	Paper6 = ['#a5b592', '#f3a447', '#e7bc29', '#d092a7', '#9c85c0', '#809ec2'],
+	Parallax6 = ['#30acec', '#80c34f', '#e29d3e', '#d64a3b', '#d64787', '#a666e1'],
+	Parcel6 = ['#f6a21d', '#9bafb5', '#c96731', '#9ca383', '#87795d', '#a0988c'],
+	Perception6 = ['#a2c816', '#e07602', '#e4c402', '#7dc1ef', '#21449b', '#a2b170'],
+	Perspective6 = ['#838d9b', '#d2610c', '#80716a', '#94147c', '#5d5ad2', '#6f6c7d'],
+	Pixel6 = ['#ff7f01', '#f1b015', '#fbec85', '#d2c2f1', '#da5af4', '#9d09d1'],
+	Plaza6 = ['#990000', '#580101', '#e94a00', '#eb8f00', '#a4a4a4', '#666666'],
+	Precedent6 = ['#993232', '#9b6c34', '#736c5d', '#c9972b', '#c95f2b', '#8f7a05'],
+	Pushpin6 = ['#fda023', '#aa2b1e', '#71685c', '#64a73b', '#eb5605', '#b9ca1a'],
+	Quotable6 = ['#00c6bb', '#6feba0', '#b6df5e', '#efb251', '#ef755f', '#ed515c'],
+	Red6 = ['#a5300f', '#d55816', '#e19825', '#b19c7d', '#7f5f52', '#b27d49'],
+	RedOrange6 = ['#e84c22', '#ffbd47', '#b64926', '#ff8427', '#cc9900', '#b22600'],
+	RedViolet6 = ['#e32d91', '#c830cc', '#4ea6dc', '#4775e7', '#8971e1', '#d54773'],
+	Retrospect6 = ['#e48312', '#bd582c', '#865640', '#9b8357', '#c2bc80', '#94a088'],
+	Revolution6 = ['#0c5986', '#ddf53d', '#508709', '#bf5e00', '#9c0001', '#660075'],
+	Saddle6 = ['#c6b178', '#9c5b14', '#71b2bc', '#78aa5d', '#867099', '#4c6f75'],
+	Savon6 = ['#1cade4', '#2683c6', '#27ced7', '#42ba97', '#3e8853', '#62a39f'],
+	Sketchbook6 = ['#a63212', '#e68230', '#9bb05e', '#6b9bc7', '#4e66b2', '#8976ac'],
+	Sky6 = ['#073779', '#8fd9fb', '#ffcc00', '#eb6615', '#c76402', '#b523b4'],
+	Slate6 = ['#bc451b', '#d3ba68', '#bb8640', '#ad9277', '#a55a43', '#ad9d7b'],
+	Slice6 = ['#052f61', '#a50e82', '#14967c', '#6a9e1f', '#e87d37', '#c62324'],
+	Slipstream6 = ['#4e67c8', '#5eccf3', '#a7ea52', '#5dceaf', '#ff8021', '#f14124'],
+	SOHO6 = ['#61625e', '#964d2c', '#66553e', '#848058', '#afa14b', '#ad7d4d'],
+	Solstice6 = ['#3891a7', '#feb80a', '#c32d2e', '#84aa33', '#964305', '#475a8d'],
+	Spectrum6 = ['#990000', '#ff6600', '#ffba00', '#99cc00', '#528a02', '#333333'],
+	Story6 = ['#1d86cd', '#732e9a', '#b50b1b', '#e8950e', '#55992b', '#2c9c89'],
+	Studio6 = ['#f7901e', '#fec60b', '#9fe62f', '#4ea5d1', '#1c4596', '#542d90'],
+	Summer6 = ['#51a6c2', '#51c2a9', '#7ec251', '#e1dc53', '#b54721', '#a16bb1'],
+	Technic6 = ['#6ea0b0', '#ccaf0a', '#8d89a4', '#748560', '#9e9273', '#7e848d'],
+	Thatch6 = ['#759aa5', '#cfc60d', '#99987f', '#90ac97', '#ffad1c', '#b9ab6f'],
+	Tradition6 = ['#6b4a0b', '#790a14', '#908342', '#423e5c', '#641345', '#748a2f'],
+	Travelogue6 = ['#b74d21', '#a32323', '#4576a3', '#615d9a', '#67924b', '#bf7b1b'],
+	Trek6 = ['#f0a22e', '#a5644e', '#b58b80', '#c3986d', '#a19574', '#c17529'],
+	Twilight6 = ['#e8bc4a', '#83c1c6', '#e78d35', '#909ce1', '#839c41', '#cc5439'],
+	Urban6 = ['#53548a', '#438086', '#a04da3', '#c4652d', '#8b5d3d', '#5c92b5'],
+	UrbanPop6 = ['#86ce24', '#00a2e6', '#fac810', '#7d8f8c', '#d06b20', '#958b8b'],
+	VaporTrail6 = ['#df2e28', '#fe801a', '#e9bf35', '#81bb42', '#32c7a9', '#4a9bdc'],
+	Venture6 = ['#9eb060', '#d09a08', '#f2ec86', '#824f1c', '#511818', '#553876'],
+	Verve6 = ['#ff388c', '#e40059', '#9c007f', '#68007f', '#005bd3', '#00349e'],
+	View6 = ['#6f6f74', '#92a9b9', '#a7b789', '#b9a489', '#8d6374', '#9b7362'],
+	Violet6 = ['#ad84c6', '#8784c7', '#5d739a', '#6997af', '#84acb6', '#6f8183'],
+	VioletII6 = ['#92278f', '#9b57d3', '#755dd9', '#665eb8', '#45a5ed', '#5982db'],
+	Waveform6 = ['#31b6fd', '#4584d3', '#5bd078', '#a5d028', '#f5c040', '#05e0db'],
+	Wisp6 = ['#a53010', '#de7e18', '#9f8351', '#728653', '#92aa4c', '#6aac91'],
+	WoodType6 = ['#d34817', '#9b2d1f', '#a28e6a', '#956251', '#918485', '#855d5d'],
+	Yellow6 = ['#ffca08', '#f8931d', '#ce8d3e', '#ec7016', '#e64823', '#9c6a6a'],
+	YellowOrange6 = ['#f0a22e', '#a5644e', '#b58b80', '#c3986d', '#a19574', '#c17529'];
+
+
+/***/ }),
+
+/***/ "./node_modules/chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/chartjs-plugin-colorschemes/src/plugins/plugin.colorschemes.js ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chart_js__WEBPACK_IMPORTED_MODULE_0__);
+
+
+
+
+var helpers = chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.helpers;
+
+// Element models are always reset when hovering in Chart.js 2.7.2 or earlier
+var hoverReset = chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.DatasetController.prototype.removeHoverStyle.length === 2;
+
+var EXPANDO_KEY = '$colorschemes';
+
+chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.global.plugins.colorschemes = {
+	scheme: 'brewer.Paired12',
+	fillAlpha: 0.5,
+	reverse: false,
+	override: false
+};
+
+function getScheme(scheme) {
+	var colorschemes, matches, arr, category;
+
+	if (helpers.isArray(scheme)) {
+		return scheme;
+	} else if (typeof scheme === 'string') {
+		colorschemes = chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.colorschemes || {};
+
+		// For backward compatibility
+		matches = scheme.match(/^(brewer\.\w+)([1-3])-(\d+)$/);
+		if (matches) {
+			scheme = matches[1] + ['One', 'Two', 'Three'][matches[2] - 1] + matches[3];
+		} else if (scheme === 'office.Office2007-2010-6') {
+			scheme = 'office.OfficeClassic6';
+		}
+
+		arr = scheme.split('.');
+		category = colorschemes[arr[0]];
+		if (category) {
+			return category[arr[1]];
+		}
+	}
+}
+
+var ColorSchemesPlugin = {
+	id: 'colorschemes',
+
+	beforeUpdate: function(chart, options) {
+		var scheme = getScheme(options.scheme);
+		var fillAlpha = options.fillAlpha;
+		var reverse = options.reverse;
+		var override = options.override;
+		var custom = options.custom;
+		var schemeClone, customResult, length, colorIndex, color;
+
+		if (scheme) {
+
+			if (typeof custom === 'function') {
+				// clone the original scheme
+				schemeClone = scheme.slice();
+
+				// Execute own custom color function
+				customResult = custom(schemeClone);
+
+				// check if we really received a filled array; otherwise we keep and use the original scheme
+				if (helpers.isArray(customResult) && customResult.length) {
+					scheme = customResult;
+				} else if (helpers.isArray(schemeClone) && schemeClone.length) {
+					scheme = schemeClone;
+				}
+			}
+
+			length = scheme.length;
+
+			// Set scheme colors
+			chart.config.data.datasets.forEach(function(dataset, datasetIndex) {
+				colorIndex = datasetIndex % length;
+				color = scheme[reverse ? length - colorIndex - 1 : colorIndex];
+
+				// Object to store which color option is set
+				dataset[EXPANDO_KEY] = {};
+
+				switch (dataset.type || chart.config.type) {
+				// For line, radar and scatter chart, borderColor and backgroundColor (50% transparent) are set
+				case 'line':
+				case 'radar':
+				case 'scatter':
+					if (typeof dataset.backgroundColor === 'undefined' || override) {
+						dataset[EXPANDO_KEY].backgroundColor = dataset.backgroundColor;
+						dataset.backgroundColor = helpers.color(color).alpha(fillAlpha).rgbString();
+					}
+					if (typeof dataset.borderColor === 'undefined' || override) {
+						dataset[EXPANDO_KEY].borderColor = dataset.borderColor;
+						dataset.borderColor = color;
+					}
+					if (typeof dataset.pointBackgroundColor === 'undefined' || override) {
+						dataset[EXPANDO_KEY].pointBackgroundColor = dataset.pointBackgroundColor;
+						dataset.pointBackgroundColor = helpers.color(color).alpha(fillAlpha).rgbString();
+					}
+					if (typeof dataset.pointBorderColor === 'undefined' || override) {
+						dataset[EXPANDO_KEY].pointBorderColor = dataset.pointBorderColor;
+						dataset.pointBorderColor = color;
+					}
+					break;
+				// For doughnut and pie chart, backgroundColor is set to an array of colors
+				case 'doughnut':
+				case 'pie':
+				case 'polarArea':
+					if (typeof dataset.backgroundColor === 'undefined' || override) {
+						dataset[EXPANDO_KEY].backgroundColor = dataset.backgroundColor;
+						dataset.backgroundColor = dataset.data.map(function(data, dataIndex) {
+							colorIndex = dataIndex % length;
+							return scheme[reverse ? length - colorIndex - 1 : colorIndex];
+						});
+					}
+					break;
+				// For the other chart, only backgroundColor is set
+				default:
+					if (typeof dataset.backgroundColor === 'undefined' || override) {
+						dataset[EXPANDO_KEY].backgroundColor = dataset.backgroundColor;
+						dataset.backgroundColor = color;
+					}
+					break;
+				}
+			});
+		}
+	},
+
+	afterUpdate: function(chart) {
+		// Unset colors
+		chart.config.data.datasets.forEach(function(dataset) {
+			if (dataset[EXPANDO_KEY]) {
+				if (dataset[EXPANDO_KEY].hasOwnProperty('backgroundColor')) {
+					dataset.backgroundColor = dataset[EXPANDO_KEY].backgroundColor;
+				}
+				if (dataset[EXPANDO_KEY].hasOwnProperty('borderColor')) {
+					dataset.borderColor = dataset[EXPANDO_KEY].borderColor;
+				}
+				if (dataset[EXPANDO_KEY].hasOwnProperty('pointBackgroundColor')) {
+					dataset.pointBackgroundColor = dataset[EXPANDO_KEY].pointBackgroundColor;
+				}
+				if (dataset[EXPANDO_KEY].hasOwnProperty('pointBorderColor')) {
+					dataset.pointBorderColor = dataset[EXPANDO_KEY].pointBorderColor;
+				}
+				delete dataset[EXPANDO_KEY];
+			}
+		});
+	},
+
+	beforeEvent: function(chart, event, options) {
+		if (hoverReset) {
+			this.beforeUpdate(chart, options);
+		}
+	},
+
+	afterEvent: function(chart) {
+		if (hoverReset) {
+			this.afterUpdate(chart);
+		}
+	}
+};
+
+chart_js__WEBPACK_IMPORTED_MODULE_0___default.a.plugins.register(ColorSchemesPlugin);
+
+/* harmony default export */ __webpack_exports__["default"] = (ColorSchemesPlugin);
 
 
 /***/ }),
@@ -84467,18 +84934,7 @@ var render = function() {
     "div",
     [
       _vm.variants && _vm.votes
-        ? _c("statschart", {
-            attrs: {
-              chartData: {
-                labels: ["Test 1", "Test 2"],
-                datasets: [
-                  {
-                    data: [2, 5]
-                  }
-                ]
-              }
-            }
-          })
+        ? _c("statschart", { attrs: { chartData: _vm.chartData } })
         : _vm._e()
     ],
     1

@@ -303,7 +303,7 @@ class MainController extends Controller
         $voting = Voting::whereId($request->get('v'))->first();
 
         $prevotes = $voting->participants()->where('vote', '!=', null)->get(['vote']);
-        $votes = array_fill(0, $voting->variants->count(), 0);
+        $votes = array_fill(0, count($voting->variants), 0);
 
         foreach ($prevotes as $el) {
             $el = explode(',', $el['vote']);

@@ -44,7 +44,7 @@ class NewVoteEvent implements ShouldBroadcast
     {
         $prevotes = $this->voting->participants()->where('vote', '!=', null)->get(['vote']);
 
-        $votes = array_fill(0, $this->voting->variants->count(), 0);
+        $votes = array_fill(0, count($this->voting->variants), 0);
 
         foreach ($prevotes as $el) {
             $el = explode(',', $el['vote']);

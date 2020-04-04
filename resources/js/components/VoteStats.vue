@@ -1,12 +1,12 @@
 <template>
     <div>
-        <!--        <statschart v-if="variants && votes" :chartData="chartData"></statschart>-->
-        <statschart v-if="variants && votes" :chartData="{
+        <statschart v-if="variants && votes" :chartData="chartData"></statschart>
+        <!--<statschart v-if="variants && votes" :chartData="{
                     labels: ['Test 1', 'Test 2'],
                     datasets: [{
                         data: [2, 5]
                     }]
-                }"></statschart>
+                }"></statschart>-->
     </div>
 </template>
 
@@ -23,7 +23,7 @@
                 chartData: {
                     labels: [],
                     datasets: [{
-                        data: []
+                        data: [],
                     }]
                 },
             };
