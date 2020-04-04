@@ -29,20 +29,20 @@ class VoteController extends Controller
 
     public function startVoting(Request $request)
     {
-        $voting = Voting::whereId($request->get('v'))->first();
+        $voting = Voting::whereCode($request->get('v'))->first();
         $device = Device::whereId($request->get('d'))->first();
         $device->update(['status' => 'voting']);
         event(new StartVotingEvent($voting, $device));
 
-        return response()->json(['items' => $voting->variants, 'maxvotes' => $voting->maxVotes])->setStatusCode(200);
+        return response()->json(['status' => 'ok', 'items' => $voting->variants, 'maxvotes' => $voting->maxVotes])->setStatusCode(200);
     }
 
     public function endVoting(Request $request)
     {
         $participant = Participant::whereId($request->get('p'))->first();
+        $voting = Voting::whereCode($request->get('v'))->first();
         if ($participant->vote === null)
-            $participant->update(['vote' => collect($request->get('vote'))->join(',')]);
-        $voting = Voting::whereId($request->get('v'))->first();
+            $participant->update(['vote' => collect($request->get('vote'))->slice(0, $voting->maxVotes)->join(',')]);
         $device = Device::whereId($request->get('d'))->first();
         $device->update(['status' => 'free']);
         event(new EndVotingEvent($voting, $device));

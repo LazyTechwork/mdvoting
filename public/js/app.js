@@ -2139,6 +2139,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViComponent",
   data: function data() {
@@ -2148,7 +2165,10 @@ __webpack_require__.r(__webpack_exports__);
       devicename: '',
       deviceid: null,
       loading: false,
-      participant: null
+      participant: null,
+      variants: null,
+      maxvotes: 0,
+      selected_variants: []
     };
   },
   mounted: function mounted() {
@@ -2206,8 +2226,57 @@ __webpack_require__.r(__webpack_exports__);
 
         if (response.data.status === 'notfound') {
           this.loading = false;
-          this.code = '';
-          this.devicename = '';
+          this.clearvinfo();
+          this.screen = 'intro';
+        }
+      }.bind(this));
+    },
+    startvoting: function startvoting() {
+      if (!this.participant) return;
+      this.loading = true;
+      axios.post('/sv', {
+        v: this.code,
+        d: this.deviceid
+      }).then(function (response) {
+        if (response.data.status === 'ok') {
+          this.variants = response.data.items;
+          this.maxvotes = response.data.maxvotes;
+          this.screen = 'voting';
+          this.loading = false;
+        }
+      }.bind(this), function (error) {
+        var response = error.response;
+
+        if (response.data.status === 'notfound') {
+          this.loading = false;
+          this.clearvinfo();
+          this.screen = 'intro';
+        }
+      }.bind(this));
+    },
+    vote: function vote() {
+      if (!this.participant || !this.selected_variants) return;
+      this.loading = true;
+      axios.post('/ev', {
+        v: this.code,
+        d: this.deviceid,
+        p: this.participant.id,
+        vote: this.selected_variants
+      }).then(function (response) {
+        if (response.data.status === 'ok') {
+          this.variants = null;
+          this.maxvotes = 0;
+          this.participant = null;
+          this.selected_variants = [];
+          this.screen = 'wait';
+          this.loading = false;
+        }
+      }.bind(this), function (error) {
+        var response = error.response;
+
+        if (response.data.status === 'notfound') {
+          this.loading = false;
+          this.clearvinfo();
           this.screen = 'intro';
         }
       }.bind(this));
@@ -2223,14 +2292,21 @@ __webpack_require__.r(__webpack_exports__);
       });
       Echo.channel("mdvoting_" + this.code).listen('.deviceunlink', function (e) {
         if (e.device.id === _this.deviceid) {
-          localStorage.removeItem('vi_code');
-          localStorage.removeItem('vi_devicename');
-          _this.devicename = '';
-          _this.code = '';
+          _this.clearvinfo();
+
           _this.screen = 'intro';
           Echo.disconnect();
         }
       });
+    },
+    clearvinfo: function clearvinfo() {
+      localStorage.removeItem('vi_code');
+      localStorage.removeItem('vi_devicename');
+      this.devicename = '';
+      this.code = '';
+    },
+    selectBlock: function selectBlock(id) {
+      return this.selected_variants.length >= this.maxvotes && !this.selected_variants.includes(id);
     }
   }
 });
@@ -49649,8 +49725,125 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "button",
-                    { staticClass: "w-100 btn btn-outline-primary" },
+                    {
+                      staticClass: "w-100 btn btn-outline-primary",
+                      on: { click: _vm.startvoting }
+                    },
                     [_vm._v("Начать голосование")]
+                  )
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.screen === "voting" &&
+          !_vm.loading &&
+          _vm.variants &&
+          _vm.participant
+            ? _c(
+                "div",
+                {
+                  key: _vm.screen,
+                  staticClass: "col-md-7 flex-center mx-auto text-center h-100"
+                },
+                [
+                  _c("h2", { staticClass: "font-weight-bold" }, [
+                    _vm._v("Система Vi")
+                  ]),
+                  _vm._v(" "),
+                  _c("h4", { staticClass: "mb-4" }, [
+                    _vm._v("Выберите варианты")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "form",
+                    {
+                      staticClass: "w-100",
+                      attrs: { action: "#" },
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.vote($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm._l(_vm.variants, function(vars, i) {
+                        return _c(
+                          "div",
+                          {
+                            staticClass: "varcheck",
+                            staticStyle: { "user-select": "none" }
+                          },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.selected_variants,
+                                  expression: "selected_variants"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                id: "varcheck_" + i,
+                                disabled: _vm.selectBlock(i)
+                              },
+                              domProps: {
+                                value: i,
+                                checked: Array.isArray(_vm.selected_variants)
+                                  ? _vm._i(_vm.selected_variants, i) > -1
+                                  : _vm.selected_variants
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.selected_variants,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = i,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.selected_variants = $$a.concat([
+                                          $$v
+                                        ]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.selected_variants = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.selected_variants = $$c
+                                  }
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "h2",
+                                attrs: { for: "varcheck_" + i }
+                              },
+                              [_vm._v(_vm._s(vars))]
+                            )
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "w-100 btn btn-outline-primary",
+                          attrs: { type: "submit" },
+                          on: { click: _vm.vote }
+                        },
+                        [_vm._v("Проголосовать")]
+                      )
+                    ],
+                    2
                   )
                 ]
               )

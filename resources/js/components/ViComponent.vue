@@ -51,8 +51,25 @@
                  v-if="screen === 'approvalwait' && !loading && participant"
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
-                <h4 class="mb-4">К устройству подключён голосующий <b>{{ participant.name }}</b> ({{ participant.group }})</h4>
-                <button class="w-100 btn btn-outline-primary">Начать голосование</button>
+                <h4 class="mb-4">К устройству подключён голосующий <b>{{ participant.name }}</b> ({{ participant.group
+                    }})</h4>
+                <button class="w-100 btn btn-outline-primary" @click="startvoting">Начать голосование</button>
+            </div>
+
+            <div class="col-md-7 flex-center mx-auto text-center h-100"
+                 v-if="screen === 'voting' && !loading && variants && participant"
+                 :key="screen">
+                <h2 class="font-weight-bold">Система Vi</h2>
+                <h4 class="mb-4">Выберите варианты</h4>
+                <form action="#" @submit.prevent="vote" class="w-100">
+                    <div class="varcheck" style="user-select: none;"
+                         v-for="(vars,i) in variants">
+                        <input type="checkbox" :id="'varcheck_'+i"
+                               :disabled="selectBlock(i)" :value="i" v-model="selected_variants">
+                        <label class="h2" :for="'varcheck_'+i">{{ vars }}</label>
+                    </div>
+                    <button type="submit" class="w-100 btn btn-outline-primary" @click="vote">Проголосовать</button>
+                </form>
             </div>
         </transition>
         <transition name="animatecss"
@@ -76,6 +93,9 @@
                 deviceid: null,
                 loading: false,
                 participant: null,
+                variants: null,
+                maxvotes: 0,
+                selected_variants: []
             };
         },
         mounted() {
@@ -134,8 +154,57 @@
                     let response = error.response;
                     if (response.data.status === 'notfound') {
                         this.loading = false;
-                        this.code = '';
-                        this.devicename = '';
+                        this.clearvinfo();
+                        this.screen = 'intro';
+                    }
+                }.bind(this));
+            },
+            startvoting: function () {
+                if (!this.participant)
+                    return;
+                this.loading = true;
+                axios.post('/sv', {
+                    v: this.code,
+                    d: this.deviceid
+                }).then(function (response) {
+                    if (response.data.status === 'ok') {
+                        this.variants = response.data.items;
+                        this.maxvotes = response.data.maxvotes;
+                        this.screen = 'voting';
+                        this.loading = false;
+                    }
+                }.bind(this), function (error) {
+                    let response = error.response;
+                    if (response.data.status === 'notfound') {
+                        this.loading = false;
+                        this.clearvinfo();
+                        this.screen = 'intro';
+                    }
+                }.bind(this));
+            },
+            vote: function () {
+                if (!this.participant || !this.selected_variants)
+                    return;
+                this.loading = true;
+                axios.post('/ev', {
+                    v: this.code,
+                    d: this.deviceid,
+                    p: this.participant.id,
+                    vote: this.selected_variants
+                }).then(function (response) {
+                    if (response.data.status === 'ok') {
+                        this.variants = null;
+                        this.maxvotes = 0;
+                        this.participant = null;
+                        this.selected_variants = [];
+                        this.screen = 'wait';
+                        this.loading = false;
+                    }
+                }.bind(this), function (error) {
+                    let response = error.response;
+                    if (response.data.status === 'notfound') {
+                        this.loading = false;
+                        this.clearvinfo();
                         this.screen = 'intro';
                     }
                 }.bind(this));
@@ -149,14 +218,20 @@
                 });
                 Echo.channel("mdvoting_" + this.code).listen('.deviceunlink', (e) => {
                     if (e.device.id === this.deviceid) {
-                        localStorage.removeItem('vi_code');
-                        localStorage.removeItem('vi_devicename');
-                        this.devicename = '';
-                        this.code = '';
+                        this.clearvinfo();
                         this.screen = 'intro';
                         Echo.disconnect();
                     }
                 });
+            },
+            clearvinfo: function () {
+                localStorage.removeItem('vi_code');
+                localStorage.removeItem('vi_devicename');
+                this.devicename = '';
+                this.code = '';
+            },
+            selectBlock: function (id) {
+                return this.selected_variants.length >= this.maxvotes && !this.selected_variants.includes(id);
             }
         }
     }
