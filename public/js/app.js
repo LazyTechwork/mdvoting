@@ -2266,14 +2266,7 @@ __webpack_require__.r(__webpack_exports__);
         p: this.participant.id,
         vote: this.selected_variants
       }).then(function (response) {
-        if (response.data.status === 'ok') {
-          this.variants = null;
-          this.maxvotes = 0;
-          this.participant = null;
-          this.selected_variants = [];
-          this.screen = 'wait';
-          this.loading = false;
-        }
+        if (response.data.status === 'ok') this.waitpagereload();
       }.bind(this), function (error) {
         var response = error.response;
 
@@ -2284,6 +2277,14 @@ __webpack_require__.r(__webpack_exports__);
         }
       }.bind(this));
     },
+    waitpagereload: function waitpagereload() {
+      this.variants = null;
+      this.maxvotes = 0;
+      this.participant = null;
+      this.selected_variants = [];
+      this.screen = 'wait';
+      this.loading = false;
+    },
     bindlisteners: function bindlisteners() {
       var _this = this;
 
@@ -2293,6 +2294,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.participant = e.participant;
           _this.screen = 'approvalwait';
         }
+      });
+      Echo.channel("mdvoting_" + this.code).listen('.participantunlink', function (e) {
+        if (e.device.id === _this.deviceid) _this.waitpagereload();
       });
       Echo.channel("mdvoting_" + this.code).listen('.deviceunlink', function (e) {
         if (e.device.id === _this.deviceid) {
@@ -49631,7 +49635,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                            Подключиться\n                        "
+                            "\n                        Подключиться\n                    "
                           )
                         ]
                       )
@@ -49701,7 +49705,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                            Сохранить\n                        "
+                            "\n                        Сохранить\n                    "
                           )
                         ]
                       )

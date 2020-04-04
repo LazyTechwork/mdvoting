@@ -39,15 +39,13 @@ class VoteController extends Controller
         $device = Device::whereId($request->get('d'))->first();
         $voting = Voting::whereId($request->get('v'))->first();
 
-        $response = response()->json(['status' => 'ok', 'devices' => $voting->devices, 'participants' => $voting->participants()->where('vote', null)->get()])->setStatusCode(200);
-
         if ($device->status === 'free')
-            return $response;
+            return response()->json(['status' => 'ok', 'devices' => $voting->devices, 'participants' => $voting->participants()->where('vote', null)->get()])->setStatusCode(200);
 
         $device->update(['status' => 'free']);
         event(new ParticipantUnlink($voting, $device));
 
-        return $response;
+        return response()->json(['status' => 'ok', 'devices' => $voting->devices, 'participants' => $voting->participants()->where('vote', null)->get()])->setStatusCode(200);
     }
 
     public function startVoting(Request $request)

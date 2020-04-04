@@ -72,13 +72,13 @@
                 </form>
             </div>
         </transition>
-<!--        <transition name="animatecss"-->
-<!--                    enter-active-class="animated faster fadeIn"-->
-<!--                    leave-active-class="animated faster fadeOut">-->
-<!--            <div class="loader" v-if="loading">-->
-<!--                <h1>Идёт загрузка</h1>-->
-<!--            </div>-->
-<!--        </transition>-->
+        <!--        <transition name="animatecss"-->
+        <!--                    enter-active-class="animated faster fadeIn"-->
+        <!--                    leave-active-class="animated faster fadeOut">-->
+        <!--            <div class="loader" v-if="loading">-->
+        <!--                <h1>Идёт загрузка</h1>-->
+        <!--            </div>-->
+        <!--        </transition>-->
     </div>
 </template>
 
@@ -195,14 +195,8 @@
                     p: this.participant.id,
                     vote: this.selected_variants
                 }).then(function (response) {
-                    if (response.data.status === 'ok') {
-                        this.variants = null;
-                        this.maxvotes = 0;
-                        this.participant = null;
-                        this.selected_variants = [];
-                        this.screen = 'wait';
-                        this.loading = false;
-                    }
+                    if (response.data.status === 'ok')
+                        this.waitpagereload();
                 }.bind(this), function (error) {
                     let response = error.response;
                     if (response.data.status === 'notfound') {
@@ -212,6 +206,14 @@
                     }
                 }.bind(this));
             },
+            waitpagereload() {
+                this.variants = null;
+                this.maxvotes = 0;
+                this.participant = null;
+                this.selected_variants = [];
+                this.screen = 'wait';
+                this.loading = false;
+            },
             bindlisteners: function () {
                 Echo.connect();
                 Echo.channel("mdvoting_" + this.code).listen('.participantlinked', (e) => {
@@ -219,6 +221,11 @@
                         this.participant = e.participant;
                         this.screen = 'approvalwait';
                     }
+                });
+                Echo.channel("mdvoting_" + this.code).listen('.participantunlink', (e) => {
+                    if (e.device.id === this.deviceid)
+                        this.waitpagereload();
+
                 });
                 Echo.channel("mdvoting_" + this.code).listen('.deviceunlink', (e) => {
                     if (e.device.id === this.deviceid) {
