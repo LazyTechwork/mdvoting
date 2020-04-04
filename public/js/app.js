@@ -2378,6 +2378,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViDashComponent",
   props: ['vid', 'vicode'],
@@ -2461,17 +2466,28 @@ __webpack_require__.r(__webpack_exports__);
         v: this.vid,
         d: devid
       }).then(function (response) {
-        if (response.data.status === 'ok') this.updatedevices();
+        if (response.data.status === 'ok') this.devices = response.data.devices;
       }.bind(this))["catch"](function (error) {
-        return console.error(error);
-      });
+        if (error.response.data.status === 'forbidden') this.devices = error.response.data.devices;
+      }.bind(this));
+    },
+    participantunlink: function participantunlink(devid) {
+      axios.post('/cpl', {
+        v: this.vid,
+        d: devid
+      }).then(function (response) {
+        if (response.data.status === 'ok') {
+          this.devices = response.data.devices;
+          this.participants = response.data.participants;
+        }
+      }.bind(this))["catch"](function (error) {}.bind(this));
     },
     unlinkdevice: function unlinkdevice(devid) {
       axios.post('/du', {
         v: this.vid,
         d: devid
       }).then(function (response) {
-        if (response.data.status === 'ok') this.updatedevices();
+        if (response.data.status === 'ok') this.devices = response.data.devices;
       }.bind(this))["catch"](function (error) {
         return console.error(error);
       });
@@ -50029,7 +50045,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-outline-primary w-100",
-                  attrs: { disabled: !_vm.selected },
+                  attrs: { disabled: !_vm.selected || d.status !== "free" },
                   on: {
                     click: function($event) {
                       return _vm.sendondevice(d.id)
@@ -50039,6 +50055,24 @@ var render = function() {
                 [
                   _vm._v(
                     "\n                    Направить на это устройство\n                "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-primary w-100",
+                  attrs: { disabled: d.status === "free" },
+                  on: {
+                    click: function($event) {
+                      return _vm.participantunlink(d.id)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                    Отозвать голосующего\n                "
                   )
                 ]
               ),

@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::get('logout', 'UserController@logout')->name('logout');
     Route::get('/gp', 'MainController@getParticipantsAPI');
     Route::post('/pl', 'VoteController@participantLink');
+    Route::post('/cpl', 'VoteController@cancelParticipantLink');
     Route::get('/gd', 'VoteController@getDevices');
     Route::post('/du', 'VoteController@deviceUnlink');
 

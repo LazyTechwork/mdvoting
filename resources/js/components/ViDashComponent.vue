@@ -31,8 +31,13 @@
                 <td>{{ d.name }}</td>
                 <td v-html="parseStatus(d.status)"></td>
                 <td>
-                    <button class="btn btn-outline-primary w-100" :disabled="!selected" @click="sendondevice(d.id)">
+                    <button class="btn btn-outline-primary w-100" :disabled="!selected || d.status !== 'free'"
+                            @click="sendondevice(d.id)">
                         Направить на это устройство
+                    </button>
+                    <button class="btn btn-outline-primary w-100" :disabled="d.status === 'free'"
+                            @click="participantunlink(d.id)">
+                        Отозвать голосующего
                     </button>
                     <button class="btn btn-outline-danger w-100" @click="unlinkdevice(d.id)">Удалить устройство</button>
                 </td>
@@ -107,13 +112,26 @@
             sendondevice(devid) {
                 axios.post('/pl', {p: this.selected.id, v: this.vid, d: devid}).then(function (response) {
                     if (response.data.status === 'ok')
-                        this.updatedevices();
-                }.bind(this)).catch(error => console.error(error));
+                        this.devices = response.data.devices;
+                }.bind(this)).catch(function (error) {
+                    if (error.response.data.status === 'forbidden')
+                        this.devices = error.response.data.devices;
+                }.bind(this));
+            },
+            participantunlink(devid) {
+                axios.post('/cpl', {v: this.vid, d: devid}).then(function (response) {
+                    if (response.data.status === 'ok') {
+                        this.devices = response.data.devices;
+                        this.participants = response.data.participants;
+                    }
+                }.bind(this)).catch(function (error) {
+
+                }.bind(this));
             },
             unlinkdevice(devid) {
                 axios.post('/du', {v: this.vid, d: devid}).then(function (response) {
                     if (response.data.status === 'ok')
-                        this.updatedevices();
+                        this.devices = response.data.devices;
                 }.bind(this)).catch(error => console.error(error));
             }
         }

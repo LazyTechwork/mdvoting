@@ -8,6 +8,7 @@ use App\Events\DeviceUnlink;
 use App\Events\EndVotingEvent;
 use App\Events\NewDeviceEvent;
 use App\Events\ParticipantLinkedDevice;
+use App\Events\ParticipantUnlink;
 use App\Events\StartVotingEvent;
 use App\Participant;
 use App\Voting;
@@ -18,14 +19,35 @@ class VoteController extends Controller
     public function participantLink(Request $request)
     {
         $participant = Participant::whereId($request->get('p'))->first();
-        if ($participant->vote !== null) return response()->json(['status' => 'forbidden'])->setStatusCode(403);
-
         $voting = Voting::whereId($request->get('v'))->first();
+
+        if ($participant->vote !== null) return response()->json(['status' => 'forbidden', 'devices' => $voting->devices])->setStatusCode(403);
+
         $device = Device::whereId($request->get('d'))->first();
+
+        if ($device->status !== 'free')
+            return response()->json(['status' => 'forbidden'])->setStatusCode(403);
+
         $device->update(['status' => 'busy']);
         event(new ParticipantLinkedDevice($voting, $device, $participant));
 
-        return response()->json(['status' => 'ok'])->setStatusCode(200);
+        return response()->json(['status' => 'ok', 'devices' => $voting->devices])->setStatusCode(200);
+    }
+
+    public function cancelParticipantLink(Request $request)
+    {
+        $device = Device::whereId($request->get('d'))->first();
+        $voting = Voting::whereId($request->get('v'))->first();
+
+        $response = response()->json(['status' => 'ok', 'devices' => $voting->devices, 'participants' => $voting->participants()->where('vote', null)->get()])->setStatusCode(200);
+
+        if ($device->status === 'free')
+            return $response;
+
+        $device->update(['status' => 'free']);
+        event(new ParticipantUnlink($voting, $device));
+
+        return $response;
     }
 
     public function startVoting(Request $request)
@@ -75,7 +97,7 @@ class VoteController extends Controller
         event(new DeviceUnlink($voting, $device));
         $device->forceDelete();
 
-        return response()->json(['status' => 'ok']);
+        return response()->json(['status' => 'ok', 'devices' => $voting->devices]);
     }
 
     public function deviceDisconnect(Request $request)
