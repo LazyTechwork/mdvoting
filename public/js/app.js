@@ -2212,14 +2212,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViComponent",
   data: function data() {
@@ -85120,55 +85112,47 @@ var render = function() {
                     _vm._v("Подключите устройство к голосованию")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.code,
-                          expression: "code"
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.code,
+                        expression: "code"
+                      }
+                    ],
+                    staticClass:
+                      "form-control form-control-lg text-center font-weight-bold text-uppercase",
+                    attrs: {
+                      type: "text",
+                      "aria-label": "КОД ГОЛОСОВАНИЯ",
+                      placeholder: "Код голосования",
+                      maxlength: "6"
+                    },
+                    domProps: { value: _vm.code },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
                         }
-                      ],
+                        _vm.code = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
                       staticClass:
-                        "form-control form-control-lg text-center font-weight-bold text-uppercase",
-                      attrs: {
-                        type: "text",
-                        "aria-label": "КОД ГОЛОСОВАНИЯ",
-                        placeholder: "Код голосования",
-                        maxlength: "6"
-                      },
-                      domProps: { value: _vm.code },
+                        "btn btn-lg font-weight-bold btn-outline-primary text-uppercase w-100",
                       on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.code = $event.target.value
+                        click: function($event) {
+                          return _vm.connect()
                         }
                       }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "input-group-append" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "btn btn-lg font-weight-bold btn-outline-primary text-uppercase",
-                          on: {
-                            click: function($event) {
-                              return _vm.connect()
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        Подключиться\n                    "
-                          )
-                        ]
-                      )
-                    ])
-                  ])
+                    },
+                    [_vm._v("\n                Подключиться\n            ")]
+                  )
                 ]
               )
             : _vm._e(),
@@ -85191,54 +85175,46 @@ var render = function() {
                     _vm._v(")")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "input-group" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.devicename,
-                          expression: "devicename"
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.devicename,
+                        expression: "devicename"
+                      }
+                    ],
+                    staticClass: "form-control form-control-lg text-center",
+                    attrs: {
+                      type: "text",
+                      "aria-label": "Название устройства",
+                      placeholder: "Название устройства",
+                      maxlength: "20"
+                    },
+                    domProps: { value: _vm.devicename },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
                         }
-                      ],
-                      staticClass: "form-control form-control-lg text-center",
-                      attrs: {
-                        type: "text",
-                        "aria-label": "Название устройства",
-                        placeholder: "Название устройства",
-                        maxlength: "20"
-                      },
-                      domProps: { value: _vm.devicename },
+                        _vm.devicename = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass:
+                        "btn btn-lg font-weight-bold btn-outline-primary text-uppercase w-100",
                       on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.devicename = $event.target.value
+                        click: function($event) {
+                          return _vm.setup()
                         }
                       }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "input-group-append" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "btn btn-lg font-weight-bold btn-outline-primary text-uppercase",
-                          on: {
-                            click: function($event) {
-                              return _vm.setup()
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        Сохранить\n                    "
-                          )
-                        ]
-                      )
-                    ])
-                  ])
+                    },
+                    [_vm._v("\n                Сохранить\n            ")]
+                  )
                 ]
               )
             : _vm._e(),

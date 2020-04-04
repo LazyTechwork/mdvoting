@@ -8,36 +8,28 @@
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
                 <h4 class="mb-4">Подключите устройство к голосованию</h4>
-                <div class="input-group">
-                    <input type="text"
-                           class="form-control form-control-lg text-center font-weight-bold text-uppercase"
-                           v-model="code"
-                           aria-label="КОД ГОЛОСОВАНИЯ" placeholder="Код голосования" maxlength="6">
-                    <div class="input-group-append">
-                        <button class="btn btn-lg font-weight-bold btn-outline-primary text-uppercase"
-                                @click="connect()">
-                            Подключиться
-                        </button>
-                    </div>
-                </div>
+                <input type="text"
+                       class="form-control form-control-lg text-center font-weight-bold text-uppercase"
+                       v-model="code"
+                       aria-label="КОД ГОЛОСОВАНИЯ" placeholder="Код голосования" maxlength="6">
+                <button class="btn btn-lg font-weight-bold btn-outline-primary text-uppercase w-100"
+                        @click="connect()">
+                    Подключиться
+                </button>
             </div>
 
             <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'setup' && !loading"
                  :key="screen">
                 <h2 class="font-weight-bold">Система Vi</h2>
                 <h4 class="mb-4">Устройство подключено к голосованию (<b>{{ this.code }}</b>)</h4>
-                <div class="input-group">
-                    <input type="text"
-                           class="form-control form-control-lg text-center"
-                           v-model="devicename"
-                           aria-label="Название устройства" placeholder="Название устройства" maxlength="20">
-                    <div class="input-group-append">
-                        <button class="btn btn-lg font-weight-bold btn-outline-primary text-uppercase"
-                                @click="setup()">
-                            Сохранить
-                        </button>
-                    </div>
-                </div>
+                <input type="text"
+                       class="form-control form-control-lg text-center"
+                       v-model="devicename"
+                       aria-label="Название устройства" placeholder="Название устройства" maxlength="20">
+                <button class="btn btn-lg font-weight-bold btn-outline-primary text-uppercase w-100"
+                        @click="setup()">
+                    Сохранить
+                </button>
             </div>
 
             <div class="col-md-6 flex-center mx-auto text-center h-100" v-if="screen === 'wait' && !loading"
