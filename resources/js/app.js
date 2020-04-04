@@ -35,6 +35,7 @@ window.Vue = require('vue');
 Vue.component('variants-edit', require('./components/VariantsEdit.vue').default);
 Vue.component('vicomponent', require('./components/ViComponent.vue').default);
 Vue.component('vidash', require('./components/ViDashComponent.vue').default);
+Vue.component('votestats', require('./components/VoteStats.vue').default);
 
 const app = new Vue({
     el: '#app',
