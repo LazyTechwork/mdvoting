@@ -2601,13 +2601,7 @@ __webpack_require__.r(__webpack_exports__);
       votes: [],
       variants: [],
       canvas: null,
-      chart: null,
-      chartData: {
-        labels: [],
-        datasets: [{
-          data: []
-        }]
-      }
+      chart: null
     };
   },
   mounted: function mounted() {
@@ -2617,8 +2611,6 @@ __webpack_require__.r(__webpack_exports__);
     Echo.channel("mdvoting_" + this.vicode).listen(".newvote", function (e) {
       _this.variants = e.voting.variants;
       _this.votes = e.votes;
-
-      _this.updateChart();
     });
     axios.get('/gv', {
       params: {
@@ -2628,18 +2620,18 @@ __webpack_require__.r(__webpack_exports__);
       if (response.data.status === 'ok') {
         _this.votes = response.data.votes;
         _this.variants = response.data.voting.variants;
-
-        _this.updateChart();
       }
     });
   },
-  methods: {
-    updateChart: function updateChart() {
-      this.chartData.datasets = [{
-        data: this.votes
-      }];
-      this.chartData.labels = this.variants;
+  computed: {
+    chartData: function chartData() {
       window.dispatchEvent(new Event('resize'));
+      return {
+        labels: this.variants,
+        datasets: [{
+          data: this.votes
+        }]
+      };
     }
   }
 });
@@ -85689,11 +85681,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [
-      _vm.variants && _vm.votes
-        ? _c("statschart", { attrs: { chartData: _vm.chartData } })
-        : _vm._e()
-    ],
+    [_c("statschart", { attrs: { chartData: _vm.chartData } })],
     1
   )
 }
