@@ -34,7 +34,7 @@
                     Последнее обновление:<br><b>{{ formatDates(d.updated_at) }}</b>
                 </td>
                 <td v-html="parseStatus(d.status)"></td>
-                <td>
+                <td class="btn-group-vertical w-100">
                     <button class="btn btn-outline-primary w-100" :disabled="!selected || d.status !== 'free'"
                             @click="sendondevice(d.id)">
                         Направить на это устройство

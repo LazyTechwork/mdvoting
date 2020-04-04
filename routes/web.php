@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 //        Showing votings
         Route::get('/{id}', 'MainController@showVoting')->name('show');
         Route::get('/{id}/reset', 'MainController@resetCode')->name('resetcode');
+        Route::get('/{id}/rvotes', 'MainController@resetVotes')->name('resetvotes');
 
 //        Manipulating with variants
         Route::get('/{id}/variants', 'MainController@variantsPage')->name('variants');

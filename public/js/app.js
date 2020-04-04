@@ -67670,7 +67670,7 @@ var render = function() {
               domProps: { innerHTML: _vm._s(_vm.parseStatus(d.status)) }
             }),
             _vm._v(" "),
-            _c("td", [
+            _c("td", { staticClass: "btn-group-vertical w-100" }, [
               _c(
                 "button",
                 {

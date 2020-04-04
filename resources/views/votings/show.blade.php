@@ -47,7 +47,8 @@
             <td>
                 <div class="btn-group w-100">
                     <a href="#" class="btn btn-outline-primary">Статистика голосов</a>
-                    <a href="#" class="btn btn-outline-primary">Сбросить голоса</a>
+                    <a href="{{ route('votings.resetvotes', ['id'=>$voting->id]) }}" class="btn btn-outline-primary">Сбросить
+                        голоса</a>
                 </div>
             </td>
         </tr>

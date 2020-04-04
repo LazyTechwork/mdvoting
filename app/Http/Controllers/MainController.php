@@ -132,7 +132,7 @@ class MainController extends Controller
         if ($validator->fails())
             return redirect()->back()->withInput($request->all())->withErrors($validator);
 
-        $voting->update($request->only('name', 'maxVotes'));
+        $voting->update(['name' => $request->get('name'), 'maxVotes' => $request->get('maxVotes')]);
 
         return redirect()->route('votings.show', ['id' => $voting->id]);
     }
@@ -279,5 +279,14 @@ class MainController extends Controller
         $voting = Voting::whereId($request->get('v'))->first();
         $participants = $voting->participants()->where('vote', null)->get()->groupBy('group');
         return response()->json(['status' => 'ok', 'items' => $participants->toArray(), 'itemgroups' => $participants->keys()]);
+    }
+
+    public function resetVotes(Request $request, $id)
+    {
+        $voting = $this->votingCheck($id);
+        if (!is_a($voting, Voting::class))
+            return $voting;
+        $voting->participants()->where('vote', '!=', null)->update(['vote' => null]);
+        return redirect()->route('votings.show', ['id' => $id]);
     }
 }

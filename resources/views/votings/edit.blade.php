@@ -4,7 +4,7 @@
 @section('content')
     <h2 class="text-center mb-4">Редактирование голосования</h2>
     <div class="row justify-content-center">
-        <form action="{{ route('votings.new') }}" method="post" class="col-md-6">
+        <form action="{{ route('votings.edit', ['id'=>$voting->id]) }}" method="post" class="col-md-6">
             @csrf
             <div class="form-group">
                 <label for="name">Название голосования</label>
